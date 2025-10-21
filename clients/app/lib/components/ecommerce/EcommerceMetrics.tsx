@@ -1,6 +1,11 @@
 import React from 'react';
 import Badge from '../ui/badge/Badge';
-import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from '~/lib/icons';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  BoxIconLine,
+  GroupIcon,
+} from '~/lib/icons';
 
 export const EcommerceMetrics = () => {
   return (
