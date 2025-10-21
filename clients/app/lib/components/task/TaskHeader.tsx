@@ -1,11 +1,11 @@
 import React from 'react';
-import { Modal } from '../ui/modal';
+import { Modal } from '../../elements/modal';
 import { useModal } from '../../hooks/useModal';
-import Button from '../ui/button/Button';
+import Button from '../../elements/button/Button';
 import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import TextArea from '../form/input/TextArea';
-import Image from '@components/ui/images/Image';
+import Image from '@/lib/elements/images/Image';
 
 export default function TaskHeader() {
   const [selectedTaskGroup, setSelectedTaskGroup] =

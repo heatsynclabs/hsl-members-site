@@ -1,7 +1,7 @@
 import React from 'react';
-import { CardDescription, CardTitle } from '../../ui/card';
+import { CardDescription, CardTitle } from '../../../elements/card';
 import { Link } from 'react-router';
-import Image from '@components/ui/images/Image';
+import Image from '@/lib/elements/images/Image';
 
 export default function CardFive() {
   return (

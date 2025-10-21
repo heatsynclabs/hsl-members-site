@@ -1,12 +1,12 @@
-import Image from '@components/ui/images/Image';
-import Badge from '../ui/badge/Badge';
+import Image from '@/lib/elements/images/Image';
+import Badge from '../../elements/badge/Badge';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../../elements/table';
 
 const transactionData = [
   {

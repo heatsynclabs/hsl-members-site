@@ -1,14 +1,14 @@
 import React from 'react';
-import Badge from '../../ui/badge/Badge';
+import Badge from '../../../elements/badge/Badge';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../../ui/table';
-import Button from '../../ui/button/Button';
-import Image from '@components/ui/images/Image';
+} from '../../../elements/table';
+import Button from '../../../elements/button/Button';
+import Image from '@/lib/elements/images/Image';
 import TableDropdown from '@components/common/TableDropdown';
 
 // Type definition for the transaction data

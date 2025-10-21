@@ -2,7 +2,7 @@ import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import Select from '../form/Select';
 import TextArea from '../form/input/TextArea';
-import Button from '../ui/button/Button';
+import Button from '../../elements/button/Button';
 
 export default function AddProductForm() {
   const categories = [

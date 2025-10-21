@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dropdown } from '../ui/dropdown/Dropdown';
-import { DropdownItem } from '../ui/dropdown/DropdownItem';
+import { Dropdown } from '../../elements/dropdown/Dropdown';
+import { DropdownItem } from '../../elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';
 
 export default function TopChannel() {

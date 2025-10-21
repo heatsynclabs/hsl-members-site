@@ -1,4 +1,4 @@
-import Image from '@components/ui/images/Image';
+import Image from '@/lib/elements/images/Image';
 import React from 'react';
 import SimpleBar from 'simplebar-react';
 import EmailDetailsHeader from './EmailDetailsHeader';

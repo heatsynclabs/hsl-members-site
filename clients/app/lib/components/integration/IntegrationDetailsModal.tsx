@@ -1,5 +1,5 @@
 import { useModal } from '../../hooks/useModal';
-import { Modal } from '../ui/modal';
+import { Modal } from '../../elements/modal';
 
 export default function IntegrationDetailsModal() {
   const detailsModal = useModal();

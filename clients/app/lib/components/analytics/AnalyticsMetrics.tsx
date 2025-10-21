@@ -1,5 +1,5 @@
 import React from 'react';
-import Badge from '../ui/badge/Badge';
+import Badge from '../../elements/badge/Badge';
 
 const mockData = [
   {
