@@ -1,5 +1,5 @@
-import Button from "../ui/button/Button";
-import InvoiceTable from "./InvoiceTable";
+import Button from '../ui/button/Button';
+import InvoiceTable from './InvoiceTable';
 
 export default function InvoiceMain() {
   return (

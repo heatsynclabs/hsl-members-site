@@ -1,5 +1,5 @@
-import React from "react";
-import Input from "../input/InputField";
+import React from 'react';
+import Input from '../input/InputField';
 
 export default function UrlPrefixInput() {
   return (

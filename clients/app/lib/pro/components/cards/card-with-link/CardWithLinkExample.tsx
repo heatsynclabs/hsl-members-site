@@ -1,7 +1,7 @@
-import React from "react";
-import ComponentCard from "../../common/ComponentCard";
-import CardLinkOne from "./CardLinkOne";
-import CardLinkTwo from "./CardLinkTwo";
+import React from 'react';
+import ComponentCard from '../../common/ComponentCard';
+import CardLinkOne from './CardLinkOne';
+import CardLinkTwo from './CardLinkTwo';
 
 export default function CardWithLinkExample() {
   return (

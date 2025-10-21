@@ -1,6 +1,6 @@
-import React from "react";
-import Popover from "./Popover";
-import Button from "../button/Button";
+import React from 'react';
+import Popover from './Popover';
+import Button from '../button/Button';
 
 export default function PopoverButton() {
   return (
@@ -25,7 +25,7 @@ export default function PopoverButton() {
                   </p>
                 </div>
               </Popover>
-            </div>{" "}
+            </div>{' '}
             <div>
               <Popover
                 position="bottom"
@@ -43,7 +43,7 @@ export default function PopoverButton() {
                   </p>
                 </div>
               </Popover>
-            </div>{" "}
+            </div>{' '}
             <div>
               <Popover
                 position="right"
@@ -61,7 +61,7 @@ export default function PopoverButton() {
                   </p>
                 </div>
               </Popover>
-            </div>{" "}
+            </div>{' '}
             <div>
               <Popover
                 position="left"

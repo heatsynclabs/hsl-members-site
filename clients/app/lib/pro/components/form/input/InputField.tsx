@@ -1,8 +1,8 @@
-import type React from "react";
-import type { FC } from "react";
+import type React from 'react';
+import type { FC } from 'react';
 
 interface InputProps {
-  type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
+  type?: 'text' | 'number' | 'email' | 'password' | 'date' | 'time' | string;
   id?: string;
   name?: string;
   placeholder?: string;
@@ -19,13 +19,13 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({
-  type = "text",
+  type = 'text',
   id,
   name,
   placeholder,
   defaultValue,
   onChange,
-  className = "",
+  className = '',
   min,
   max,
   step,
@@ -66,10 +66,10 @@ const Input: FC<InputProps> = ({
         <p
           className={`mt-1.5 text-xs ${
             error
-              ? "text-error-500"
+              ? 'text-error-500'
               : success
-              ? "text-success-500"
-              : "text-gray-500"
+                ? 'text-success-500'
+                : 'text-gray-500'
           }`}
         >
           {hint}

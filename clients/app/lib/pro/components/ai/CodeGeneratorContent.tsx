@@ -1,4 +1,4 @@
-import CodeBlock from "./Codeblock";
+import CodeBlock from './Codeblock';
 
 export default function CodeGeneratorContent() {
   const reactComponentCode = ` <!DOCTYPE html>

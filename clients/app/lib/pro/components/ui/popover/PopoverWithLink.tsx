@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function PopoverWithLink() {
   return (
@@ -9,17 +9,17 @@ export default function PopoverWithLink() {
             <button className="inline-flex px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
               Popover on Bottom
             </button>
-          </div>{" "}
+          </div>{' '}
           <div>
             <button className="inline-flex px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
               Popover on Right
             </button>
-          </div>{" "}
+          </div>{' '}
           <div>
             <button className="inline-flex px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
               Popover on Left
             </button>
-          </div>{" "}
+          </div>{' '}
           <div>
             <button className="inline-flex px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
               Popover on Top

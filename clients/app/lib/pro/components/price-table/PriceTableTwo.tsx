@@ -1,29 +1,29 @@
-import React from "react";
-import { CheckLineIcon, CloseLineIcon } from "../../icons";
+import React from 'react';
+import { CheckLineIcon, CloseLineIcon } from '../../icons';
 
 const personalPack = [
-  { name: "5 website", included: true },
-  { name: "500 MB Storage", included: true },
-  { name: "Unlimited Sub-Domain", included: true },
-  { name: "3 Custom Domain", included: true },
-  { name: "Free SSL Certificate", included: false },
-  { name: "Unlimited Traffic", included: false },
+  { name: '5 website', included: true },
+  { name: '500 MB Storage', included: true },
+  { name: 'Unlimited Sub-Domain', included: true },
+  { name: '3 Custom Domain', included: true },
+  { name: 'Free SSL Certificate', included: false },
+  { name: 'Unlimited Traffic', included: false },
 ];
 const professionalPack = [
-  { name: "10 website", included: true },
-  { name: "1GB Storage", included: true },
-  { name: "Unlimited Sub-Domain", included: true },
-  { name: "5 Custom Domain", included: true },
-  { name: "Free SSL Certificate", included: true },
-  { name: "Unlimited Traffic", included: false },
+  { name: '10 website', included: true },
+  { name: '1GB Storage', included: true },
+  { name: 'Unlimited Sub-Domain', included: true },
+  { name: '5 Custom Domain', included: true },
+  { name: 'Free SSL Certificate', included: true },
+  { name: 'Unlimited Traffic', included: false },
 ];
 const enterprisePack = [
-  { name: "15 website", included: true },
-  { name: "10GB Storage", included: true },
-  { name: "Unlimited Sub-Domain", included: true },
-  { name: "10 Custom Domain", included: true },
-  { name: "Free SSL Certificate", included: true },
-  { name: "Unlimited Traffic", included: true },
+  { name: '15 website', included: true },
+  { name: '10GB Storage', included: true },
+  { name: 'Unlimited Sub-Domain', included: true },
+  { name: '10 Custom Domain', included: true },
+  { name: 'Free SSL Certificate', included: true },
+  { name: 'Unlimited Traffic', included: true },
 ];
 
 export default function PriceTableTwo() {
@@ -77,8 +77,8 @@ export default function PriceTableTwo() {
               key={index}
               className={`flex items-center gap-3 text-sm  ${
                 item.included
-                  ? "text-gray-700 dark:text-gray-400"
-                  : "text-gray-400"
+                  ? 'text-gray-700 dark:text-gray-400'
+                  : 'text-gray-400'
               }`}
             >
               {item.included ? (
@@ -144,8 +144,8 @@ export default function PriceTableTwo() {
               key={index}
               className={`flex items-center gap-3 text-sm  ${
                 item.included
-                  ? "text-gray-700 dark:text-gray-400"
-                  : "text-gray-400"
+                  ? 'text-gray-700 dark:text-gray-400'
+                  : 'text-gray-400'
               }`}
             >
               {item.included ? (
@@ -212,8 +212,8 @@ export default function PriceTableTwo() {
                 key={index}
                 className={`flex items-center gap-3 text-sm  ${
                   item.included
-                    ? "text-gray-700 dark:text-gray-400"
-                    : "text-gray-400"
+                    ? 'text-gray-700 dark:text-gray-400'
+                    : 'text-gray-400'
                 }`}
               >
                 {item.included ? (

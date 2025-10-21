@@ -1,40 +1,40 @@
-import Badge from "../ui/badge/Badge";
+import Badge from '../ui/badge/Badge';
 
 const transactions = [
   {
-    id: "#DF429",
-    date: "April 28, 2016",
-    user: "Jenny Wilson",
-    amount: "$473.85",
-    status: "Complete" as const,
+    id: '#DF429',
+    date: 'April 28, 2016',
+    user: 'Jenny Wilson',
+    amount: '$473.85',
+    status: 'Complete' as const,
   },
   {
-    id: "#HTY274",
-    date: "October 30, 2017",
-    user: "Wade Warren",
-    amount: "$293.01",
-    status: "Complete" as const,
+    id: '#HTY274',
+    date: 'October 30, 2017',
+    user: 'Wade Warren',
+    amount: '$293.01',
+    status: 'Complete' as const,
   },
   {
-    id: "#LKE600",
-    date: "May 29, 2017",
-    user: "Darlene Robertson",
-    amount: "$782.01",
-    status: "Pending" as const,
+    id: '#LKE600',
+    date: 'May 29, 2017',
+    user: 'Darlene Robertson',
+    amount: '$782.01',
+    status: 'Pending' as const,
   },
   {
-    id: "#HRP447",
-    date: "May 20, 2015",
-    user: "Arlene McCoy",
-    amount: "$202.87",
-    status: "Cancelled" as const,
+    id: '#HRP447',
+    date: 'May 20, 2015',
+    user: 'Arlene McCoy',
+    amount: '$202.87',
+    status: 'Cancelled' as const,
   },
   {
-    id: "#WRH647",
-    date: "March 13, 2014",
-    user: "Bessie Cooper",
-    amount: "$490.51",
-    status: "Complete" as const,
+    id: '#WRH647',
+    date: 'March 13, 2014',
+    user: 'Bessie Cooper',
+    amount: '$490.51',
+    status: 'Complete' as const,
   },
 ];
 
@@ -181,11 +181,11 @@ export default function SaasInvoiceTable() {
                   <Badge
                     size="sm"
                     color={
-                      transaction.status === "Complete"
-                        ? "success"
-                        : transaction.status === "Pending"
-                        ? "warning"
-                        : "error"
+                      transaction.status === 'Complete'
+                        ? 'success'
+                        : transaction.status === 'Pending'
+                          ? 'warning'
+                          : 'error'
                     }
                   >
                     {transaction.status}

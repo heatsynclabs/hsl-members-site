@@ -1,6 +1,6 @@
-import ComponentCard from "../../common/ComponentCard";
-import CardFour from "./CardFour";
-import CardFive from "./CardFive";
+import ComponentCard from '../../common/ComponentCard';
+import CardFour from './CardFour';
+import CardFive from './CardFive';
 
 export default function HorizontalCardWithImage() {
   return (

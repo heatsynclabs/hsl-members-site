@@ -1,31 +1,31 @@
-import React from "react";
-import { CheckLineIcon } from "../../icons";
+import React from 'react';
+import { CheckLineIcon } from '../../icons';
 
 const personalPack = [
-  "Unlimited Projects",
-  "Share with 5 team members",
-  "Sync across devices",
+  'Unlimited Projects',
+  'Share with 5 team members',
+  'Sync across devices',
 ];
 const professionalPack = [
-  "Unlimited Projects",
-  "Share with 5 team members",
-  "Sync across devices",
-  "30 days version history",
+  'Unlimited Projects',
+  'Share with 5 team members',
+  'Sync across devices',
+  '30 days version history',
 ];
 const teamPack = [
-  "Unlimited Projects",
-  "Share with 5 team members",
-  "Sync across devices",
-  "Sharing permissions",
-  "Admin tools",
+  'Unlimited Projects',
+  'Share with 5 team members',
+  'Sync across devices',
+  'Sharing permissions',
+  'Admin tools',
 ];
 const enterprisePack = [
-  "Unlimited Projects",
-  "Share with 5 team members",
-  "Sync across devices",
-  "Sharing permissions",
-  "User provisioning (SCIM)",
-  "Advanced security",
+  'Unlimited Projects',
+  'Share with 5 team members',
+  'Sync across devices',
+  'Sharing permissions',
+  'User provisioning (SCIM)',
+  'Advanced security',
 ];
 
 export default function PriceTableThree() {
@@ -115,8 +115,8 @@ export default function PriceTableThree() {
             Recommended
           </div>
           <span className="block font-semibold text-white text-theme-xl">
-            {" "}
-            Team{" "}
+            {' '}
+            Team{' '}
           </span>
 
           <p className="mt-1 text-sm text-white/90">
@@ -128,8 +128,8 @@ export default function PriceTableThree() {
           </h2>
 
           <span className="inline-block mb-6 text-sm text-white/90">
-            {" "}
-            /year{" "}
+            {' '}
+            /year{' '}
           </span>
 
           <button className="flex h-11 w-full items-center justify-center rounded-lg bg-white p-3.5 text-sm font-medium text-gray-800 shadow-theme-xs hover:bg-gray-50">

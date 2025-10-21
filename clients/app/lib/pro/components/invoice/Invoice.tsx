@@ -1,5 +1,5 @@
-import React from "react";
-import InvoiceMain from "./InvoiceMain";
+import React from 'react';
+import InvoiceMain from './InvoiceMain';
 
 export default function Invoice() {
   return (

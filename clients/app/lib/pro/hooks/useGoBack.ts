@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
 
 const useGoBack = () => {
   let navigate = useNavigate();
