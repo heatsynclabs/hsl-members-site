@@ -11,7 +11,7 @@ export const Textarea = forwardRef(function Textarea(
     Headless.TextareaProps,
     'as' | 'className'
   >,
-  ref: React.ForwardedRef<HTMLTextAreaElement>,
+  ref: React.ForwardedRef<HTMLTextAreaElement>
 ) {
   return (
     <span
