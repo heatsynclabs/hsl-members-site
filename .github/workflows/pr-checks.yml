@@ -16,6 +16,8 @@ jobs:
           node-version: '18.x'
       - name: Install pnpm
         run: npm install -g pnpm
+      - name: Change Directory to Clients
+        run: cd clients
       - name: Install dependencies
         run: pnpm install
       - name: Run Prettier
@@ -31,6 +33,8 @@ jobs:
           node-version: '18.x'
       - name: Install pnpm
         run: npm install -g pnpm
+      - name: Change Directory to Clients
+        run: cd clients
       - name: Install dependencies
         run: pnpm install
       - name: Run TypeScript
