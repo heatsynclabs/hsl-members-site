@@ -24,7 +24,7 @@
       "@hooks/*": ["./app/lib/hooks/*"],
       "@layouts/*": ["./app/lib/layouts/*"],
       "@context/*": ["./app/lib/context/*"],
-      "@elements/*": ["./app/lib/elements/*"],
+      "@elements/*": ["./app/lib/elements/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
