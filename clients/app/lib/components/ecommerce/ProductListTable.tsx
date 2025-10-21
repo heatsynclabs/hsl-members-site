@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Button from '../../elements/button/Button';
+import Button from '@elements/button/Button';
 import { Link } from 'react-router';
 import Image from '@/lib/elements/images/Image';
 

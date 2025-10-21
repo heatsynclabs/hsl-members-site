@@ -1,7 +1,7 @@
 import React from 'react';
 import { MoreDotIcon } from '../../icons';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import NewUserChart from './NewUserChart';
 import DailySaleChart from './DailySaleChart';
 import OnlineSaleChart from './OnlineSaleChart';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useModal } from '../../hooks/useModal';
-import { Modal } from '../../elements/modal';
-import Button from '../../elements/button/Button';
+import { Modal } from '@elements/modal';
+import Button from '@elements/button/Button';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
 import Image from '@/lib/elements/images/Image';

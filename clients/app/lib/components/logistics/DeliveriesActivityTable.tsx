@@ -5,7 +5,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../elements/table';
+} from '@elements/table';
 
 interface Row {
   id: string;

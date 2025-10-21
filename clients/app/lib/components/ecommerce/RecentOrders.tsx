@@ -4,8 +4,8 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../elements/table';
-import Badge from '../../elements/badge/Badge';
+} from '@elements/table';
+import Badge from '@elements/badge/Badge';
 import Image from '@/lib/elements/images/Image';
 
 // Define the TypeScript interface for the table rows

@@ -1,6 +1,6 @@
 import { useModal } from '../../hooks/useModal';
-import Button from '../../elements/button/Button';
-import { Modal } from '../../elements/modal';
+import Button from '@elements/button/Button';
+import { Modal } from '@elements/modal';
 
 export default function AddIntegrationModal() {
   const addIntegrationModal = useModal();

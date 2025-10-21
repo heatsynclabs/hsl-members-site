@@ -1,5 +1,5 @@
-import Button from '../../elements/button/Button';
-import { Modal } from '../../elements/modal';
+import Button from '@elements/button/Button';
+import { Modal } from '@elements/modal';
 import { useModal } from '../../hooks/useModal';
 import Label from '../form/Label';
 import Input from '../form/input/InputField';

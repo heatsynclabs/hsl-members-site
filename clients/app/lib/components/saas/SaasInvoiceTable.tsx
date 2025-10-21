@@ -1,4 +1,4 @@
-import Badge from '../../elements/badge/Badge';
+import Badge from '@elements/badge/Badge';
 
 const transactions = [
   {

@@ -1,4 +1,4 @@
-import Button from '../../elements/button/Button';
+import Button from '@elements/button/Button';
 import InvoiceTable from './InvoiceTable';
 
 export default function InvoiceMain() {

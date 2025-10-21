@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal } from '../../elements/modal';
+import { Modal } from '@elements/modal';
 import { useModal } from '../../hooks/useModal';
-import Button from '../../elements/button/Button';
+import Button from '@elements/button/Button';
 import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import TextArea from '../form/input/TextArea';

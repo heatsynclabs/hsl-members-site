@@ -5,11 +5,11 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../elements/table';
+} from '@elements/table';
 import { TrashBinIcon } from '../../icons';
-import AvatarText from '../../elements/avatar/AvatarText';
+import AvatarText from '@elements/avatar/AvatarText';
 import Checkbox from '../form/input/Checkbox';
-import Badge from '../../elements/badge/Badge';
+import Badge from '@elements/badge/Badge';
 
 // Interface for the table row data
 interface TableRowData {

@@ -1,8 +1,8 @@
 import React from 'react';
 import ChartTab from '../common/ChartTab';
 import { type ApexOptions } from 'apexcharts';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';
 
 import ReactApexChart from 'react-apexcharts';

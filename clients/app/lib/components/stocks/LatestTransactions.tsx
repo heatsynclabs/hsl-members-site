@@ -1,12 +1,12 @@
 import Image from '@/lib/elements/images/Image';
-import Badge from '../../elements/badge/Badge';
+import Badge from '@elements/badge/Badge';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../../elements/table';
+} from '@elements/table';
 
 const transactionData = [
   {

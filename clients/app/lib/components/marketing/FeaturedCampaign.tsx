@@ -5,10 +5,10 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../elements/table';
-import Badge from '../../elements/badge/Badge';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+} from '@elements/table';
+import Badge from '@elements/badge/Badge';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';
 import Image from '@/lib/elements/images/Image';
 

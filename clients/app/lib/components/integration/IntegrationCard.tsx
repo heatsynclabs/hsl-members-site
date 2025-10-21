@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
 import { HorizontaLDots } from '../../icons';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import IntegrationDetailsModal from './IntegrationDetailsModal';
 import { useModal } from '../../hooks/useModal';
 import IntegrationDeleteModal from './IntegrationDeleteModal';

@@ -1,6 +1,6 @@
 import Image from '@/lib/elements/images/Image';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';
 import CountryMap from './CountryMap';
 import React from 'react';

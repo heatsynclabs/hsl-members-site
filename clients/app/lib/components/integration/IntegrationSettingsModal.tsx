@@ -1,8 +1,8 @@
 import { useModal } from '../../hooks/useModal';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
-import Button from '../../elements/button/Button';
-import { Modal } from '../../elements/modal';
+import Button from '@elements/button/Button';
+import { Modal } from '@elements/modal';
 
 export default function IntegrationSettingsModal() {
   const settingsModal = useModal();

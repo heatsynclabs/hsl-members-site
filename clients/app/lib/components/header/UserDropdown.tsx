@@ -1,8 +1,8 @@
 import Image from '@/lib/elements/images/Image';
 import { Link } from 'react-router';
 import React from 'react';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = React.useState(false);

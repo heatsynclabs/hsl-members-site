@@ -1,7 +1,7 @@
 import { MoreDotIcon } from '@icons';
 import React from 'react';
-import { Dropdown } from '../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 
 export default function TrackingDeliveryMap() {
   const [isOpen, setIsOpen] = React.useState(false);
