@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router';
 import type { Route } from './+types/home';
 import { Button } from '~/lib/elements/button';
+import { ChevronDownIcon } from '~/lib/pro/icons';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,7 +15,10 @@ export default function Home() {
     <>
       <main className="h-screen">
         <h1 className="text-3xl">Welcome to the HeatSync Labs Members App</h1>
-        <Button>Click me</Button>
+        <Button className="bg-green-100 to-green-700 fill-green-800">
+          Click me
+          <ChevronDownIcon className="h-10 w-10 stroke-white"></ChevronDownIcon>
+        </Button>
         <p className="mb-1">
           You must be new here! What do you want to make? We have a workshop
           full of tools waiting to help you make awesome stuff.

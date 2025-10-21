@@ -6,9 +6,9 @@ export default function App() {
   return <Outlet />;
 }
 
-export { Layout } from './Layout';
+export { Layout } from '~/Layout';
 
-export { ErrorBoundary } from './ErrorBoundary';
+export { ErrorBoundary } from '~/ErrorBoundary';
 
 export const links: Route.LinksFunction = () => [
   {
