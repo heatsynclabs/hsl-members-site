@@ -1,7 +1,6 @@
-import { Link, NavLink } from 'react-router';
 import type { Route } from './+types/home';
-import { Button } from '~/lib/elements/button';
-import { ChevronDownIcon } from '~/lib/pro/icons';
+import Button from '@components/ui/button/Button';
+import { ChevronDownIcon } from '@icons';
 
 export function meta({}: Route.MetaArgs) {
   return [
