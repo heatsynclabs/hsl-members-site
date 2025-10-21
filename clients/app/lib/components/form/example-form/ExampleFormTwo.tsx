@@ -6,7 +6,7 @@ import Select from '../Select';
 import Radio from '../input/Radio';
 import Form from '../Form';
 import Button from '../../ui/button/Button';
-import DatePicker from '~/lib/components/form/date-picker';
+import DatePicker from '@components/form/date-picker';
 
 export default function ExampleFormTwo() {
   const [selectedOption, setSelectedOption] = React.useState<string>('Free');

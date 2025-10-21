@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { type Task, type DropResult } from './types/types';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 interface TaskItemProps {
   task: Task;

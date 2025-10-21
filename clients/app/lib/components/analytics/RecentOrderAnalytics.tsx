@@ -1,4 +1,4 @@
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import Button from '../ui/button/Button';
 import {
   Table,

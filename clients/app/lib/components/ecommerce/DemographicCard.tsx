@@ -1,7 +1,7 @@
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { MoreDotIcon } from '~/lib/icons';
+import { MoreDotIcon } from '@icons';
 import CountryMap from './CountryMap';
 import React from 'react';
 

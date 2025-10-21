@@ -1,8 +1,8 @@
 import React from 'react';
-import PaginationWithText from '~/lib/components/ui/pagination/PaginationWithText';
-import PaginationWithTextWithIcon from '~/lib/components/ui/pagination/PaginationWithTextWitIcon';
-import PaginationWithIcon from '~/lib/components/ui/pagination/PaginationWitIcon';
-import ComponentCard from '~/lib/components/common/ComponentCard';
+import PaginationWithText from '@components/ui/pagination/PaginationWithText';
+import PaginationWithTextWithIcon from '@components/ui/pagination/PaginationWithTextWitIcon';
+import PaginationWithIcon from '@components/ui/pagination/PaginationWitIcon';
+import ComponentCard from '@components/common/ComponentCard';
 
 export default function PaginationExample() {
   const handlePageChange = (page: number) => {

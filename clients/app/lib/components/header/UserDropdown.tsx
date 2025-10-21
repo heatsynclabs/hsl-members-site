@@ -1,4 +1,4 @@
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import { Link } from 'react-router';
 import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';

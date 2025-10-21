@@ -8,7 +8,7 @@ import {
 } from '../../ui/table';
 
 import Badge from '../../ui/badge/Badge';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 interface Order {
   id: number;

@@ -1,4 +1,4 @@
-import useGoBack from '~/lib/hooks/useGoBack';
+import useGoBack from '@hooks/useGoBack';
 import React from 'react';
 
 export default function EmailDetailsHeader() {

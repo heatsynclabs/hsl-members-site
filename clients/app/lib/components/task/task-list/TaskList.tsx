@@ -1,6 +1,6 @@
-import { type Task } from '~/lib/components/task/task-list/types/Task';
-import TaskLane from '~/lib/components/task/task-list/TaskLane';
-import TaskHeader from '~/lib/components/task/TaskHeader';
+import { type Task } from '@components/task/task-list/types/Task';
+import TaskLane from '@components/task/task-list/TaskLane';
+import TaskHeader from '@components/task/TaskHeader';
 import React from 'react';
 
 const initialTasks: Task[] = [

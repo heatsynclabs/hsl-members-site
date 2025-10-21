@@ -1,5 +1,5 @@
-import { Dropdown } from '~/lib/components/ui/dropdown/Dropdown';
-import { DropdownItem } from '~/lib/components/ui/dropdown/DropdownItem';
+import { Dropdown } from '@components/ui/dropdown/Dropdown';
+import { DropdownItem } from '@components/ui/dropdown/DropdownItem';
 import React from 'react';
 
 const AccountMenuDropdown: React.FC = () => {

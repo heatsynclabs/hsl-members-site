@@ -1,7 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 const carouselData = [
   {
     thumbnail: '/images/carousel/carousel-01.png',

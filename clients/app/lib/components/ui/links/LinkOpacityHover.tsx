@@ -1,5 +1,5 @@
 import React from 'react';
-import ComponentCard from '~/lib/components/common/ComponentCard';
+import ComponentCard from '@components/common/ComponentCard';
 import CustomLink from './Link';
 
 export default function LinkOpacityHover() {

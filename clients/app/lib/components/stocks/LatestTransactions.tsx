@@ -1,4 +1,4 @@
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import Badge from '../ui/badge/Badge';
 import {
   Table,

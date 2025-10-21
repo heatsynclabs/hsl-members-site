@@ -5,7 +5,7 @@ import Button from '../ui/button/Button';
 import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import TextArea from '../form/input/TextArea';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 export default function TaskHeader() {
   const [selectedTaskGroup, setSelectedTaskGroup] =

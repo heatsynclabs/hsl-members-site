@@ -1,4 +1,4 @@
-import { useModal } from '~/lib/hooks/useModal';
+import { useModal } from '@hooks/useModal';
 import ComponentCard from '../../common/ComponentCard';
 
 import Button from '../../ui/button/Button';

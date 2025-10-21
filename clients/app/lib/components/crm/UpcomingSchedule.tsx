@@ -2,7 +2,7 @@ import React from 'react';
 import Checkbox from '../form/input/Checkbox';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { MoreDotIcon } from '~/lib/icons';
+import { MoreDotIcon } from '@icons';
 
 export default function UpcomingSchedule() {
   // Define the state with an index signature for dynamic string keys

@@ -1,4 +1,4 @@
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import React from 'react';
 
 export default function TwoColumnImageGrid() {

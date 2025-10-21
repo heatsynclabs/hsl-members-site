@@ -2,8 +2,8 @@ import React from 'react';
 import { ArrowDownIcon, ArrowUpIcon } from '../../icons';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { MoreDotIcon } from '~/lib/icons';
-import Image from '~/lib/components/ui/images/Image';
+import { MoreDotIcon } from '@icons';
+import Image from '@components/ui/images/Image';
 
 type WatchlistItemProps = {
   symbol: string;

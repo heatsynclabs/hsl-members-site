@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ArrowRightIcon } from '../../icons';
 import { Link } from 'react-router';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 const tableData = [
   {

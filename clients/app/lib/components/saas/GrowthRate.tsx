@@ -1,4 +1,4 @@
-import { MoreDotIcon } from '~/lib/icons';
+import { MoreDotIcon } from '@icons';
 import { type ApexOptions } from 'apexcharts';
 
 import React from 'react';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { CardDescription, CardTitle } from '../../ui/card';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 export default function CardFour() {
   return (

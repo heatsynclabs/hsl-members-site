@@ -4,7 +4,7 @@ import Label from '../Label';
 import Input from '../input/InputField';
 import Select from '../Select';
 import { EyeCloseIcon, EyeIcon, TimeIcon } from '../../../icons';
-import DatePicker from '~/lib/components/form/date-picker';
+import DatePicker from '@components/form/date-picker';
 
 export default function DefaultInputs() {
   const [showPassword, setShowPassword] = React.useState(false);

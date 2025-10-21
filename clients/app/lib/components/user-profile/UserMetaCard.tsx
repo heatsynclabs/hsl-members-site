@@ -4,7 +4,7 @@ import { Modal } from '../ui/modal';
 import Button from '../ui/button/Button';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 export default function UserMetaCard() {
   const { isOpen, openModal, closeModal } = useModal();

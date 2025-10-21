@@ -8,8 +8,8 @@ import {
   TableRow,
 } from '../../ui/table';
 import Button from '../../ui/button/Button';
-import Image from '~/lib/components/ui/images/Image';
-import TableDropdown from '~/lib/components/common/TableDropdown';
+import Image from '@components/ui/images/Image';
+import TableDropdown from '@components/common/TableDropdown';
 
 // Type definition for the transaction data
 interface Transaction {

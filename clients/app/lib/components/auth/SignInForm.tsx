@@ -1,8 +1,8 @@
-import Checkbox from '~/lib/components/form/input/Checkbox';
-import Input from '~/lib/components/form/input/InputField';
-import Label from '~/lib/components/form/Label';
-import Button from '~/lib/components/ui/button/Button';
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from '~/lib/icons';
+import Checkbox from '@components/form/input/Checkbox';
+import Input from '@components/form/input/InputField';
+import Label from '@components/form/Label';
+import Button from '@components/ui/button/Button';
+import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from '@icons';
 import { Link } from 'react-router';
 import React from 'react';
 

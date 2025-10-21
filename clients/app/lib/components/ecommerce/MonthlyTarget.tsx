@@ -1,7 +1,7 @@
 import { type ApexOptions } from 'apexcharts';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { MoreDotIcon } from '~/lib/icons';
+import { MoreDotIcon } from '@icons';
 
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';

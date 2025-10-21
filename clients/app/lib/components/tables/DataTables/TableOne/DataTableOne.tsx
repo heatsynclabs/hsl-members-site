@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from '../../../ui/table';
-import { AngleDownIcon, AngleUpIcon } from '~/lib/icons';
-import Image from '~/lib/components/ui/images/Image';
+import { AngleDownIcon, AngleUpIcon } from '@icons';
+import Image from '@components/ui/images/Image';
 import PaginationWithIcon from './PaginationWithIcon';
 
 const tableRowData = [

@@ -1,8 +1,8 @@
-import { ThemeToggleButton } from '~/lib/components/common/ThemeToggleButton';
-import NotificationDropdown from '~/lib/components/header/NotificationDropdown';
-import UserDropdown from '~/lib/components/header/UserDropdown';
-import { useSidebar } from '~/lib/context/SidebarContext';
-import Image from '~/lib/components/ui/images/Image';
+import { ThemeToggleButton } from '@components/common/ThemeToggleButton';
+import NotificationDropdown from '@components/header/NotificationDropdown';
+import UserDropdown from '@components/header/UserDropdown';
+import { useSidebar } from '@context/SidebarContext';
+import Image from '@components/ui/images/Image';
 import { Link } from 'react-router';
 import React from 'react';
 

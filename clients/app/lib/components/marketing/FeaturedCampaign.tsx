@@ -9,8 +9,8 @@ import {
 import Badge from '../ui/badge/Badge';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { MoreDotIcon } from '~/lib/icons';
-import Image from '~/lib/components/ui/images/Image';
+import { MoreDotIcon } from '@icons';
+import Image from '@components/ui/images/Image';
 
 interface Campaign {
   id: number;

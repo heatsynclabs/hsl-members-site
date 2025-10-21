@@ -1,7 +1,7 @@
 import React from 'react';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
-import { ChevronDownIcon } from '~/lib/icons';
+import { ChevronDownIcon } from '@icons';
 
 interface Product {
   name: string;

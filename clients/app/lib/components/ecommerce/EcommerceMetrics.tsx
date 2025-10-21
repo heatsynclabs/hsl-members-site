@@ -5,7 +5,7 @@ import {
   ArrowUpIcon,
   BoxIconLine,
   GroupIcon,
-} from '~/lib/icons';
+} from '@icons';
 
 export const EcommerceMetrics = () => {
   return (

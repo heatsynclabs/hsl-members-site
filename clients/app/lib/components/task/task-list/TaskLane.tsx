@@ -3,7 +3,7 @@ import TaskItem from './TaskItem';
 import { type Task } from './types/Task';
 import { Dropdown } from '../../ui/dropdown/Dropdown';
 import { DropdownItem } from '../../ui/dropdown/DropdownItem';
-import { HorizontaLDots } from '~/lib/icons';
+import { HorizontaLDots } from '@icons';
 
 interface TaskLaneProps {
   lane: string;

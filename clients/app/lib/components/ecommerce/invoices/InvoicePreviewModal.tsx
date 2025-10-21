@@ -1,6 +1,6 @@
-import Button from '~/lib/components/ui/button/Button';
-import { Modal } from '~/lib/components/ui/modal';
-import { useModal } from '~/lib/hooks/useModal';
+import Button from '@components/ui/button/Button';
+import { Modal } from '@components/ui/modal';
+import { useModal } from '@hooks/useModal';
 import React from 'react';
 
 export default function InvoicePreviewModal() {

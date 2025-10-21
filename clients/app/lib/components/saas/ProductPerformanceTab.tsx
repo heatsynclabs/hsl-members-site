@@ -5,7 +5,7 @@ import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import NewUserChart from './NewUserChart';
 import DailySaleChart from './DailySaleChart';
 import OnlineSaleChart from './OnlineSaleChart';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 
 export default function ProductPerformanceTab() {
   const [isOpen, setIsOpen] = React.useState(false);

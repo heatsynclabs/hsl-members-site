@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from '~/lib/icons';
+import { ChevronDownIcon } from '@icons';
 import React from 'react';
 
 interface Option {
