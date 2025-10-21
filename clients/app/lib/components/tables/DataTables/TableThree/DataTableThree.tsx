@@ -5,7 +5,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../../ui/table';
+} from '@elements/table';
 import {
   AngleDownIcon,
   AngleUpIcon,
@@ -13,9 +13,9 @@ import {
   TrashBinIcon,
 } from '../../../../icons';
 import Checkbox from '../../../form/input/Checkbox';
-import Badge from '../../../ui/badge/Badge';
+import Badge from '@elements/badge/Badge';
 import Pagination from './Pagination';
-import Button from '../../../ui/button/Button';
+import Button from '@elements/button/Button';
 
 const tableRowData = [
   {

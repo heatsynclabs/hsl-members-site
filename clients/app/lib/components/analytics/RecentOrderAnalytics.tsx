@@ -1,12 +1,12 @@
-import Image from '@components/ui/images/Image';
-import Button from '../ui/button/Button';
+import Image from '@elements/images/Image';
+import Button from '@elements/button/Button';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '@elements/table';
 
 // Define the TypeScript interface for the table rows
 interface Product {

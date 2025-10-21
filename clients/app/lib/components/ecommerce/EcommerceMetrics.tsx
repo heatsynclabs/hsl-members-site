@@ -1,4 +1,4 @@
-import Badge from '../ui/badge/Badge';
+import Badge from '@elements/badge/Badge';
 import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from '@icons';
 
 export const EcommerceMetrics = () => {

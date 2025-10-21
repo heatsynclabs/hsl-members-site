@@ -1,7 +1,7 @@
 import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
-import Button from '../../ui/button/Button';
-import { Modal } from '../../ui/modal';
+import Button from '@elements/button/Button';
+import { Modal } from '@elements/modal';
 import { useModal } from '@hooks/useModal';
 
 export default function VerticallyCenteredModal() {

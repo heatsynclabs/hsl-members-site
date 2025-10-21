@@ -1,7 +1,7 @@
 import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 
-import { Modal } from '../../ui/modal';
+import { Modal } from '@elements/modal';
 import { useModal } from '@hooks/useModal';
 
 export default function ModalBasedAlerts() {

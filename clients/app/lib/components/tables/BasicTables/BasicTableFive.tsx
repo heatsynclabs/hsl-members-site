@@ -1,11 +1,11 @@
-import Image from '@components/ui/images/Image';
+import Image from '@elements/images/Image';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../../ui/table';
+} from '@elements/table';
 
 // Define the TypeScript interface for the table rows
 interface Product {

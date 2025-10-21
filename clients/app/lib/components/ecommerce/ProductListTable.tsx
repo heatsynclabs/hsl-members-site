@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Button from '../ui/button/Button';
+import Button from '@elements/button/Button';
 import { Link } from 'react-router';
-import Image from '@components/ui/images/Image';
+import Image from '@elements/images/Image';
 
 interface Product {
   id: number;

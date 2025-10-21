@@ -1,8 +1,8 @@
-import Image from '@components/ui/images/Image';
+import Image from '@elements/images/Image';
 import { Link } from 'react-router';
 import React from 'react';
-import { Dropdown } from '../ui/dropdown/Dropdown';
-import { DropdownItem } from '../ui/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = React.useState(false);

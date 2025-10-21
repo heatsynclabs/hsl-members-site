@@ -5,12 +5,12 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../ui/table';
-import Badge from '../../ui/badge/Badge';
-import Image from '@components/ui/images/Image';
+} from '@elements/table';
+import Badge from '@elements/badge/Badge';
+import Image from '@elements/images/Image';
 import { MoreDotIcon } from '@icons';
-import { Dropdown } from '../../ui/dropdown/Dropdown';
-import { DropdownItem } from '../../ui/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 
 interface Campaign {
   id: number;

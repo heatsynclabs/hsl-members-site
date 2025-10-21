@@ -1,8 +1,8 @@
 import React from 'react';
-import { Dropdown } from '../ui/dropdown/Dropdown';
-import { DropdownItem } from '../ui/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';
-import Image from '@components/ui/images/Image';
+import Image from '@elements/images/Image';
 
 export default function TrafficSource() {
   const [isOpen, setIsOpen] = React.useState(false);

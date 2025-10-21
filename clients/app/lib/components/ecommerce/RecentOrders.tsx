@@ -4,9 +4,9 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../ui/table';
-import Badge from '../ui/badge/Badge';
-import Image from '@components/ui/images/Image';
+} from '@elements/table';
+import Badge from '@elements/badge/Badge';
+import Image from '@elements/images/Image';
 
 // Define the TypeScript interface for the table rows
 interface Product {

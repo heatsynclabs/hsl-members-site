@@ -5,10 +5,10 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../ui/table';
+} from '@elements/table';
 
-import Badge from '../../ui/badge/Badge';
-import Image from '@components/ui/images/Image';
+import Badge from '@elements/badge/Badge';
+import Image from '@elements/images/Image';
 
 interface Order {
   id: number;

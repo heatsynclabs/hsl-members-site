@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { CardDescription } from '../../ui/card';
+import { CardDescription } from '@elements/card';
 import { Link } from 'react-router';
-import Image from '@components/ui/images/Image';
+import Image from '@elements/images/Image';
 
 export default function CardTwo() {
   return (

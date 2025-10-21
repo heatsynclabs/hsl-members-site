@@ -5,7 +5,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../../ui/table';
+} from '@elements/table';
 import {
   AngleDownIcon,
   AngleUpIcon,
