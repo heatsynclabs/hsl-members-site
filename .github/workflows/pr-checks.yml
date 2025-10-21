@@ -16,12 +16,14 @@ jobs:
           node-version: '18.x'
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Change Directory to Clients
-        run: cd clients
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          cd clients
+          pnpm install
       - name: Run Prettier
-        run: pnpm run lint
+        run: |
+          cd clients
+          pnpm run lint
 
   type-check:
     runs-on: ubuntu-latest
@@ -33,9 +35,11 @@ jobs:
           node-version: '18.x'
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Change Directory to Clients
-        run: cd clients
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          cd clients
+          pnpm install
       - name: Run TypeScript
-        run: pnpm run typecheck:client
+        run: |
+          cd clients
+          pnpm run typecheck:client
