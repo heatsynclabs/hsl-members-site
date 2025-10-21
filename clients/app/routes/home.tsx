@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router";
 import type { Route } from "./+types/home";
+import { Button } from "~/lib/elements/button";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,6 +16,7 @@ export default function Home() {
         <h1 className="text-3xl">
           Welcome to the HeatSync Labs Members App
         </h1>
+        <Button>Click me</Button>
 
         <p className="mb-1">
           You must be new here! What do you want to make? We have a workshop full of tools waiting to help you make awesome stuff.
