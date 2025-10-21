@@ -1,19 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import Prism from "prismjs";
+import React from 'react';
+import Prism from 'prismjs';
 
 // Import Prism CSS
 
 // Import additional languages
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-tsx";
-import "prismjs/components/prism-typescript";
-import "prismjs/components/prism-bash";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-scss";
-import "prismjs/components/prism-markdown";
-import "prismjs/plugins/line-numbers/prism-line-numbers";
-import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-tsx';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-scss';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 
 interface CodeBlockProps {
   code: string;
@@ -26,12 +26,12 @@ export default function CodeBlock({
   code,
   language,
   showLineNumbers = false,
-  className = "",
+  className = '',
 }: CodeBlockProps) {
-  const codeRef = useRef<HTMLElement>(null);
-  const [copied, setCopied] = useState(false);
+  const codeRef = React.useRef<HTMLElement>(null);
+  const [copied, setCopied] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (codeRef.current) {
       Prism.highlightElement(codeRef.current);
     }
@@ -45,7 +45,7 @@ export default function CodeBlock({
   };
 
   const preClasses = ` ${
-    showLineNumbers ? "line-numbers" : ""
+    showLineNumbers ? 'line-numbers' : ''
   } ${className}`.trim();
 
   return (
@@ -90,7 +90,7 @@ export default function CodeBlock({
                 fill="#98A2B3"
               />
             </svg>
-            <span className="copy-text">{copied ? "Copied!" : "Copy"}</span>
+            <span className="copy-text">{copied ? 'Copied!' : 'Copy'}</span>
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -138,8 +138,8 @@ const tableRowData: TableRowData[] = [
 ];
 
 export default function CrmRecentOrderTable() {
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const [selectAll, setSelectAll] = useState<boolean>(false);
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+  const [selectAll, setSelectAll] = React.useState<boolean>(false);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);

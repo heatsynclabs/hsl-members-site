@@ -1,5 +1,5 @@
-import type React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import { useState, useRef } from 'react';
 import { createPopper, type Instance } from '@popperjs/core';
 
 interface DropdownProps {
@@ -11,10 +11,10 @@ const TableDropdown: React.FC<DropdownProps> = ({
   dropdownButton,
   dropdownContent,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const popperInstanceRef = useRef<Instance | null>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const buttonRef = React.useRef<HTMLDivElement>(null);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const popperInstanceRef = React.useRef<Instance | null>(null);
 
   const close = (event: MouseEvent) => {
     const target = event.target as Node;
@@ -33,7 +33,7 @@ const TableDropdown: React.FC<DropdownProps> = ({
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener('click', close);
 
     if (buttonRef.current && contentRef.current) {

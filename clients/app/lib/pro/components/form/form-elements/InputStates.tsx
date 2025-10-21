@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Input from '../input/InputField';
 import Label from '../Label';
 
 export default function InputStates() {
-  const [email, setEmail] = useState('');
-  const [emailTwo, setEmailTwo] = useState('');
-  const [error, setError] = useState(false);
+  const [email, setEmail] = React.useState('');
+  const [emailTwo, setEmailTwo] = React.useState('');
+  const [error, setError] = React.useState(false);
 
   // Simulate a validation check
   const validateEmail = (value: string) => {

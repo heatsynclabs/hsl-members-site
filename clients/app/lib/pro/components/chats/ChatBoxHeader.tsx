@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
 import Image from '~/lib/elements/image';
 
 export default function ChatBoxHeader() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

@@ -1,5 +1,5 @@
-import type React from 'react';
-import { createContext, useState, useContext, useEffect } from 'react';
+import React from 'react';
+import { createContext, useContext } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -13,10 +13,10 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<Theme>('light');
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [theme, setTheme] = React.useState<Theme>('light');
+  const [isInitialized, setIsInitialized] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // This code will only run on the client side
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const initialTheme = savedTheme || 'light'; // Default to light theme
@@ -25,7 +25,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsInitialized(true);
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isInitialized) {
       localStorage.setItem('theme', theme);
       if (theme === 'dark') {

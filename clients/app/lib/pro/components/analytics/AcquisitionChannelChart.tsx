@@ -2,7 +2,7 @@ import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
 import type { ApexOptions } from 'apexcharts';
-import { useState } from 'react';
+import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 export default function AcquisitionChannelChart() {
@@ -101,7 +101,7 @@ export default function AcquisitionChannelChart() {
     },
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

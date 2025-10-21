@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface TabData {
   id: string;
@@ -69,7 +69,7 @@ const TabContent: React.FC<{ tab: TabData }> = ({ tab }) => (
 );
 
 const TabWithBadge: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTab, setActiveTab] = React.useState<string>('overview');
 
   return (
     <div className="p-6 border border-gray-200 rounded-xl dark:border-gray-800">

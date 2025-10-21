@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
@@ -10,7 +10,7 @@ interface FolderCardProps {
 }
 
 const FolderCard: React.FC<FolderCardProps> = ({ title, fileCount, size }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

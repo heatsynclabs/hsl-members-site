@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 // Copy Button Component
 interface CopyButtonProps {
@@ -6,7 +6,7 @@ interface CopyButtonProps {
 }
 
 function CopyButton({ textToCopy }: CopyButtonProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = React.useState(false);
 
   const handleCopy = async () => {
     try {

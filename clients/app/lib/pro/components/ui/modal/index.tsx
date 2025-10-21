@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,9 +17,9 @@ export const Modal: React.FC<ModalProps> = ({
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
@@ -35,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {

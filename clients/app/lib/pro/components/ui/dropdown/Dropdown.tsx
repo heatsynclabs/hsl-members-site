@@ -1,6 +1,5 @@
 import { cn } from '@/utils';
-import type React from 'react';
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 interface DropdownProps {
   isOpen: boolean;
@@ -15,9 +14,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
   children,
   className = '',
 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&

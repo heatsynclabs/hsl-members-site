@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
-import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import { type ApexOptions } from 'apexcharts';
+
+import ReactApexChart from 'react-apexcharts';
 
 export default function EstimatedRevenue() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

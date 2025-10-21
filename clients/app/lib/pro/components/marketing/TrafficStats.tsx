@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ChartTab from '../common/ChartTab';
-import { ApexOptions } from 'apexcharts';
+import { type ApexOptions } from 'apexcharts';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
-import dynamic from 'next/dynamic';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+
+import ReactApexChart from 'react-apexcharts';
 
 export default function TrafficStats() {
   const optionsOne: ApexOptions = {
@@ -89,7 +86,7 @@ export default function TrafficStats() {
     },
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

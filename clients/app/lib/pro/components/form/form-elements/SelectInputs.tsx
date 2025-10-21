@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Label from '../Label';
 import Select from '../Select';
@@ -11,7 +11,7 @@ export default function SelectInputs() {
     { value: 'development', label: 'Development' },
   ];
 
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
 
   const handleSelectChange = (value: string) => {
     console.log('Selected value:', value);

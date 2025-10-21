@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface CountryCode {
   code: string;
@@ -19,8 +19,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   onChange,
   selectPosition = 'start', // Default position is 'start'
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState<string>('US');
-  const [phoneNumber, setPhoneNumber] = useState<string>('+1');
+  const [selectedCountry, setSelectedCountry] = React.useState<string>('US');
+  const [phoneNumber, setPhoneNumber] = React.useState<string>('+1');
 
   const countryCodes: Record<string, string> = countries.reduce(
     (acc, { code, label }) => ({ ...acc, [code]: label }),

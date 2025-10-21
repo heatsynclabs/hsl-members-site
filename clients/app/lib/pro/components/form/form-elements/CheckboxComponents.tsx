@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Checkbox from '../input/Checkbox';
 
 export default function CheckboxComponents() {
-  const [isChecked, setIsChecked] = useState(false);
-  const [isCheckedTwo, setIsCheckedTwo] = useState(true);
-  const [isCheckedDisabled, setIsCheckedDisabled] = useState(false);
+  const [isChecked, setIsChecked] = React.useState(false);
+  const [isCheckedTwo, setIsCheckedTwo] = React.useState(true);
+  const [isCheckedDisabled, setIsCheckedDisabled] = React.useState(false);
   return (
     <ComponentCard title="Checkbox">
       <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React from 'react';
 
 interface ChatItem {
   id: string;
@@ -14,12 +14,12 @@ export default function AiSidebarHistory({
   isSidebarOpen,
   onCloseSidebar,
 }: AiSidebarHistoryProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showMore, setShowMore] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [showMore, setShowMore] = React.useState(false);
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
 
   // Close dropdown when clicking outside
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = () => {
       if (openDropdown) {
         setOpenDropdown(null);
@@ -27,32 +27,32 @@ export default function AiSidebarHistory({
     };
 
     if (openDropdown) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [openDropdown]);
 
   const todayChats: ChatItem[] = [
-    { id: "1", title: "Write a follow-up email to a client" },
-    { id: "2", title: "Generate responsive login form layout" },
-    { id: "3", title: "Create a warning state modal" },
-    { id: "4", title: "Suggest color palette for dark theme" },
+    { id: '1', title: 'Write a follow-up email to a client' },
+    { id: '2', title: 'Generate responsive login form layout' },
+    { id: '3', title: 'Create a warning state modal' },
+    { id: '4', title: 'Suggest color palette for dark theme' },
   ];
 
   const yesterdayChats: ChatItem[] = [
-    { id: "5", title: "Improve login page accessibility" },
-    { id: "6", title: "Create a warning state modal with animation" },
-    { id: "7", title: "Add password visibility toggle" },
-    { id: "8", title: "Write validation logic for login form..." },
-    { id: "9", title: "Fix mobile responsiveness of login UI..." },
+    { id: '5', title: 'Improve login page accessibility' },
+    { id: '6', title: 'Create a warning state modal with animation' },
+    { id: '7', title: 'Add password visibility toggle' },
+    { id: '8', title: 'Write validation logic for login form...' },
+    { id: '9', title: 'Fix mobile responsiveness of login UI...' },
   ];
 
   const lastWeekChats: ChatItem[] = [
-    { id: "10", title: "Improve login page accessi..." },
-    { id: "11", title: "Improve login page accessi..." },
+    { id: '10', title: 'Improve login page accessi...' },
+    { id: '11', title: 'Improve login page accessi...' },
   ];
 
   const handleDropdownToggle = (itemId: string) => {
@@ -65,13 +65,13 @@ export default function AiSidebarHistory({
 
   const handleRename = (itemId: string) => {
     // Handle rename logic here
-    console.log("Rename item:", itemId);
+    console.log('Rename item:', itemId);
     handleDropdownClose();
   };
 
   const handleDelete = (itemId: string) => {
     // Handle delete logic here
-    console.log("Delete item:", itemId);
+    console.log('Delete item:', itemId);
     handleDropdownClose();
   };
 
@@ -115,8 +115,8 @@ export default function AiSidebarHistory({
       <aside
         className={`w-[280px] flex-col  h-full border-l border-gray-200 bg-white p-6 ease-in-out dark:border-gray-800 dark:bg-gray-900 ${
           isSidebarOpen
-            ? "flex fixed xl:static top-0 z-999999 right-0 h-screen bg-white dark:bg-gray-900"
-            : "hidden xl:flex"
+            ? 'flex fixed xl:static top-0 z-999999 right-0 h-screen bg-white dark:bg-gray-900'
+            : 'hidden xl:flex'
         }`}
       >
         {/* New Chat Button */}
@@ -240,10 +240,10 @@ export default function AiSidebarHistory({
               onClick={() => setShowMore(!showMore)}
               className="text-primary-500 flex w-full items-center justify-between text-xs font-medium text-gray-400"
             >
-              <span>{showMore ? "Show less..." : "Show more..."}</span>
+              <span>{showMore ? 'Show less...' : 'Show more...'}</span>
               <svg
                 className={`ml-2 transition-transform ${
-                  showMore ? "rotate-180" : ""
+                  showMore ? 'rotate-180' : ''
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

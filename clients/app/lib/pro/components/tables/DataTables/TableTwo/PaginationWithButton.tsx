@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 interface PaginationProps {
   totalPages: number;
@@ -11,7 +11,7 @@ export default function PaginationWithButton({
   initialPage = 1,
   onPageChange,
 }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [currentPage, setCurrentPage] = React.useState(initialPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;

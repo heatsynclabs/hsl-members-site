@@ -1,8 +1,8 @@
-import React, { ReactNode, useState } from 'react';
+import React, { type ReactNode } from 'react';
 import AiSidebarHistory from './AiSidebarHistory';
 
 export default function AiLayout({ children }: { children: ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
   return (
     <div className="relative h-[calc(100vh-134px)] xl:h-[calc(100vh-146px)] px-4 xl:flex xl:px-0">
       <div className="my-6 flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-3 xl:hidden dark:border-gray-800 dark:bg-gray-900">

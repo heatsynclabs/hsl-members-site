@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router';
 import Image from '~/lib/elements/image';
 import { useSidebar } from '../context/SidebarContext';
@@ -357,21 +357,21 @@ const AppSidebar: React.FC = () => {
     </ul>
   );
 
-  const [openSubmenu, setOpenSubmenu] = useState<{
+  const [openSubmenu, setOpenSubmenu] = React.useState<{
     type: 'main' | 'support' | 'others';
     index: number;
   } | null>(null);
-  const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
-    {}
-  );
-  const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [subMenuHeight, setSubMenuHeight] = React.useState<
+    Record<string, number>
+  >({});
+  const subMenuRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
 
-  const isActive = useCallback(
+  const isActive = React.useCallback(
     (path: string) => path === location.pathname,
     [location.pathname]
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
     ['main', 'support', 'others'].forEach((menuType) => {
@@ -402,7 +402,7 @@ const AppSidebar: React.FC = () => {
     }
   }, [location.pathname, isActive]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
     if (openSubmenu !== null) {
       const key = `${openSubmenu.type}-${openSubmenu.index}`;

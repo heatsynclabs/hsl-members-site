@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckLineIcon } from '../../icons';
 
 const starterPack = [
@@ -27,7 +27,7 @@ const largePack = [
 ];
 
 export default function PriceTableOne() {
-  const [isMonthly, setIsMonthly] = useState(true);
+  const [isMonthly, setIsMonthly] = React.useState(true);
   return (
     <div>
       <div className="mx-auto w-full max-w-[385px]">

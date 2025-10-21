@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TaskItem from './TaskItem';
-import { Task } from './types/Task';
+import { type Task } from './types/Task';
 import { Dropdown } from '../../ui/dropdown/Dropdown';
 import { DropdownItem } from '../../ui/dropdown/DropdownItem';
 import { HorizontaLDots } from '@/icons';
@@ -20,7 +20,7 @@ const TaskLane: React.FC<TaskLaneProps> = ({
   onDrop,
   onDragStart,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

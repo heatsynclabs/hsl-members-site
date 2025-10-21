@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -137,13 +137,13 @@ type SortKey = 'name' | 'position' | 'location' | 'age' | 'date' | 'salary';
 type SortOrder = 'asc' | 'desc';
 
 export default function DataTableOne() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortKey, setSortKey] = useState<SortKey>('name');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [itemsPerPage, setItemsPerPage] = React.useState(10);
+  const [sortKey, setSortKey] = React.useState<SortKey>('name');
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>('asc');
+  const [searchTerm, setSearchTerm] = React.useState('');
 
-  const filteredAndSortedData = useMemo(() => {
+  const filteredAndSortedData = React.useMemo(() => {
     return tableRowData
       .filter((item) =>
         Object.values(item).some(

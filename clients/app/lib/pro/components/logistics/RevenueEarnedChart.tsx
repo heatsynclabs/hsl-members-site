@@ -1,12 +1,10 @@
 import { MoreDotIcon } from '@/icons';
-import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
+import { type ApexOptions } from 'apexcharts';
+
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
-import { useState } from 'react';
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
 export default function RevenueEarnedChart() {
   const options: ApexOptions = {
@@ -66,7 +64,7 @@ export default function RevenueEarnedChart() {
     },
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

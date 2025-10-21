@@ -1,13 +1,9 @@
 import React from 'react';
-// import Chart from "react-apexcharts";
-import { ApexOptions } from 'apexcharts';
-import ChartTab from '../common/ChartTab';
-import dynamic from 'next/dynamic';
 
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import { type ApexOptions } from 'apexcharts';
+import ChartTab from '../common/ChartTab';
+
+import ReactApexChart from 'react-apexcharts';
 
 export default function PortfolioPerformance() {
   const data = [

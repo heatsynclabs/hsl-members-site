@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 interface Invoice {
   id: number;
@@ -109,8 +109,8 @@ const initialInvoices: Invoice[] = [
 ];
 
 const InvoiceTable: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [invoices] = useState<Invoice[]>(initialInvoices);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [invoices] = React.useState<Invoice[]>(initialInvoices);
   const itemsPerPage: number = 5;
 
   const totalInvoices: number = invoices.length;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { MoreDotIcon } from '../../icons';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
@@ -8,8 +8,8 @@ import OnlineSaleChart from './OnlineSaleChart';
 import Image from '~/lib/elements/image';
 
 export default function ProductPerformanceTab() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState('daily');
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState('daily');
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

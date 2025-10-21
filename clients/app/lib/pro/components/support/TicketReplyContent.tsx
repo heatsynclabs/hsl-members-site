@@ -1,8 +1,8 @@
 import Image from '~/lib/elements/image';
-import { useState } from 'react';
+import React from 'react';
 
 export default function TicketReplyContent() {
-  const [selected, setSelected] = useState('in-progress');
+  const [selected, setSelected] = React.useState('in-progress');
 
   const options = [
     { label: 'In-Progress', value: 'in-progress' },

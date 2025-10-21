@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-// import Chart from "react-apexcharts";
-import { ApexOptions } from 'apexcharts';
+import React from 'react';
+
+import { type ApexOptions } from 'apexcharts';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
-import dynamic from 'next/dynamic';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+
+import ReactApexChart from 'react-apexcharts';
 
 const DividendChart: React.FC = () => {
   const options: ApexOptions = {
@@ -84,7 +81,7 @@ const DividendChart: React.FC = () => {
     },
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

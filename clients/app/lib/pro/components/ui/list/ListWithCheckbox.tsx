@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Checkbox from '../../form/input/Checkbox';
 
 export default function ListWithCheckbox() {
   // State to manage individual checkbox values
-  const [checkedItems, setCheckedItems] = useState<boolean[]>([
+  const [checkedItems, setCheckedItems] = React.useState<boolean[]>([
     false,
     false,
     false,

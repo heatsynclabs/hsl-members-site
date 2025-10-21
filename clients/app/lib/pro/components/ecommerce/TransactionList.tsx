@@ -250,7 +250,7 @@ const TransactionList: React.FC = () => {
     });
   }, [transactions, sort]);
 
-  const filteredRows: Transaction[] = useMemo(() => {
+  const filteredRows: Transaction[] = React.useMemo(() => {
     return sortedRows.filter(
       (row) =>
         row.orderId.toLowerCase().includes(search.toLowerCase()) ||

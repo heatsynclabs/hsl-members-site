@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
+import React from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.css';
 import Label from './Label';
+import type { DateOption, Hook } from 'flatpickr/dist/types/options';
 import { CalenderIcon } from '../../icons';
-import Hook = flatpickr.Options.Hook;
-import DateOption = flatpickr.Options.DateOption;
 
 type PropsType = {
   id: string;
@@ -23,7 +22,7 @@ export default function DatePicker({
   defaultDate,
   placeholder,
 }: PropsType) {
-  useEffect(() => {
+  React.useEffect(() => {
     const flatPickr = flatpickr(`#${id}`, {
       mode: mode || 'single',
       static: true,

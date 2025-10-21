@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import React, { type ReactNode } from 'react';
 import { HorizontaLDots } from '../../icons';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
@@ -21,7 +21,7 @@ export default function IntegrationCard({
   description,
   connect,
 }: IntegrationCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

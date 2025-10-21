@@ -1,12 +1,12 @@
 import Image from '~/lib/elements/image';
 import { Link } from 'react-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 
 export default function NotificationDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [notifying, setNotifying] = React.useState(true);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

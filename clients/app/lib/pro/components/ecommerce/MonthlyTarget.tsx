@@ -1,14 +1,10 @@
-import { ApexOptions } from 'apexcharts';
+import { type ApexOptions } from 'apexcharts';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
 
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
 export default function MonthlyTarget() {
   const series = [75.55];
@@ -59,7 +55,7 @@ export default function MonthlyTarget() {
     },
     labels: ['Progress'],
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

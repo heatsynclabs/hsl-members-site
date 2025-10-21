@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Form from '../Form';
 import Input from '../input/InputField';
@@ -18,7 +18,7 @@ export default function ExampleFormWithIcon() {
     console.log('Form submitted:');
   };
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = React.useState(false);
   return (
     <ComponentCard title="Example Form With Icons">
       <Form onSubmit={handleSubmit}>

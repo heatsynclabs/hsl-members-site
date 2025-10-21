@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Button from '../ui/button/Button';
 import { Link } from 'react-router';
@@ -92,7 +92,7 @@ const FilterDropdown: React.FC<{
 };
 
 const ProductListTable: React.FC = () => {
-  const [products] = useState<Product[]>([
+  const [products] = React.useState<Product[]>([
     {
       id: 1,
       name: 'Macbook pro M4',
@@ -294,11 +294,11 @@ const ProductListTable: React.FC = () => {
       createdAt: '09 Jan, 2028',
     },
   ]);
-  const [selected, setSelected] = useState<number[]>([]);
-  const [sort, setSort] = useState<Sort>({ key: 'name', asc: true });
-  const [page, setPage] = useState(1);
-  const [perPage] = useState(7);
-  const [showFilter, setShowFilter] = useState(false);
+  const [selected, setSelected] = React.useState<number[]>([]);
+  const [sort, setSort] = React.useState<Sort>({ key: 'name', asc: true });
+  const [page, setPage] = React.useState(1);
+  const [perPage] = React.useState(7);
+  const [showFilter, setShowFilter] = React.useState(false);
 
   const sortedProducts = () => {
     return [...products].sort((a, b) => {

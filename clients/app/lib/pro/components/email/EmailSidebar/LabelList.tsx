@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function LabelList() {
-  const [activeItem, setActiveItem] = useState('');
+  const [activeItem, setActiveItem] = React.useState('');
 
   const labelItems = [
     { name: 'Personal', key: 'personal', count: '', icon: PersonalLabel },

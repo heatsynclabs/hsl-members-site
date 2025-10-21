@@ -1,19 +1,19 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import React from 'react';
 
 type Position = 'top' | 'right' | 'bottom' | 'left';
 
 interface PopoverProps {
   position: Position;
   trigger: React.ReactNode;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Popover({ position, trigger, children }: PopoverProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const popoverRef = React.useRef<HTMLDivElement>(null);
+  const triggerRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
         popoverRef.current &&

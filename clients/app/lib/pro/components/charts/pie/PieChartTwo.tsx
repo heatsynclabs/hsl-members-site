@@ -1,18 +1,14 @@
 import React, { useMemo } from 'react';
-import { ApexOptions } from 'apexcharts';
+import { type ApexOptions } from 'apexcharts';
 
-import dynamic from 'next/dynamic';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import ReactApexChart from 'react-apexcharts';
 
 export default function PieChartTwo() {
   // Mocked dark mode state (replace with actual context/state if applicable)
   const isDarkMode = true; // Change this to your dark mode logic
 
   // Chart configuration using useMemo for optimization
-  const options: ApexOptions = useMemo(
+  const options: ApexOptions = React.useMemo(
     () => ({
       colors: ['#9b8afb', '#fd853a', '#fdb022', '#32d583'],
       labels: ['Downloads', 'Apps', 'Documents', 'Media'],

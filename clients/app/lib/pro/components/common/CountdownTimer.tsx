@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface CountdownTimerProps {
   targetDate: Date;
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
-  const [timeLeft, setTimeLeft] = useState({
+  const [timeLeft, setTimeLeft] = React.useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();

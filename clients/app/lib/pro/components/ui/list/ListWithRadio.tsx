@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RadioSm from '../../form/input/RadioSm';
 
 export default function ListWithRadio() {
-  const [selectedValue, setSelectedValue] = useState<string>('option1');
+  const [selectedValue, setSelectedValue] = React.useState<string>('option1');
 
   const handleChange = (value: string) => {
     setSelectedValue(value);

@@ -1,7 +1,7 @@
-import { Task } from '@/components/task/task-list/types/Task';
+import { type Task } from '@/components/task/task-list/types/Task';
 import TaskLane from '@/components/task/task-list/TaskLane';
 import TaskHeader from '@/components/task/TaskHeader';
-import React, { useState } from 'react';
+import React from 'react';
 
 const initialTasks: Task[] = [
   {
@@ -127,13 +127,13 @@ const initialTasks: Task[] = [
 const lanes = ['todo', 'in-progress', 'completed'];
 
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>(
+  const [tasks, setTasks] = React.useState<Task[]>(
     initialTasks.map((task) => ({
       ...task,
       toggleChecked: () => toggleChecked(task.id),
     }))
   );
-  const [dragging, setDragging] = useState<string | null>(null);
+  const [dragging, setDragging] = React.useState<string | null>(null);
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,

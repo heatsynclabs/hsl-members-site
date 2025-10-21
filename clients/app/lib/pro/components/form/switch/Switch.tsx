@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface SwitchProps {
   label?: string;
@@ -15,7 +15,7 @@ const Switch: React.FC<SwitchProps> = ({
   onChange,
   color = 'blue', // Default to blue color
 }) => {
-  const [isChecked, setIsChecked] = useState(defaultChecked);
+  const [isChecked, setIsChecked] = React.useState(defaultChecked);
 
   const handleToggle = () => {
     if (disabled) return;

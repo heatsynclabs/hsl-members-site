@@ -1,15 +1,11 @@
 import { MoreDotIcon } from '@/icons';
-import { ApexOptions } from 'apexcharts';
+import { type ApexOptions } from 'apexcharts';
 
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import ReactApexChart from 'react-apexcharts';
 
 export default function GrowthChart() {
   const growthSeries = [
@@ -63,7 +59,7 @@ export default function GrowthChart() {
       },
     },
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

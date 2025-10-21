@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
 import { ChevronDownIcon } from '@/icons';
@@ -19,7 +19,7 @@ interface FormData {
 }
 
 const CreateInvoiceTable: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([
+  const [products, setProducts] = React.useState<Product[]>([
     {
       name: 'Macbook pro 13”',
       price: 1200,
@@ -50,7 +50,7 @@ const CreateInvoiceTable: React.FC = () => {
     },
   ]);
 
-  const [form, setForm] = useState<FormData>({
+  const [form, setForm] = React.useState<FormData>({
     name: '',
     price: 0,
     quantity: 1,

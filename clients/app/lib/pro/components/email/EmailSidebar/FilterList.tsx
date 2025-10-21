@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function FilterList() {
-  const [activeItem, setActiveItem] = useState('');
+  const [activeItem, setActiveItem] = React.useState('');
 
   const filterItems = [
     { name: 'Starred', key: 'starred', icon: StarredIcon },

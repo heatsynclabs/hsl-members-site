@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface TabButtonProps {
   id: string;
@@ -58,7 +58,7 @@ const tabs = [
 ];
 
 const TabWithUnderline: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = React.useState('overview');
 
   return (
     <div className="p-6 border border-gray-200 rounded-xl dark:border-gray-800">

@@ -1,11 +1,8 @@
 import React from 'react';
 import ChartTab from '../common/ChartTab';
-import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import { type ApexOptions } from 'apexcharts';
+
+import ReactApexChart from 'react-apexcharts';
 
 export default function CrmStatisticsChart() {
   const options: ApexOptions = {

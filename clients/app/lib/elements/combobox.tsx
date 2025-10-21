@@ -1,6 +1,6 @@
 import * as Headless from '@headlessui/react';
 import clsx from 'clsx';
-import { useState } from 'react';
+import React from 'react';
 
 export function Combobox<T>({
   options,
@@ -25,7 +25,7 @@ export function Combobox<T>({
 } & Omit<Headless.ComboboxProps<T, false>, 'as' | 'multiple' | 'children'> & {
     anchor?: 'top' | 'bottom';
   }) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = React.useState('');
 
   const filteredOptions =
     query === ''

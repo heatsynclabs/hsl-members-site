@@ -1,9 +1,9 @@
 import ChatList from './ChatList';
 import ChatHeader from './ChatHeader';
-import { useState } from 'react';
+import React from 'react';
 
 export default function ChatSidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };

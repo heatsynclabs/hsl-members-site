@@ -1,11 +1,6 @@
-import dynamic from 'next/dynamic';
-
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
-import { ApexOptions } from 'apexcharts';
-import { useState } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import { type ApexOptions } from 'apexcharts';
+import React from 'react';
 import { MoreDotIcon } from '@/icons';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
@@ -62,7 +57,7 @@ export default function ChurnRateChart() {
       },
     },
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CloseIcon } from '../../../icons';
 
 interface CookieConsentProps {
@@ -14,7 +14,7 @@ const CookieConsent: React.FC<CookieConsentProps> = ({
   onDenyAll,
   onAcceptAll,
 }) => {
-  const [isVisible, setIsVisible] = useState(true); // Local state to handle visibility
+  const [isVisible, setIsVisible] = React.useState(true); // Local state to handle visibility
 
   // Hide the component
   const handleClose = () => setIsVisible(false);

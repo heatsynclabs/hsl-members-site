@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -132,10 +132,10 @@ const tableRowData = [
 ];
 
 export default function DataTableThree() {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = React.useState(false);
   // const rowsPerPage = 5;
-  const [rowsPerPage, setRowsPerPage] = useState(5); // Number of rows per page
-  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5); // Number of rows per page
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const totalPages = Math.ceil(tableRowData.length / rowsPerPage);
 

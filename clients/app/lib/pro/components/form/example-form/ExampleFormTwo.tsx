@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Label from '../Label';
 import Input from '../input/InputField';
@@ -9,7 +9,7 @@ import Button from '../../ui/button/Button';
 import DatePicker from '@/components/form/date-picker';
 
 export default function ExampleFormTwo() {
-  const [selectedOption, setSelectedOption] = useState<string>('Free');
+  const [selectedOption, setSelectedOption] = React.useState<string>('Free');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

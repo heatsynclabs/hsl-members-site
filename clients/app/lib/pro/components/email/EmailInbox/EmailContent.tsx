@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import EmailHeader from './EmailHeader';
 import EmailPagination from './EmailPagination';
 import Checkbox from '../../form/input/Checkbox';
@@ -96,10 +96,10 @@ const mailData: Mail[] = [
 ];
 
 export default function EmailContent() {
-  const [checkedItems, setCheckedItems] = useState<boolean[]>(
+  const [checkedItems, setCheckedItems] = React.useState<boolean[]>(
     new Array(mailData.length).fill(false)
   );
-  const [starredItems, setStarredItems] = useState<boolean[]>(
+  const [starredItems, setStarredItems] = React.useState<boolean[]>(
     new Array(mailData.length).fill(false)
   );
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 type LinkProps = {
-  href: string;
+  to: string;
   children: React.ReactNode;
   variant?: 'default' | 'colored' | 'underline' | 'opacity' | 'opacityHover';
   color?:
@@ -19,7 +19,7 @@ type LinkProps = {
 };
 
 const CustomLink: React.FC<LinkProps> = ({
-  href,
+  to,
   children,
   variant = 'default',
   color = 'primary',
@@ -51,7 +51,7 @@ const CustomLink: React.FC<LinkProps> = ({
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
 
   return (
-    <Link to={href} className={classes} {...props}>
+    <Link to={to} className={classes} {...props}>
       {children}
     </Link>
   );

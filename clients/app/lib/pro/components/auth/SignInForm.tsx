@@ -4,11 +4,11 @@ import Label from '@/components/form/Label';
 import Button from '@/components/ui/button/Button';
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from '@/icons';
 import { Link } from 'react-router';
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function SignInForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(false);
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface TabItem {
   key: string;
@@ -7,7 +7,7 @@ interface TabItem {
 }
 
 const DefaultTab: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTab, setActiveTab] = React.useState<string>('overview');
 
   const tabs: TabItem[] = [
     {

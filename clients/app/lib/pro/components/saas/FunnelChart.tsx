@@ -1,14 +1,11 @@
 import { MoreDotIcon } from '@/icons';
-import { ApexOptions } from 'apexcharts';
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { type ApexOptions } from 'apexcharts';
+
+import React from 'react';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import ReactApexChart from 'react-apexcharts';
 
 export default function FunnelChart() {
   const series = [
@@ -105,7 +102,7 @@ export default function FunnelChart() {
       },
     },
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

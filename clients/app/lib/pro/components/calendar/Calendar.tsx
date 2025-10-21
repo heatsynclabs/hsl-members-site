@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {
+import type {
   EventInput,
   DateSelectArg,
   EventClickArg,
@@ -19,15 +19,14 @@ interface CalendarEvent extends EventInput {
 }
 
 const Calendar: React.FC = () => {
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
-    null
-  );
-  const [eventTitle, setEventTitle] = useState('');
-  const [eventStartDate, setEventStartDate] = useState('');
-  const [eventEndDate, setEventEndDate] = useState('');
-  const [eventLevel, setEventLevel] = useState('');
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const calendarRef = useRef<FullCalendar>(null);
+  const [selectedEvent, setSelectedEvent] =
+    React.useState<CalendarEvent | null>(null);
+  const [eventTitle, setEventTitle] = React.useState('');
+  const [eventStartDate, setEventStartDate] = React.useState('');
+  const [eventEndDate, setEventEndDate] = React.useState('');
+  const [eventLevel, setEventLevel] = React.useState('');
+  const [events, setEvents] = React.useState<CalendarEvent[]>([]);
+  const calendarRef = React.useRef<FullCalendar>(null);
   const { isOpen, openModal, closeModal } = useModal();
 
   const calendarsEvents = {
@@ -37,7 +36,7 @@ const Calendar: React.FC = () => {
     Warning: 'warning',
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Initialize with some events
     setEvents([
       {

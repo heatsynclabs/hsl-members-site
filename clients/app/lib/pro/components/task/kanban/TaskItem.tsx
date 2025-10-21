@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { Task, DropResult } from './types/types';
+import { type Task, type DropResult } from './types/types';
 import Image from '~/lib/elements/image';
 
 interface TaskItemProps {
@@ -16,7 +16,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   moveTask,
   changeTaskStatus,
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   // TaskItem.tsx
   const [{ handlerId }, drop] = useDrop<

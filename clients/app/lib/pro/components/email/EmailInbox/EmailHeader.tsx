@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Checkbox from '../../form/input/Checkbox';
 import { Dropdown } from '../../ui/dropdown/Dropdown';
 import { DropdownItem } from '../../ui/dropdown/DropdownItem';
@@ -13,7 +13,7 @@ export default function EmailHeader({
   isChecked,
   onSelectAll,
 }: EmailHeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -23,7 +23,7 @@ export default function EmailHeader({
     setIsOpen(false);
   }
 
-  const [isOpenTwo, setIsOpenTwo] = useState(false);
+  const [isOpenTwo, setIsOpenTwo] = React.useState(false);
 
   function toggleDropdownTwo() {
     setIsOpenTwo(!isOpenTwo);

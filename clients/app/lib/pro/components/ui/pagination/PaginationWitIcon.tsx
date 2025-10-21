@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 
 interface PaginationProps {
   totalPages: number;
@@ -11,7 +11,7 @@ export default function PaginationWithIcon({
   initialPage = 1,
   onPageChange,
 }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [currentPage, setCurrentPage] = React.useState(initialPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -58,8 +58,8 @@ export default function PaginationWithIcon({
         }}
         className={`flex items-center justify-center w-10 h-10 text-sm font-medium rounded-lg ${
           currentPage === page
-            ? "text-white bg-brand-500 hover:bg-brand-600"
-            : "text-gray-700 hover:bg-brand-500 hover:text-white dark:text-gray-400 dark:hover:text-white"
+            ? 'text-white bg-brand-500 hover:bg-brand-600'
+            : 'text-gray-700 hover:bg-brand-500 hover:text-white dark:text-gray-400 dark:hover:text-white'
         }`}
       >
         {page}

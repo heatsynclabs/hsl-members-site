@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Form from '../Form';
 import Label from '../Label';
@@ -9,7 +9,7 @@ import Button from '../../ui/button/Button';
 import { PaperPlaneIcon } from '../../../icons';
 
 export default function ExampleFormOne() {
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = React.useState<string>('');
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:');

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Column from './Column';
-import { Task } from './types/types';
+import { type Task } from './types/types';
 
 const initialTasks: Task[] = [
   {
@@ -113,9 +113,9 @@ const initialTasks: Task[] = [
 ];
 
 const KanbanBoard: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [tasks, setTasks] = React.useState<Task[]>(initialTasks);
 
-  const moveTask = useCallback(
+  const moveTask = React.useCallback(
     (dragIndex: number, hoverIndex: number, status: string) => {
       setTasks((prevTasks) => {
         const statusTasks = prevTasks.filter((task) => task.status === status);
@@ -131,13 +131,16 @@ const KanbanBoard: React.FC = () => {
     []
   );
 
-  const changeTaskStatus = useCallback((taskId: string, newStatus: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
-  }, []);
+  const changeTaskStatus = React.useCallback(
+    (taskId: string, newStatus: string) => {
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, status: newStatus } : task
+        )
+      );
+    },
+    []
+  );
 
   return (
     <DndProvider backend={HTML5Backend}>

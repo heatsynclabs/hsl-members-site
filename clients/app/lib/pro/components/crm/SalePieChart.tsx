@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { ApexOptions } from 'apexcharts';
+import React from 'react';
+import { type ApexOptions } from 'apexcharts';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
-import dynamic from 'next/dynamic';
 
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import ReactApexChart from 'react-apexcharts';
 
 export default function SalePieChart() {
   // ApexCharts configuration
@@ -108,7 +104,7 @@ export default function SalePieChart() {
 
   const series = [900, 700, 850];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

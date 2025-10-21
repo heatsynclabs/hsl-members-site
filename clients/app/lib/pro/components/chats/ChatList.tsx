@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown } from '../ui/dropdown/Dropdown';
 import { DropdownItem } from '../ui/dropdown/DropdownItem';
 import { MoreDotIcon } from '@/icons';
@@ -10,7 +10,7 @@ interface ChatListProps {
 }
 
 export default function ChatList({ isOpen, onToggle }: ChatListProps) {
-  const [isOpenTwo, setIsOpenTwo] = useState(false);
+  const [isOpenTwo, setIsOpenTwo] = React.useState(false);
 
   function toggleDropdownTwo() {
     setIsOpenTwo(!isOpenTwo);

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useNavigation } from 'react-router';
 
 type SidebarContextType = {
@@ -27,19 +27,19 @@ export const useSidebar = () => {
 export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = React.useState(true);
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [activeItem, setActiveItem] = React.useState<string | null>(null);
+  const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null);
   let navigation = useNavigation();
   // Close sidebar on route change (for mobile)
-  useEffect(() => {
+  React.useEffect(() => {
     setIsMobileOpen(false);
   }, [navigation.state]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);

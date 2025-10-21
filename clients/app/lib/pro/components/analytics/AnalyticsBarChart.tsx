@@ -1,13 +1,9 @@
 import React from 'react';
-// import Chart from "react-apexcharts";
-import { ApexOptions } from 'apexcharts';
+
+import { type ApexOptions } from 'apexcharts';
 import ChartTab from '../common/ChartTab';
 
-import dynamic from 'next/dynamic';
-
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+import ReactApexChart from 'react-apexcharts';
 
 export default function AnalyticsBarChart() {
   const options: ApexOptions = {

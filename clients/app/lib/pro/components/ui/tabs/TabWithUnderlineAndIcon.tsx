@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export interface TabData {
   id: string;
@@ -148,7 +148,7 @@ const TabContent: React.FC<TabContentProps> = ({ content, isActive }) => {
 };
 
 export default function TabWithUnderlineAndIcon() {
-  const [activeTab, setActiveTab] = useState<TabData['id']>('overview');
+  const [activeTab, setActiveTab] = React.useState<TabData['id']>('overview');
 
   return (
     <div className="p-6 border border-gray-200 rounded-xl dark:border-gray-800">

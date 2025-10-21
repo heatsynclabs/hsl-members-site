@@ -1,11 +1,6 @@
-import dynamic from 'next/dynamic';
+import ReactApexChart from 'react-apexcharts';
 
-// Dynamically import the ReactApexChart component
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
-
-import { ApexOptions } from 'apexcharts';
+import { type ApexOptions } from 'apexcharts';
 
 export default function OnlineSaleChart() {
   const options: ApexOptions = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AlertIcon,
   CheckCircleIcon,
@@ -20,7 +20,7 @@ const Notification: React.FC<NotificationProps> = ({
   description,
   hideDuration = 3000, // Default hide duration: 5 seconds
 }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = React.useState(true);
 
   // Styling configuration for each alert type
   const variantStyles = {

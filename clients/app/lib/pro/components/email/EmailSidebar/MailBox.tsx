@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function MailBox() {
-  const [activeItem, setActiveItem] = useState('inbox');
+  const [activeItem, setActiveItem] = React.useState('inbox');
 
   const menuItems = [
     { name: 'Inbox', key: 'inbox', count: 3, icon: InboxIcon },

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDrop } from 'react-dnd';
-import { Task } from './types/types';
+import { type Task } from './types/types';
 import TaskItem from './TaskItem';
 import { Dropdown } from '@/components/ui/dropdown/Dropdown';
 import { HorizontaLDots } from '@/icons';
@@ -21,8 +21,8 @@ const Column: React.FC<ColumnProps> = ({
   moveTask,
   changeTaskStatus,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   const [{ isOver }, drop] = useDrop({
     accept: 'task',

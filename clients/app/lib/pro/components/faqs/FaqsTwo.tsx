@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FaqTwo from './FaqTwo';
 
 const accordionTwoData = [
@@ -41,10 +41,10 @@ const accordionTwoData = [
 
 export default function FaqsTwo() {
   // State to manage the open accordion for both groups separately
-  const [openIndexFirstGroup, setOpenIndexFirstGroup] = useState<number | null>(
-    0
-  );
-  const [openIndexSecondGroup, setOpenIndexSecondGroup] = useState<
+  const [openIndexFirstGroup, setOpenIndexFirstGroup] = React.useState<
+    number | null
+  >(0);
+  const [openIndexSecondGroup, setOpenIndexSecondGroup] = React.useState<
     number | null
   >(0);
 

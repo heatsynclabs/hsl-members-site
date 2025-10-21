@@ -1,9 +1,8 @@
-import type React from 'react';
-import { useState } from 'react';
+import React from 'react';
 
 const CopyInput: React.FC = () => {
-  const [website, setWebsite] = useState('www.tailadmin.com');
-  const [copyText, setCopyText] = useState('Copy');
+  const [website, setWebsite] = React.useState('www.tailadmin.com');
+  const [copyText, setCopyText] = React.useState('Copy');
 
   const copyWebsite = () => {
     navigator.clipboard.writeText(website).then(() => {

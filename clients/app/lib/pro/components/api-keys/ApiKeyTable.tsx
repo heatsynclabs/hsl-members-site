@@ -1,6 +1,6 @@
 import Switch from '../form/switch/Switch';
 import AddApiKeyModal from './AddApiKeyModal';
-import { useState } from 'react';
+import React from 'react';
 
 interface ApiKey {
   id: string;
@@ -43,7 +43,7 @@ const apiKeysData: ApiKey[] = [
 ];
 
 export default function ApiKeyTable() {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = React.useState<string | null>(null);
 
   const handleCopy = async (value: string, id: string) => {
     try {

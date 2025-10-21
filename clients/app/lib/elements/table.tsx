@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import type React from 'react';
-import { createContext, useContext, useState } from 'react';
-import { Link } from './link';
+import React from 'react';
+import { createContext, useContext } from 'react';
+import { Link } from 'react-router';
 
 const TableContext = createContext<{
   bleed: boolean;
@@ -148,7 +148,7 @@ export function TableCell({
 }: React.ComponentPropsWithoutRef<'td'>) {
   let { bleed, dense, grid, striped } = useContext(TableContext);
   let { href, target, title } = useContext(TableRowContext);
-  let [cellRef, setCellRef] = useState<HTMLElement | null>(null);
+  let [cellRef, setCellRef] = React.useState<HTMLElement | null>(null);
 
   return (
     <td

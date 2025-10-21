@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -137,12 +137,12 @@ const initialRows: Row[] = [
 ];
 
 const DeliveryActivityTable: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState<string>('All');
-  const [showFilter, setShowFilter] = useState<boolean>(false);
-  const [rows] = useState<Row[]>(initialRows);
-  const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const [sort, setSort] = useState<Sort>({ column: '', asc: true });
-  const [page, setPage] = useState<number>(1);
+  const [selectedTab, setSelectedTab] = React.useState<string>('All');
+  const [showFilter, setShowFilter] = React.useState<boolean>(false);
+  const [rows] = React.useState<Row[]>(initialRows);
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+  const [sort, setSort] = React.useState<Sort>({ column: '', asc: true });
+  const [page, setPage] = React.useState<number>(1);
   const perPage: number = 5;
 
   const totalPages: number = Math.ceil(rows.length / perPage);

@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import Label from '@/components/form/Label';
 
 export default function OtpForm() {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const inputsRef = useRef<HTMLInputElement[]>([]);
+  const [otp, setOtp] = React.useState(['', '', '', '', '', '']);
+  const inputsRef = React.useRef<HTMLInputElement[]>([]);
 
   const handleChange = (value: string, index: number) => {
     const updatedOtp = [...otp];

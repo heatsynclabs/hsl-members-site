@@ -4,10 +4,10 @@ import UserDropdown from '@/components/header/UserDropdown';
 import { useSidebar } from '@/context/SidebarContext';
 import Image from '~/lib/elements/image';
 import { Link } from 'react-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 const AppHeader: React.FC = () => {
-  const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
+  const [isApplicationMenuOpen, setApplicationMenuOpen] = React.useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
@@ -23,9 +23,9 @@ const AppHeader: React.FC = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
   };
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
         event.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 
 interface Option {
   value: string;
@@ -22,8 +22,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   disabled = false,
 }) => {
   const [selectedOptions, setSelectedOptions] =
-    useState<string[]>(defaultSelected);
-  const [isOpen, setIsOpen] = useState(false);
+    React.useState<string[]>(defaultSelected);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleDropdown = () => {
     if (disabled) return;
@@ -46,7 +46,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   };
 
   const selectedValuesText = selectedOptions.map(
-    (value) => options.find((option) => option.value === value)?.text || ""
+    (value) => options.find((option) => option.value === value)?.text || ''
   );
 
   return (
@@ -108,7 +108,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   className="w-5 h-5 text-gray-700 outline-hidden cursor-pointer focus:outline-hidden dark:text-gray-400"
                 >
                   <svg
-                    className={`stroke-current ${isOpen ? "rotate-180" : ""}`}
+                    className={`stroke-current ${isOpen ? 'rotate-180' : ''}`}
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
@@ -143,8 +143,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                       <div
                         className={`relative flex w-full items-center p-2 pl-2 ${
                           selectedOptions.includes(option.value)
-                            ? "bg-primary/10"
-                            : ""
+                            ? 'bg-primary/10'
+                            : ''
                         }`}
                       >
                         <div className="mx-2 leading-6 text-gray-800 dark:text-white/90">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import Badge from '../../ui/badge/Badge';
 import {
   Table,
@@ -146,7 +146,7 @@ const transactionData: Transaction[] = [
 
 export default function BasicTableThree() {
   // State for current page and items per page
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const itemsPerPage = 5; // Set the number of items per page
 
   // Calculate the indexes for the current page

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FaqOne from './FaqOne';
 
 const accordionData = [
@@ -26,7 +26,7 @@ const accordionData = [
 
 export default function FaqsOneExample() {
   // State to track the currently open accordion
-  const [openIndex, setOpenIndex] = useState<number | null>(0); // Initially open the first accordion
+  const [openIndex, setOpenIndex] = React.useState<number | null>(0); // Initially open the first accordion
 
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index); // Close if open, otherwise open the clicked one

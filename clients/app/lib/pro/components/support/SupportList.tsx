@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { type ChangeEvent } from 'react';
 import TableDropdown from '../common/TableDropdown';
 
 interface Ticket {
@@ -17,7 +17,7 @@ interface FilterData {
 }
 
 const SupportTicketsList: React.FC = () => {
-  const [tickets] = useState<Ticket[]>([
+  const [tickets] = React.useState<Ticket[]>([
     {
       id: '#323534',
       name: 'Lindsey Curtis',
@@ -140,23 +140,23 @@ const SupportTicketsList: React.FC = () => {
     },
   ]);
 
-  const [selectedStatus, setSelectedStatus] = useState<
+  const [selectedStatus, setSelectedStatus] = React.useState<
     'All' | 'Solved' | 'Pending'
   >('All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filterData, setFilterData] = useState<FilterData>({
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
+  const [filterData, setFilterData] = React.useState<FilterData>({
     category: '',
     company: '',
   });
-  const [showFilter, setShowFilter] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage] = useState<number>(10);
-  const [sortBy, setSortBy] = useState<string>('');
-  const [sortAsc, setSortAsc] = useState<boolean>(true);
-  const [selectAll, setSelectAll] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string[]>([]);
+  const [showFilter, setShowFilter] = React.useState<boolean>(false);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [perPage] = React.useState<number>(10);
+  const [sortBy, setSortBy] = React.useState<string>('');
+  const [sortAsc, setSortAsc] = React.useState<boolean>(true);
+  const [selectAll, setSelectAll] = React.useState<boolean>(false);
+  const [selected, setSelected] = React.useState<string[]>([]);
 
-  const filteredTickets = useMemo(() => {
+  const filteredTickets = React.useMemo(() => {
     return tickets
       .filter(
         (ticket) => selectedStatus === 'All' || ticket.status === selectedStatus
@@ -176,7 +176,7 @@ const SupportTicketsList: React.FC = () => {
       );
   }, [tickets, selectedStatus, searchQuery, filterData]);
 
-  const sortedTickets = useMemo(() => {
+  const sortedTickets = React.useMemo(() => {
     const sorted = [...filteredTickets];
     if (sortBy) {
       sorted.sort((a, b) => {
@@ -248,7 +248,7 @@ const SupportTicketsList: React.FC = () => {
     setFilterData((prev) => ({ ...prev, [name]: value }));
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         showFilter &&
