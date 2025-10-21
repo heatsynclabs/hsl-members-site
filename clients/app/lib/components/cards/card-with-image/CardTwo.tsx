@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CardDescription } from '../../../elements/card';
+import { CardDescription } from '@elements/card';
 import { Link } from 'react-router';
 import Image from '@elements/images/Image';
 

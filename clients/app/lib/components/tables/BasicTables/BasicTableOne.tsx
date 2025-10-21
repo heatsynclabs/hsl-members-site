@@ -5,9 +5,9 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../../elements/table';
+} from '@elements/table';
 
-import Badge from '../../../elements/badge/Badge';
+import Badge from '@elements/badge/Badge';
 import Image from '@elements/images/Image';
 
 interface Order {

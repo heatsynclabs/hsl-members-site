@@ -1,8 +1,8 @@
 import React from 'react';
 import TaskItem from './TaskItem';
 import { type Task } from './types/Task';
-import { Dropdown } from '../../../elements/dropdown/Dropdown';
-import { DropdownItem } from '../../../elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { HorizontaLDots } from '@icons';
 
 interface TaskLaneProps {

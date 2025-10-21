@@ -5,7 +5,7 @@ import Input from '../input/InputField';
 import Select from '../Select';
 import Radio from '../input/Radio';
 import Form from '../Form';
-import Button from '../../../elements/button/Button';
+import Button from '@elements/button/Button';
 import DatePicker from '@components/form/date-picker';
 
 export default function ExampleFormTwo() {

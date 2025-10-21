@@ -1,13 +1,13 @@
 import React from 'react';
-import Badge from '../../../elements/badge/Badge';
+import Badge from '@elements/badge/Badge';
 import {
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-} from '../../../elements/table';
-import Button from '../../../elements/button/Button';
+} from '@elements/table';
+import Button from '@elements/button/Button';
 import Image from '@elements/images/Image';
 import TableDropdown from '@components/common/TableDropdown';
 

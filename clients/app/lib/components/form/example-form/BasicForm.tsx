@@ -2,7 +2,7 @@ import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 import Form from '../Form';
 import Input from '../input/InputField';
-import Button from '../../../elements/button/Button';
+import Button from '@elements/button/Button';
 
 export default function BasicForm() {
   const handleSubmit = (e: React.FormEvent) => {

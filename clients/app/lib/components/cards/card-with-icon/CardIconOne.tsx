@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardDescription, CardTitle } from '../../../elements/card';
+import { CardDescription, CardTitle } from '@elements/card';
 
 export default function CardIconOne() {
   return (

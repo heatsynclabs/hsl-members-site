@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardDescription, CardTitle } from '../../../elements/card';
+import { Card, CardDescription, CardTitle } from '@elements/card';
 import { Link } from 'react-router';
 import Image from '@elements/images/Image';
 

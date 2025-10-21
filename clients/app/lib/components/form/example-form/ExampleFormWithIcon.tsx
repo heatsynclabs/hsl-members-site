@@ -10,7 +10,7 @@ import {
 } from '../../../icons';
 import Checkbox from '../input/Checkbox';
 import Label from '../Label';
-import Button from '../../../elements/button/Button';
+import Button from '@elements/button/Button';
 
 export default function ExampleFormWithIcon() {
   const handleSubmit = (e: React.FormEvent) => {

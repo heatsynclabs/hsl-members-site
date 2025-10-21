@@ -5,7 +5,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from '../../../elements/table';
+} from '@elements/table';
 
 // Define the TypeScript interface for the table rows
 interface Product {

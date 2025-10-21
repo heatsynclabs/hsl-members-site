@@ -1,8 +1,8 @@
 import React from 'react';
 import ComponentCard from '../../common/ComponentCard';
 
-import { Modal } from '../../../elements/modal';
-import Button from '../../../elements/button/Button';
+import { Modal } from '@elements/modal';
+import Button from '@elements/button/Button';
 import { useModal } from '@hooks/useModal';
 
 export default function DefaultModal() {
