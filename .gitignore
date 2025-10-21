@@ -2,3 +2,6 @@
 .idea/
 .DS_Store
 .env
+clients/node_modules/
+clients/build/
+clients/.react-router/

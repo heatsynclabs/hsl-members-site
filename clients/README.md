@@ -1,4 +1,5 @@
 # hsl-members-site
+
 HeatSync Labs membership management site
 
 A modern, production-ready template for building full-stack React applications using React Router.
