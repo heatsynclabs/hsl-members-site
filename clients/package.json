@@ -8,7 +8,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "prettier --check .",
-    "typecheck:client": "tsc --noEmit --skipLibCheck --project tsconfig.json --exclude ./servers/**"
+    "typecheck:client": "tsc --noEmit --skipLibCheck --project tsconfig.json"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.6",

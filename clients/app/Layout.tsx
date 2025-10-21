@@ -55,9 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
 
         <footer>
-          <marquee>
-            <div>hack your hackerspace</div>
-          </marquee>
+          <div>hack your hackerspace</div>
         </footer>
 
         <ScrollRestoration />
