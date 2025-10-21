@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import TableDropdown from '../common/TableDropdown';
 import { Link } from 'react-router';
 

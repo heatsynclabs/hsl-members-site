@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import React, { useMemo } from 'react';
+import React from 'react';
 import TableDropdown from '../common/TableDropdown';
 
 interface Invoice {

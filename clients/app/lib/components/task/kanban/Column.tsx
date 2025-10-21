@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
 import { type Task } from './types/types';
 import TaskItem from './TaskItem';
-import { Dropdown } from '~/lib/components/ui/dropdown/Dropdown';
-import { HorizontaLDots } from '~/lib/icons';
-import { DropdownItem } from '~/lib/components/ui/dropdown/DropdownItem';
+import { Dropdown } from '@components/ui/dropdown/Dropdown';
+import { HorizontaLDots } from '@icons';
+import { DropdownItem } from '@components/ui/dropdown/DropdownItem';
 
 interface ColumnProps {
   title: string;

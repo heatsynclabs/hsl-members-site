@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { type ApexOptions } from 'apexcharts';
 
 import ReactApexChart from 'react-apexcharts';

@@ -1,6 +1,6 @@
-import React, { useRef, useCallback } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router';
-import Image from '~/lib/components/ui/images/Image';
+import Image from '@components/ui/images/Image';
 import { useSidebar } from '../context/SidebarContext';
 import {
   AiIcon,

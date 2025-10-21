@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, useRef } from 'react';
 import { createPopper, type Instance } from '@popperjs/core';
 
 interface DropdownProps {
