@@ -1,5 +1,5 @@
 import type { Route } from './+types/home';
-import Button from '@/lib/elements/button/Button';
+import Button from '@elements/button/Button';
 import { ChevronDownIcon } from '@icons';
 
 export function meta({}: Route.MetaArgs) {

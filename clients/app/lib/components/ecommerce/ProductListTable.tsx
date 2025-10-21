@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '@elements/button/Button';
 import { Link } from 'react-router';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 interface Product {
   id: number;

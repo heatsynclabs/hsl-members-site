@@ -1,6 +1,6 @@
 import React from 'react';
 import { type Task } from './types/Task';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 interface TaskItemProps extends Task {
   onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;

@@ -1,4 +1,4 @@
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import { Dropdown } from '@elements/dropdown/Dropdown';
 import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import { MoreDotIcon } from '@icons';

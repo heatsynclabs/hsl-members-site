@@ -1,5 +1,5 @@
-import Button from '@/lib/elements/button/Button';
-import { Modal } from '@/lib/elements/modal';
+import Button from '@elements/button/Button';
+import { Modal } from '@elements/modal';
 import { useModal } from '@hooks/useModal';
 import React from 'react';
 

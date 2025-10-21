@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '../../../../elements/table';
 import { AngleDownIcon, AngleUpIcon } from '@icons';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import PaginationWithIcon from './PaginationWithIcon';
 
 const tableRowData = [

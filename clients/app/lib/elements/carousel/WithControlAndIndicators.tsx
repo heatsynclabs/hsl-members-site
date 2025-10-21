@@ -1,4 +1,4 @@
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import React from 'react';
 import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';

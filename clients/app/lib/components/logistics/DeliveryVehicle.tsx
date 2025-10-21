@@ -1,5 +1,5 @@
 import { MoreDotIcon } from '@icons';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import React from 'react';
 import { Dropdown } from '@elements/dropdown/Dropdown';
 import { DropdownItem } from '@elements/dropdown/DropdownItem';

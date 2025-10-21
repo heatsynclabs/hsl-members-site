@@ -1,6 +1,6 @@
 import Badge from '@elements/badge/Badge';
 import { ArrowDownIcon, ArrowUpIcon } from '../../icons';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 type StockCardProps = {
   imgUrl: string;

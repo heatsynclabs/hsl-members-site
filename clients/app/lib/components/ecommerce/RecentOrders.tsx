@@ -6,7 +6,7 @@ import {
   TableRow,
 } from '@elements/table';
 import Badge from '@elements/badge/Badge';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 // Define the TypeScript interface for the table rows
 interface Product {

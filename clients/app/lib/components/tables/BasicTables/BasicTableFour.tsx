@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '../../../elements/table';
 import Badge from '../../../elements/badge/Badge';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import { MoreDotIcon } from '@icons';
 import { Dropdown } from '../../../elements/dropdown/Dropdown';
 import { DropdownItem } from '../../../elements/dropdown/DropdownItem';

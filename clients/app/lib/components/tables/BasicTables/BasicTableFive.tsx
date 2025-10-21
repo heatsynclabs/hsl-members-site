@@ -1,4 +1,4 @@
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 import {
   Table,
   TableBody,

@@ -1,7 +1,7 @@
 import React from 'react';
-import PaginationWithText from '@/lib/elements/pagination/PaginationWithText';
-import PaginationWithTextWithIcon from '@/lib/elements/pagination/PaginationWithTextWitIcon';
-import PaginationWithIcon from '@/lib/elements/pagination/PaginationWitIcon';
+import PaginationWithText from '@elements/pagination/PaginationWithText';
+import PaginationWithTextWithIcon from '@elements/pagination/PaginationWithTextWitIcon';
+import PaginationWithIcon from '@elements/pagination/PaginationWitIcon';
 import ComponentCard from '@components/common/ComponentCard';
 
 export default function PaginationExample() {

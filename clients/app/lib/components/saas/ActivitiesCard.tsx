@@ -2,7 +2,7 @@ import React from 'react';
 import { MoreDotIcon } from '../../icons';
 import { Dropdown } from '@elements/dropdown/Dropdown';
 import { DropdownItem } from '@elements/dropdown/DropdownItem';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 export default function ActivitiesCard() {
   const [isOpen, setIsOpen] = React.useState(false);

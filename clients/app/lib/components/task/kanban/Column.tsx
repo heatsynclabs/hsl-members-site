@@ -2,9 +2,9 @@ import React from 'react';
 import { useDrop } from 'react-dnd';
 import { type Task } from './types/types';
 import TaskItem from './TaskItem';
-import { Dropdown } from '@/lib/elements/dropdown/Dropdown';
+import { Dropdown } from '@elements/dropdown/Dropdown';
 import { HorizontaLDots } from '@icons';
-import { DropdownItem } from '@/lib/elements/dropdown/DropdownItem';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 
 interface ColumnProps {
   title: string;

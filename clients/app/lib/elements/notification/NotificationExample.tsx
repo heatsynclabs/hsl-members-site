@@ -1,7 +1,7 @@
 import React from 'react';
 import ComponentCard from '@components/common/ComponentCard';
-import CookieConsent from '@/lib/elements/notification/CookieConsent';
-import UpdateNotification from '@/lib/elements/notification/UpdateNotification';
+import CookieConsent from '@elements/notification/CookieConsent';
+import UpdateNotification from '@elements/notification/UpdateNotification';
 import Notification from './Notification';
 
 export default function NotificationExample() {

@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
-import Image from '@/lib/elements/images/Image';
+import Image from '@elements/images/Image';
 
 const carouselData = [
   {

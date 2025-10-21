@@ -1,5 +1,5 @@
-import { Dropdown } from '@/lib/elements/dropdown/Dropdown';
-import { DropdownItem } from '@/lib/elements/dropdown/DropdownItem';
+import { Dropdown } from '@elements/dropdown/Dropdown';
+import { DropdownItem } from '@elements/dropdown/DropdownItem';
 import React from 'react';
 
 export default function DropdownWithIconAndDivider() {
