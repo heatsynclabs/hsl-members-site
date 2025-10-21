@@ -20,10 +20,11 @@
       "@/*": ["./app/*"],
       "@components/*": ["./app/lib/components/*"],
       "@icons": ["./app/lib/icons"],
+      "@utils": ["./app/lib/utils"],
       "@utils/*": ["./app/lib/utils/*"],
       "@hooks/*": ["./app/lib/hooks/*"],
       "@layouts/*": ["./app/lib/layouts/*"],
-      "@context/*": ["./app/lib/contexts/*"]
+      "@context/*": ["./app/lib/context/*"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
