@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	print("Starting hello world server!")
+	println("Starting hello world server!")
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
