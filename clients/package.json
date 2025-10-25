@@ -9,7 +9,9 @@
     "typecheck": "react-router typegen && tsc",
     "lint": "prettier --check . && eslint .",
     "lint:fix": "prettier --write . && eslint --fix .",
-    "typecheck:client": "react-router typegen && tsc --noEmit --skipLibCheck --project tsconfig.json"
+    "typecheck:client": "react-router typegen && tsc --noEmit --skipLibCheck --project tsconfig.json",
+    "build:docker": "docker build . -t hsl-web",
+    "start:docker": "docker run -p 3000:3000 hsl-web"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.19",
