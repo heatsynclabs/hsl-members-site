@@ -7,6 +7,9 @@ import Fluent
 // I wanted to keep this one simpler and focused on core data structures first
 struct CreateInitialSchema: AsyncMigration {
     func prepare(on database: any Database) async throws {
+        // For the users, I extracted a normalized what I could and kept core data fields
+        // I didn't keep the password, last login etc fields since we most likely won't be using those
+        // if we go with a different authentication system, but we can always add them back later if needed
         try await database.schema("users")
             .field("id", .uuid, .identifier(auto: false))
             .field("first_name", .string, .required)
