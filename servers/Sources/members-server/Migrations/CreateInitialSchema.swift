@@ -17,6 +17,8 @@ struct CreateInitialSchema: AsyncMigration {
             // There is also a "contracts" table in the old schema that seems related
             // I'm keeping it here for now for reference, but we can probably better normalize it
             // once we understand the purpose better and if we need to log more signed docs other than waivers
+            // (UPDATE) I talked to a few people at the lab and none of them seem to know what the contracts
+            // table is for either. Once we get the prod database access we should look.
             .field("waiver", .datetime)
 
             .field("emergency_name", .string)
@@ -131,11 +133,20 @@ struct CreateInitialSchema: AsyncMigration {
         
         try await database.schema("door_logs")
             .id()
+            // Can be null if a card number isn't used (needs to be extracted from data)
+            // such as for door events (locked/unlocked)
+            // the old one didn't have a foreign key reference, but I thought it would be a nice touch
             .field("card_number", .string, .identifier(auto: false), .references("cards", "card_number"))
-            // This is a field that exists on the old schema and I can't figure out what it does yet
-            // It looks like it might be a user id that gets set here when a door is accessed, but I'm not sure
-            // Leaving it here now but we can probably remove  it later once we understand better
-            .field("data", .int)
+            // This is the key for what happened, which relates to access attempt or door status
+            // The data changes based on the event type
+            // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
+            // For door events "door_1_locked" or "door_2_locked"
+            .field("key", .string, .required)
+            // This logs the status of the door when this event occured if a door event
+            // 0 == Unlocked
+            // 1 == Locked
+            // If it's an access attempt event this is the card number that was used
+            .field("data", .int, .required)
             // This isn't a foreign key because I don't want it to cascade/delete if the user is deleted
             // We already have the current user_id on the cards table relation if we need it anyways
             // I put this here because some admins at the lab are frustrated that the current system
