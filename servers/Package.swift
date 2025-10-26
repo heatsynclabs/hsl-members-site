@@ -18,7 +18,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "servers",
+            name: "members-server",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
@@ -31,7 +31,7 @@ let package = Package(
         .testTarget(
             name: "serversTests",
             dependencies: [
-                .target(name: "servers"),
+                .target(name: "members-server"),
                 .product(name: "VaporTesting", package: "vapor"),
             ],
             swiftSettings: swiftSettings
