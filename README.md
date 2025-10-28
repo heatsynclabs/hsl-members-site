@@ -9,3 +9,7 @@ This work-in-progress will allow replacing some of the aging apps:
 ## Structure
 
 - `clients/`: Frontend
+- `servers/`: Backend Go Code
+  - `cmd`: Server entry points
+  - `internal`: Internal Go libraries
+    - `database/migrations`: Schema migration files
