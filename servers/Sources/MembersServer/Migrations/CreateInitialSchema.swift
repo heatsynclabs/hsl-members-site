@@ -127,7 +127,7 @@ struct CreateInitialSchema: AsyncMigration {
             // 255 == Disabled
             .field("card_permissions", .int)
             // I set it null here because cards can still exist without being assigned to a user
-            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .setNull))
+            .field("user_id", .uuid, .references("users", "id", onDelete: .setNull))
             // Card name (seems to be used for labeling cards in the system)
             .field("name", .string)
             .field("created_at", .datetime, .required)
