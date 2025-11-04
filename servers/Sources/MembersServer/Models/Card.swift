@@ -13,11 +13,11 @@ final class Card: Model, @unchecked Sendable {
     var id: UUID?
 
     @Field(key: "card_number")
-    var cardNumber: String?
+    var cardNumber: String
 
     // 1 == Active, 255 == Disabled
     @Field(key: "card_permissions")
-    var cardPermissions: Int?
+    var cardPermissions: Int
 
     @OptionalParent(key: "user_id")
     var user: User?
@@ -36,8 +36,8 @@ final class Card: Model, @unchecked Sendable {
 
     init(
         id: UUID? = nil,
-        cardNumber: String? = nil,
-        cardPermissions: Int? = nil,
+        cardNumber: String,
+        cardPermissions: Int,
         userId: UUID? = nil,
         name: String? = nil
     ) {

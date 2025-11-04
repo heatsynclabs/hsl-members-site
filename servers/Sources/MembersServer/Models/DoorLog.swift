@@ -1,6 +1,7 @@
 import Fluent
-import struct Foundation.UUID
+
 import struct Foundation.Date
+import struct Foundation.UUID
 
 final class DoorLog: Model, @unchecked Sendable {
     static let schema = "door_logs"
@@ -16,7 +17,10 @@ final class DoorLog: Model, @unchecked Sendable {
     @Field(key: "key")
     var key: String
 
-    // Numeric data: door status or card number depending on event
+    // This logs the status of the door when this event occured if a door event
+    // 0 == Unlocked
+    // 1 == Locked
+    // If it's an access attempt event this is the card number that was used
     @Field(key: "data")
     var data: Int
 

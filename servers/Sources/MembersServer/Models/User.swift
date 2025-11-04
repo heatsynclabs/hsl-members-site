@@ -43,7 +43,7 @@ final class User: Model, @unchecked Sendable {
     var desiredSkills: String?
 
     @Field(key: "hidden")
-    var hidden: Bool?
+    var hidden: Bool
 
     @Field(key: "marketing_source")
     var marketingSource: String?
@@ -113,7 +113,7 @@ final class User: Model, @unchecked Sendable {
         phone: String? = nil,
         currentSkills: String? = nil,
         desiredSkills: String? = nil,
-        hidden: Bool? = nil,
+        hidden: Bool = false,
         marketingSource: String? = nil,
         exitReason: String? = nil,
         twitterURL: String? = nil,

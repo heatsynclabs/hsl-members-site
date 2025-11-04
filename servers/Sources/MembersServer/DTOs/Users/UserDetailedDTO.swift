@@ -13,7 +13,7 @@ struct UserDetailedDTO: Content, Codable {
     var phone: String?
     var currentSkills: String?
     var desiredSkills: String?
-    var hidden: Bool?
+    var hidden: Bool
     var marketingSource: String?
     var exitReason: String?
     var twitterUrl: String?

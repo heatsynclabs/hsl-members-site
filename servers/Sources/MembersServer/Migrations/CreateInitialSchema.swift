@@ -34,7 +34,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("phone", .string)
             .field("current_skills", .string)
             .field("desired_skills", .string)
-            .field("hidden", .bool)
+            .field("hidden", .bool, .required, .sql(.default(false)))
             .field("marketing_source", .string)
             .field("exit_reason", .string)
             .field("twitter_url", .string)
@@ -59,8 +59,8 @@ struct CreateInitialSchema: AsyncMigration {
 
         try await database.schema("user_roles")
             .id()
-            .field("user_id", .uuid, .references("users", "id", onDelete: .cascade))
-            .field("role", role)
+            .field("user_id", .uuid, .references("users", "id", onDelete: .cascade), .required)
+            .field("role", role, .required)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
             .unique(on: "user_id", "role")
@@ -87,10 +87,10 @@ struct CreateInitialSchema: AsyncMigration {
         // We may not to add more fields later depending on how we handle payment data
         try await database.schema("user_membership_levels")
             .id()
-            .field("user_id", .uuid, .references("users", "id", onDelete: .cascade))
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
             .field(
-                "membership_level_id", .uuid,
-                .references("membership_levels", "id", onDelete: .cascade)
+                "membership_level_id", .uuid, .required,
+                .references("membership_levels", "id", onDelete: .cascade),
             )
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
@@ -117,7 +117,7 @@ struct CreateInitialSchema: AsyncMigration {
 
         try await database.schema("instructors")
             .id()
-            .field("user_id", .uuid, .references("users", "id", onDelete: .cascade))
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
             .field(
                 "station_id", .uuid, .required, .references("stations", "id", onDelete: .cascade)
             )
@@ -128,11 +128,11 @@ struct CreateInitialSchema: AsyncMigration {
 
         try await database.schema("cards")
             .id()
-            .field("card_number", .string)
+            .field("card_number", .string, .required)
             // Seems to only have two values and is flashed on the card I think
             // 1 == Active
             // 255 == Disabled
-            .field("card_permissions", .int)
+            .field("card_permissions", .int, .required)
             // I set it null here because cards can still exist without being assigned to a user
             .field("user_id", .uuid, .references("users", "id", onDelete: .setNull))
             // Card name (seems to be used for labeling cards in the system)
