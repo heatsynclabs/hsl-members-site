@@ -1,37 +1,40 @@
-import Fluent
-import Vapor
+// Default Controller provided by Vapor template
+// Kept until we finish implementing our first controller for reference
 
-struct TodoController: RouteCollection {
-    func boot(routes: any RoutesBuilder) throws {
-        let todos = routes.grouped("todos")
+// import Fluent
+// import Vapor
 
-        todos.get(use: self.index)
-        todos.post(use: self.create)
-        todos.group(":todoID") { todo in
-            todo.delete(use: self.delete)
-        }
-    }
+// struct TodoController: RouteCollection {
+//     func boot(routes: any RoutesBuilder) throws {
+//         let todos = routes.grouped("todos")
 
-    @Sendable
-    func index(req: Request) async throws -> [TodoDTO] {
-        try await Todo.query(on: req.db).all().map { $0.toDTO() }
-    }
+//         todos.get(use: self.index)
+//         todos.post(use: self.create)
+//         todos.group(":todoID") { todo in
+//             todo.delete(use: self.delete)
+//         }
+//     }
 
-    @Sendable
-    func create(req: Request) async throws -> TodoDTO {
-        let todo = try req.content.decode(TodoDTO.self).toModel()
+//     @Sendable
+//     func index(req: Request) async throws -> [TodoDTO] {
+//         try await Todo.query(on: req.db).all().map { $0.toDTO() }
+//     }
 
-        try await todo.save(on: req.db)
-        return todo.toDTO()
-    }
+//     @Sendable
+//     func create(req: Request) async throws -> TodoDTO {
+//         let todo = try req.content.decode(TodoDTO.self).toModel()
 
-    @Sendable
-    func delete(req: Request) async throws -> HTTPStatus {
-        guard let todo = try await Todo.find(req.parameters.get("todoID"), on: req.db) else {
-            throw Abort(.notFound)
-        }
+//         try await todo.save(on: req.db)
+//         return todo.toDTO()
+//     }
 
-        try await todo.delete(on: req.db)
-        return .noContent
-    }
-}
+//     @Sendable
+//     func delete(req: Request) async throws -> HTTPStatus {
+//         guard let todo = try await Todo.find(req.parameters.get("todoID"), on: req.db) else {
+//             throw Abort(.notFound)
+//         }
+
+//         try await todo.delete(on: req.db)
+//         return .noContent
+//     }
+// }
