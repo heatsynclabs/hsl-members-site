@@ -1,6 +1,7 @@
 import Fluent
-import struct Foundation.UUID
+
 import struct Foundation.Date
+import struct Foundation.UUID
 
 final class Card: Model, @unchecked Sendable {
     static let schema = "cards"
@@ -37,13 +38,13 @@ final class Card: Model, @unchecked Sendable {
         id: UUID? = nil,
         cardNumber: String? = nil,
         cardPermissions: Int? = nil,
-        user: User? = nil,
+        userId: UUID? = nil,
         name: String? = nil
     ) {
         self.id = id
         self.cardNumber = cardNumber
         self.cardPermissions = cardPermissions
-        self.user = user
+        self.$user.id = userId
         self.name = name
     }
 }

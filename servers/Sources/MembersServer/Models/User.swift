@@ -89,6 +89,9 @@ final class User: Model, @unchecked Sendable {
     @OptionalChild(for: \.$orientedUser)
     var orientation: Orientation?
 
+    @OptionalChild(for: \.$orientedBy)
+    var orientedUsers: Orientation?
+
     @Children(for: \.$user)
     var instructorForStations: [Instructor]
 
