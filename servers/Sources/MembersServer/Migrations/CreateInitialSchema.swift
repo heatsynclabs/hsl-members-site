@@ -150,7 +150,6 @@ struct CreateInitialSchema: AsyncMigration {
             .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
             .field("active", .bool, .required)
             .field("created_at", .datetime, .required)
-            .field("updated_at", .datetime, .required)
             .create()
 
         try await database.schema("door_logs")

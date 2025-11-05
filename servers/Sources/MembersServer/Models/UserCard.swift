@@ -21,9 +21,6 @@ final class UserCard: Model, @unchecked Sendable {
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
-    var updatedAt: Date?
-
     init() {}
 
     init(

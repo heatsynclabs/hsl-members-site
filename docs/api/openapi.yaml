@@ -592,7 +592,6 @@ components:
         - userName
         - active
         - createdAt
-        - updatedAt
 
     CardWithUsers:
       type: object
@@ -630,7 +629,6 @@ components:
         - card
         - active
         - createdAt
-        - updatedAt
 
     DoorLog:
       type: object
