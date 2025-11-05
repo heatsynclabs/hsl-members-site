@@ -34,7 +34,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("phone", .string)
             .field("current_skills", .string)
             .field("desired_skills", .string)
-            .field("hidden", .bool)
+            .field("hidden", .bool, .required, .sql(.default(false)))
             .field("marketing_source", .string)
             .field("exit_reason", .string)
             .field("twitter_url", .string)
@@ -49,22 +49,21 @@ struct CreateInitialSchema: AsyncMigration {
             .unique(on: "email")
             .create()
 
-        try await database.schema("roles")
-            .id()
-            // Replaces the "admin" and "accountant" etc boolean fields on users
-            // And makes it easier to add new roles in the future
-            .field("name", .string, .required)
-            .field("created_at", .datetime, .required)
-            .field("updated_at", .datetime, .required)
-            .unique(on: "name")
+        // Replaces the old isAdmin and isAccountant fields on users
+        // With easy extendablility to future roles
+        let role = try await database.enum("user_role")
+            .case("admin")
+            .case("accountant")
+            .case("card_holder")
             .create()
 
         try await database.schema("user_roles")
-            .field("user_id", .uuid, .identifier(auto: false), .references("users", "id", onDelete: .cascade))
-            .field("role_id", .uuid, .identifier(auto: false), .references("roles", "id", onDelete: .cascade))
+            .id()
+            .field("user_id", .uuid, .references("users", "id", onDelete: .cascade), .required)
+            .field("role", role, .required)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
-            .unique(on: "user_id", "role_id")
+            .unique(on: "user_id", "role")
             .create()
 
         // Original schema had member_level as an odd range
@@ -87,8 +86,12 @@ struct CreateInitialSchema: AsyncMigration {
         // Just has simple association between users and membership levels for now
         // We may not to add more fields later depending on how we handle payment data
         try await database.schema("user_membership_levels")
-            .field("user_id", .uuid, .identifier(auto: false), .references("users", "id", onDelete: .cascade))
-            .field("membership_level_id", .uuid, .identifier(auto: false), .references("membership_levels", "id", onDelete: .cascade))
+            .id()
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
+            .field(
+                "membership_level_id", .uuid, .required,
+                .references("membership_levels", "id", onDelete: .cascade),
+            )
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
             .unique(on: "user_id", "membership_level_id")
@@ -96,6 +99,7 @@ struct CreateInitialSchema: AsyncMigration {
 
         // Replaces the old oriented_by_id and orientation date fields on users
         try await database.schema("orientations")
+            .id()
             .field("oriented_by_id", .uuid, .required, .references("users", "id"))
             .field("oriented_user_id", .uuid, .required, .references("users", "id"))
             .field("created_at", .datetime, .required)
@@ -112,20 +116,23 @@ struct CreateInitialSchema: AsyncMigration {
             .create()
 
         try await database.schema("instructors")
-            .field("user_id", .uuid, .identifier(auto: false), .references("users", "id", onDelete: .cascade))
-            .field("station_id", .uuid, .required, .references("stations", "id", onDelete: .cascade))
+            .id()
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
+            .field(
+                "station_id", .uuid, .required, .references("stations", "id", onDelete: .cascade)
+            )
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
-            .unique(on: "user_id", "station_id")  
+            .unique(on: "user_id", "station_id")
             .create()
 
         try await database.schema("cards")
             .id()
-            .field("card_number", .string)
+            .field("card_number", .string, .required)
             // Seems to only have two values and is flashed on the card I think
             // 1 == Active
             // 255 == Disabled
-            .field("card_permissions", .int)
+            .field("card_permissions", .int, .required)
             // I set it null here because cards can still exist without being assigned to a user
             .field("user_id", .uuid, .references("users", "id", onDelete: .setNull))
             // Card name (seems to be used for labeling cards in the system)
@@ -133,13 +140,16 @@ struct CreateInitialSchema: AsyncMigration {
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
             .create()
-        
+
         try await database.schema("door_logs")
             .id()
             // Can be null if a card number isn't used (needs to be extracted from data)
             // such as for door events (locked/unlocked)
             // the old one didn't have a foreign key reference, but I thought it would be a nice touch
-            .field("card_number", .string, .identifier(auto: false), .references("cards", "card_number"))
+            .field(
+                "card_number", .string, .identifier(auto: false),
+                .references("cards", "card_number")
+            )
             // This is the key for what happened, which relates to access attempt or door status
             // The data changes based on the event type
             // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
@@ -165,6 +175,14 @@ struct CreateInitialSchema: AsyncMigration {
     func revert(on database: any Database) async throws {
         try await database.schema("door_logs").delete()
         try await database.schema("cards").delete()
+        try await database.schema("instructors").delete()
+        try await database.schema("stations").delete()
+        try await database.schema("orientations").delete()
+        try await database.schema("user_membership_levels").delete()
+        try await database.schema("membership_levels").delete()
+        try await database.schema("user_roles").delete()
         try await database.schema("users").delete()
+
+        try await database.enum("user_role").delete()
     }
 }
