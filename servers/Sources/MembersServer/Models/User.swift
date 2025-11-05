@@ -95,8 +95,8 @@ final class User: Model, @unchecked Sendable {
     @Children(for: \.$user)
     var instructorForStations: [Instructor]
 
-    @OptionalChild(for: \.$user)
-    var card: Card?
+    @Children(for: \.$user)
+    var card: [UserCard]
 
     init() {}
 
