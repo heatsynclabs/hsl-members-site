@@ -153,17 +153,6 @@ struct CreateInitialSchema: AsyncMigration {
             .field("updated_at", .datetime, .required)
             .create()
 
-        // Index to ensure only one active card assignment per card at a time
-        if let sql = database as? any SQLDatabase {
-            try await sql.raw(
-                """
-                CREATE UNIQUE INDEX user_cards_single_active_per_card_id
-                ON user_cards (card_id)
-                WHERE active = TRUE;
-                """
-            ).run()
-        }
-
         try await database.schema("door_logs")
             .id()
             // Can be null if a card number isn't used (needs to be extracted from data)
@@ -186,9 +175,6 @@ struct CreateInitialSchema: AsyncMigration {
 
     func revert(on database: any Database) async throws {
         try await database.schema("door_logs").delete()
-        if let sql = database as? any SQLDatabase {
-            try await sql.raw("DROP INDEX IF EXISTS user_cards_single_active_per_card_id;").run()
-        }
         try await database.schema("user_cards").delete()
         try await database.schema("cards").delete()
         try await database.schema("instructors").delete()
