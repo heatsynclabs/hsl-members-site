@@ -149,18 +149,17 @@ paths:
       tags:
         - Cards
       parameters:
-        - name: userId
-          in: query
-          description: Filter cards by user ID
-          schema:
-            type: string
-            format: uuid
         - name: cardPermissions
           in: query
           description: Filter by card permission status (1 = Active, 255 = Disabled)
           schema:
             type: integer
             enum: [1, 255]
+        - name: active
+          in: query
+          description: Filter by active assignment status
+          schema:
+            type: boolean
       responses:
         '200':
           description: List of cards retrieved successfully
@@ -173,6 +172,46 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Card'
+
+  /users/{userId}/cards:
+    get:
+      summary: Get cards assigned to a user
+      description: Retrieve all card assignments for a specific user, including history
+      operationId: getUserCards
+      tags:
+        - Cards
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: UUID of the user
+          schema:
+            type: string
+            format: uuid
+        - name: active
+          in: query
+          description: Filter by active status (true = only active assignments, false = only inactive, omit for all)
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of card assignments retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userCards:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserCard'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /door-logs:
     get:
@@ -194,20 +233,15 @@ paths:
           schema:
             type: string
             format: date-time
-        - name: cardNumber
+        - name: cardId
           in: query
-          description: Filter by specific card number
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: Filter by user ID at time of access
+          description: Filter by specific card ID
           schema:
             type: string
             format: uuid
-        - name: eventType
+        - name: key
           in: query
-          description: Filter by event type (G = Granted, R = Read, D = Denied, or door status)
+          description: Filter by event type/key (G = Granted, R = Read, D = Denied, or door status like door_1_locked)
           schema:
             type: string
         - name: limit
@@ -516,25 +550,18 @@ components:
           format: uuid
         cardNumber:
           type: string
-          nullable: true
+          description: The card number identifier
         cardPermissions:
           type: integer
           description: Card permission status (1 = Active, 255 = Disabled)
           enum: [1, 255]
-          nullable: true
-        userId:
-          type: string
-          format: uuid
-          description: User to whom this card is assigned, if assigned
-          nullable: true
-        userName:
-          type: string
-          description: Full name of the user assigned to this card, if assigned
-          nullable: true
         name:
           type: string
           nullable: true
           description: Label/name for the card in the system
+        isActive:
+          type: boolean
+          description: Computed field - whether the card is currently active (cardPermissions == 1)
         createdAt:
           type: string
           format: date-time
@@ -543,6 +570,32 @@ components:
           format: date-time
       required:
         - id
+        - cardNumber
+        - cardPermissions
+        - isActive
+        - createdAt
+        - updatedAt
+
+    UserCard:
+      type: object
+      description: Represents the assignment of a card to a user with full card details
+      properties:
+        card:
+          $ref: '#/components/schemas/Card'
+          description: Full card information for this assignment
+        active:
+          type: boolean
+          description: Whether this card assignment is currently active
+        createdAt:
+          type: string
+          format: date-time
+          description: When this card was assigned
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - card
+        - active
         - createdAt
         - updatedAt
 
@@ -552,38 +605,26 @@ components:
         id:
           type: string
           format: uuid
-        cardNumber:
-          type: string
-          nullable: true
-          description: Card number used for access attempt (null for door events)
-        key:
-          type: string
-          description: Event type (G = Granted, R = Read, D = Denied, or door status like door_1_locked or door_1_locked)
-        data:
-          type: integer
-          description: Door status (0 = Unlocked, 1 = Locked) for door events, or card number for access attempts (I think)
-        userIdWhenAccessed:
+        cardId:
           type: string
           format: uuid
           nullable: true
-          description: User ID at the time of access (preserved even if card is reassigned)
-        userName:
+          description: Card ID used for access attempt (null for door events without card)
+        key:
           type: string
-          nullable: true
-          description: Name of the user at time of access
+          description: Event type (G = Granted, R = Read, D = Denied, or door status like door_1_locked or door_2_locked)
+        data:
+          type: integer
+          description: Door status (0 = Unlocked, 1 = Locked) for door events, or card number for access attempts
         createdAt:
           type: string
           format: date-time
           description: When the log entry was created
-        updatedAt:
-          type: string
-          format: date-time
       required:
         - id
         - key
         - data
         - createdAt
-        - updatedAt
 
     Error:
       type: object

@@ -1,4 +1,5 @@
 import Fluent
+import SQLKit
 
 // Initial schema migration from the old Open-Source-Access-Control-Web-Interface schema
 // I tried to keep the same level of data to make the migration of existing data less painful
@@ -133,23 +134,42 @@ struct CreateInitialSchema: AsyncMigration {
             // 1 == Active
             // 255 == Disabled
             .field("card_permissions", .int, .required)
-            // I set it null here because cards can still exist without being assigned to a user
-            .field("user_id", .uuid, .references("users", "id", onDelete: .setNull))
             // Card name (seems to be used for labeling cards in the system)
             .field("name", .string)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
+            .unique(on: "card_number")
             .create()
+
+        // Keeps track of which cards are assigned to which users at what time
+        // Designed to be an appendable log of card assignments, therefor we have an active flag
+        // and no unique constraint on user_id/card_id
+        try await database.schema("user_cards")
+            .id()
+            .field("card_id", .uuid, .required, .references("cards", "id", onDelete: .cascade))
+            .field("user_id", .uuid, .required, .references("users", "id", onDelete: .cascade))
+            .field("active", .bool, .required)
+            .field("created_at", .datetime, .required)
+            .field("updated_at", .datetime, .required)
+            .create()
+
+        // Index to ensure only one active card assignment per card at a time
+        if let sql = database as? any SQLDatabase {
+            try await sql.raw(
+                """
+                CREATE UNIQUE INDEX user_cards_single_active_per_card_id
+                ON user_cards (card_id)
+                WHERE active = TRUE;
+                """
+            ).run()
+        }
 
         try await database.schema("door_logs")
             .id()
             // Can be null if a card number isn't used (needs to be extracted from data)
             // such as for door events (locked/unlocked)
             // the old one didn't have a foreign key reference, but I thought it would be a nice touch
-            .field(
-                "card_number", .string, .identifier(auto: false),
-                .references("cards", "card_number")
-            )
+            .field("card_id", .uuid, .references("cards", "id"))
             // This is the key for what happened, which relates to access attempt or door status
             // The data changes based on the event type
             // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
@@ -160,20 +180,16 @@ struct CreateInitialSchema: AsyncMigration {
             // 1 == Locked
             // If it's an access attempt event this is the card number that was used
             .field("data", .int, .required)
-            // This isn't a foreign key because I don't want it to cascade/delete if the user is deleted
-            // We already have the current user_id on the cards table relation if we need it anyways
-            // I put this here because some admins at the lab are frustrated that the current system
-            // will lose the user association if a card is reassigned to a new user.
-            // For instance if someone tries to open the door with an unassigned card then tomorrow that card gets assigned to a new user,
-            // the log entry will now show the new user instead of the original unassigned access attempt
-            .field("user_id_when_accessed", .uuid)
             .field("created_at", .datetime, .required)
-            .field("updated_at", .datetime, .required)
             .create()
     }
 
     func revert(on database: any Database) async throws {
         try await database.schema("door_logs").delete()
+        if let sql = database as? any SQLDatabase {
+            try await sql.raw("DROP INDEX IF EXISTS user_cards_single_active_per_card_id;").run()
+        }
+        try await database.schema("user_cards").delete()
         try await database.schema("cards").delete()
         try await database.schema("instructors").delete()
         try await database.schema("stations").delete()

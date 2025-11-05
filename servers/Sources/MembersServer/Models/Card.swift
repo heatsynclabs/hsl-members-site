@@ -6,8 +6,8 @@ import struct Foundation.UUID
 final class Card: Model, @unchecked Sendable {
     static let schema = "cards"
 
-    static let permissionsActive = 1
-    static let permissionsDisabled = 255
+    private static let permissionsActive = 1
+    private static let permissionsDisabled = 255
 
     @ID(key: .id)
     var id: UUID?
@@ -19,9 +19,6 @@ final class Card: Model, @unchecked Sendable {
     @Field(key: "card_permissions")
     var cardPermissions: Int
 
-    @OptionalParent(key: "user_id")
-    var user: User?
-
     // Card label/name
     @Field(key: "name")
     var name: String?
@@ -32,19 +29,19 @@ final class Card: Model, @unchecked Sendable {
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
 
+    var isActive: Bool { cardPermissions == Card.permissionsActive }
+
     init() {}
 
     init(
         id: UUID? = nil,
         cardNumber: String,
         cardPermissions: Int,
-        userId: UUID? = nil,
         name: String? = nil
     ) {
         self.id = id
         self.cardNumber = cardNumber
         self.cardPermissions = cardPermissions
-        self.$user.id = userId
         self.name = name
     }
 }

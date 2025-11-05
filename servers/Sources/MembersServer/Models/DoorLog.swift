@@ -10,10 +10,13 @@ final class DoorLog: Model, @unchecked Sendable {
     var id: UUID?
 
     // Can be null if a card number isn't used
-    @Field(key: "card_number")
-    var cardNumber: String?
+    @OptionalParent(key: "card_id")
+    var card: Card?
 
-    // Event key: access attempt codes ("G","R","D") or door events ("door_1_locked", ...)
+    // This is the key for what happened, which relates to access attempt or door status
+    // The data changes based on the event type
+    // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
+    // For door events "door_1_locked" or "door_2_locked"
     @Field(key: "key")
     var key: String
 
@@ -24,29 +27,22 @@ final class DoorLog: Model, @unchecked Sendable {
     @Field(key: "data")
     var data: Int
 
-    // Not a foreign key (intentionally), store user id at time of access if available
-    @Field(key: "user_id_when_accessed")
-    var userIdWhenAccessed: UUID?
-
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
-
-    @Timestamp(key: "updated_at", on: .update)
-    var updatedAt: Date?
 
     init() {}
 
     init(
         id: UUID? = nil,
-        cardNumber: String? = nil,
+        cardId: UUID? = nil,
         key: String,
         data: Int,
-        userIdWhenAccessed: UUID? = nil
     ) {
         self.id = id
-        self.cardNumber = cardNumber
+        if let cardId: UUID = cardId {
+            self.$card.id = cardId
+        }
         self.key = key
         self.data = data
-        self.userIdWhenAccessed = userIdWhenAccessed
     }
 }
