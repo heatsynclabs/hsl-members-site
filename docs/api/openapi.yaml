@@ -144,7 +144,7 @@ paths:
   /cards:
     get:
       summary: Get all cards
-      description: Retrieve a list of all access cards in the system
+      description: Retrieve a list of all access cards in the system with their user assignment history
       operationId: getAllCards
       tags:
         - Cards
@@ -155,11 +155,6 @@ paths:
           schema:
             type: integer
             enum: [1, 255]
-        - name: active
-          in: query
-          description: Filter by active assignment status
-          schema:
-            type: boolean
       responses:
         '200':
           description: List of cards retrieved successfully
@@ -171,7 +166,7 @@ paths:
                   cards:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Card'
+                      $ref: '#/components/schemas/CardWithUsers'
 
   /users/{userId}/cards:
     get:
@@ -559,9 +554,6 @@ components:
           type: string
           nullable: true
           description: Label/name for the card in the system
-        isActive:
-          type: boolean
-          description: Computed field - whether the card is currently active (cardPermissions == 1)
         createdAt:
           type: string
           format: date-time
@@ -572,9 +564,50 @@ components:
         - id
         - cardNumber
         - cardPermissions
-        - isActive
         - createdAt
         - updatedAt
+
+    CardUser:
+      type: object
+      description: Represents a user assignment to a card
+      properties:
+        userId:
+          type: string
+          format: uuid
+        userName:
+          type: string
+          description: Full name of the user (firstName lastName)
+        active:
+          type: boolean
+          description: Whether this assignment is currently active
+        createdAt:
+          type: string
+          format: date-time
+          description: When the card was assigned to this user
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - userName
+        - active
+        - createdAt
+        - updatedAt
+
+    CardWithUsers:
+      type: object
+      description: Card with its user assignment history
+      properties:
+        card:
+          $ref: '#/components/schemas/Card'
+        userAssignments:
+          type: array
+          description: List of all user assignments for this card (history)
+          items:
+            $ref: '#/components/schemas/CardUser'
+      required:
+        - card
+        - userAssignments
 
     UserCard:
       type: object
