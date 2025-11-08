@@ -13,14 +13,9 @@ struct CreateInitialSchema: AsyncMigration {
         // if we go with a different authentication system, but we can always add them back later if needed
         try await database.schema("users")
             .field("id", .uuid, .identifier(auto: false))
+            .field("first_name", .string, .required)
+            .field("last_name", .string, .required)
             .field("email", .string, .required)
-
-            // Changing to not required because we will not have it during initial creation
-            // If using a third party service like Supabase (we can decide how to handle this later)
-            // For instance we can add it as metadata in the JWT and extract it during authentication (but this isn't enforceable 100%)
-            // Or we can have a separate onboarding flow to collect it later
-            .field("first_name", .string)
-            .field("last_name", .string)
 
             // This is leftover field from the old users schema, I wasn't sure what to do with it
             // There is also a "contracts" table in the old schema that seems related

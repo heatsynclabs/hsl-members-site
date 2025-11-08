@@ -10,14 +10,14 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "email")
-    var email: String
-
     @Field(key: "first_name")
-    var firstName: String?
+    var firstName: String
 
     @Field(key: "last_name")
-    var lastName: String?
+    var lastName: String
+
+    @Field(key: "email")
+    var email: String
 
     @Field(key: "waiver")
     var waiverSignedOn: Date?
@@ -102,10 +102,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     init() {}
 
     init(
-        id: UUID,
+        id: UUID? = nil,
+        firstName: String,
+        lastName: String,
         email: String,
-        firstName: String? = nil,
-        lastName: String? = nil,
         waiverSignedOn: Date? = nil,
         emergencyName: String? = nil,
         emergencyPhone: String? = nil,

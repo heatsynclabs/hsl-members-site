@@ -20,6 +20,9 @@ let package = Package(
 
         // Supabase for generating tokens for testing
         .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.37.0"),
+
+        // Swift Arugment Parser for CLI commands
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.6.2"),
     ],
     targets: [
         .executableTarget(
@@ -37,7 +40,8 @@ let package = Package(
         .executableTarget(
             name: "JwtGenerator",
             dependencies: [
-                .product(name: "Supabase", package: "supabase-swift")
+                .product(name: "Supabase", package: "supabase-swift"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             path: "Sources/Tools/JwtGenerator",
             swiftSettings: swiftSettings
