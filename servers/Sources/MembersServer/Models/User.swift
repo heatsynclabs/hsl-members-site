@@ -2,21 +2,22 @@ import Fluent
 
 import struct Foundation.Date
 import struct Foundation.UUID
+import protocol Vapor.Authenticatable
 
-final class User: Model, @unchecked Sendable {
+final class User: Model, Authenticatable, @unchecked Sendable {
     static let schema = "users"
 
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "first_name")
-    var firstName: String
-
-    @Field(key: "last_name")
-    var lastName: String
-
     @Field(key: "email")
     var email: String
+
+    @Field(key: "first_name")
+    var firstName: String?
+
+    @Field(key: "last_name")
+    var lastName: String?
 
     @Field(key: "waiver")
     var waiverSignedOn: Date?
@@ -101,10 +102,10 @@ final class User: Model, @unchecked Sendable {
     init() {}
 
     init(
-        id: UUID? = nil,
-        firstName: String,
-        lastName: String,
+        id: UUID,
         email: String,
+        firstName: String? = nil,
+        lastName: String? = nil,
         waiverSignedOn: Date? = nil,
         emergencyName: String? = nil,
         emergencyPhone: String? = nil,

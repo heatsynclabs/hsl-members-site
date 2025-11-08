@@ -15,6 +15,8 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
+        // Vapor JWT
+        .package(url: "https://github.com/vapor/jwt.git", from: "5.0.0"),
 
         // Supabase for generating tokens for testing
         .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.37.0"),
@@ -28,6 +30,7 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "JWT", package: "jwt"),
             ],
             swiftSettings: swiftSettings
         ),
