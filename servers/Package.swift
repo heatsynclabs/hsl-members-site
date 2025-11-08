@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "servers",
     platforms: [
-       .macOS(.v13)
+        .macOS(.v13)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -15,6 +15,9 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
+
+        // Supabase for generating tokens for testing
+        .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.37.0"),
     ],
     targets: [
         .executableTarget(
@@ -28,6 +31,14 @@ let package = Package(
             ],
             swiftSettings: swiftSettings
         ),
+        .executableTarget(
+            name: "JwtGenerator",
+            dependencies: [
+                .product(name: "Supabase", package: "supabase-swift")
+            ],
+            path: "Sources/Tools/JwtGenerator",
+            swiftSettings: swiftSettings
+        ),
         .testTarget(
             name: "MembersServerTest",
             dependencies: [
@@ -35,10 +46,12 @@ let package = Package(
                 .product(name: "VaporTesting", package: "vapor"),
             ],
             swiftSettings: swiftSettings
-        )
+        ),
     ]
 )
 
-var swiftSettings: [SwiftSetting] { [
-    .enableUpcomingFeature("ExistentialAny"),
-] }
+var swiftSettings: [SwiftSetting] {
+    [
+        .enableUpcomingFeature("ExistentialAny")
+    ]
+}
