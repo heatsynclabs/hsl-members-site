@@ -2,8 +2,9 @@ import Fluent
 
 import struct Foundation.Date
 import struct Foundation.UUID
+import protocol Vapor.Authenticatable
 
-final class User: Model, @unchecked Sendable {
+final class User: Model, Authenticatable, @unchecked Sendable {
     static let schema = "users"
 
     @ID(key: .id)

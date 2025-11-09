@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "servers",
     platforms: [
-       .macOS(.v13)
+        .macOS(.v13)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -15,6 +15,14 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.8.0"),
         // 🔵 Non-blocking, event-driven networking for Swift. Used for custom executors
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.65.0"),
+        // Vapor JWT
+        .package(url: "https://github.com/vapor/jwt.git", from: "5.0.0"),
+
+        // Supabase for generating tokens for testing
+        .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.37.0"),
+
+        // Swift Arugment Parser for CLI commands
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.6.2"),
     ],
     targets: [
         .executableTarget(
@@ -25,7 +33,17 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "JWT", package: "jwt"),
             ],
+            swiftSettings: swiftSettings
+        ),
+        .executableTarget(
+            name: "JwtGenerator",
+            dependencies: [
+                .product(name: "Supabase", package: "supabase-swift"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            path: "Sources/Tools/JwtGenerator",
             swiftSettings: swiftSettings
         ),
         .testTarget(
@@ -35,10 +53,12 @@ let package = Package(
                 .product(name: "VaporTesting", package: "vapor"),
             ],
             swiftSettings: swiftSettings
-        )
+        ),
     ]
 )
 
-var swiftSettings: [SwiftSetting] { [
-    .enableUpcomingFeature("ExistentialAny"),
-] }
+var swiftSettings: [SwiftSetting] {
+    [
+        .enableUpcomingFeature("ExistentialAny")
+    ]
+}
