@@ -11,7 +11,8 @@ struct UserAuthenticator: JWTAuthenticator {
 
         var user = try await User.find(userId, on: request.db)
         if user == nil {
-            user = User(id: userId, email: jwt.email)
+            user = User(
+                id: userId, firstName: jwt.firstName, lastName: jwt.lastName, email: jwt.email)
             try await user!.save(on: request.db)
         }
 

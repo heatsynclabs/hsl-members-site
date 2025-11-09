@@ -2,13 +2,12 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-    app.get { req async in
-        "It works!"
+    let jwtProtected = app.grouped(UserAuthenticator())
+    jwtProtected.get { req async throws in
+        let user = try req.auth.require(User.self)
+        return
+            "It works! User: \(user.firstName) \(user.lastName), Email: \(user.email), ID: \(user.id!.uuidString)"
     }
 
-    app.get("hello") { req async -> String in
-        "Hello, world!"
-    }
-
-    try app.register(collection: TodoController())
+    //try app.register(collection: TodoController())
 }
