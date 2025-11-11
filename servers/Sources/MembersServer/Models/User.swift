@@ -5,7 +5,7 @@ import struct Foundation.UUID
 import protocol Vapor.Authenticatable
 
 final class User: Model, Authenticatable, @unchecked Sendable {
-    static let schema = "users"
+    static let schema = DbConstants.usersTable
 
     @ID(key: .id)
     var id: UUID?
@@ -53,16 +53,16 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     var exitReason: String?
 
     @Field(key: "twitter_url")
-    var twitterURL: String?
+    var twitterUrl: String?
 
     @Field(key: "facebook_url")
-    var facebookURL: String?
+    var facebookUrl: String?
 
     @Field(key: "github_url")
-    var githubURL: String?
+    var githubUrl: String?
 
     @Field(key: "website_url")
-    var websiteURL: String?
+    var websiteUrl: String?
 
     @Field(key: "email_visible")
     var emailVisible: Bool?
@@ -73,10 +73,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Field(key: "postal_code")
     var postalCode: String?
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     // Relations
@@ -140,10 +140,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         self.hidden = hidden
         self.marketingSource = marketingSource
         self.exitReason = exitReason
-        self.twitterURL = twitterURL
-        self.facebookURL = facebookURL
-        self.githubURL = githubURL
-        self.websiteURL = websiteURL
+        self.twitterUrl = twitterURL
+        self.facebookUrl = facebookURL
+        self.githubUrl = githubURL
+        self.websiteUrl = websiteURL
         self.emailVisible = emailVisible
         self.phoneVisible = phoneVisible
         self.postalCode = postalCode

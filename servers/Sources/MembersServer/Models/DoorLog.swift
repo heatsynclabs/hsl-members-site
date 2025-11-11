@@ -4,7 +4,7 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class DoorLog: Model, @unchecked Sendable {
-    static let schema = "door_logs"
+    static let schema = DbConstants.doorLogsTable
 
     @ID(key: .id)
     var id: UUID?
@@ -27,7 +27,7 @@ final class DoorLog: Model, @unchecked Sendable {
     @Field(key: "data")
     var data: Int
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
     init() {}

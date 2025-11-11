@@ -30,3 +30,41 @@ struct UserDetailedDTO: Content, Codable {
     var createdAt: Date
     var updatedAt: Date
 }
+
+// extension User {
+//     func toDetailedDTO(
+
+//         ) -> UserDetailedDTO
+//     {
+//         return UserDetailedDTO(
+//             id: self.id!,
+//             firstName: self.firstName,
+//             lastName: self.lastName,
+//             email: self.email,
+//             waiver: self.waiverSignedOn,
+//             emergencyName: self.emergencyName,
+//             emergencyPhone: self.emergencyPhone,
+//             emergencyEmail: self.emergencyEmail,
+//             paymentMethod: self.paymentMethod,
+//             phone: self.phone,
+//             currentSkills: self.currentSkills,
+//             desiredSkills: self.desiredSkills,
+//             hidden: self.hidden,
+//             marketingSource: self.marketingSource,
+//             exitReason: self.exitReason,
+//             twitterUrl: self.twitterUrl,
+//             facebookUrl: self.facebookUrl,
+//             githubUrl: self.githubUrl,
+//             websiteUrl: self.websiteUrl,
+//             emailVisible: self.emailVisible,
+//             phoneVisible: self.phoneVisible,
+//             postalCode: self.postalCode,
+//             membershipLevel: self.membershipLevel?.toDTO(),
+//             roles: self.roles.map { $0.toDTO() },
+//             orientation: self.orientation?.toDTO(),
+//             instructorStations: self.instructorStations.map { $0.toBasicDTO() },
+//             createdAt: self.createdAt ?? Date(),
+//             updatedAt: self.updatedAt ?? Date()
+//         )
+//     }
+// }

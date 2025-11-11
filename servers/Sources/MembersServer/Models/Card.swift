@@ -4,7 +4,7 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class Card: Model, @unchecked Sendable {
-    static let schema = "cards"
+    static let schema = DbConstants.cardsTable
 
     private static let permissionsActive = 1
     private static let permissionsDisabled = 255
@@ -23,10 +23,10 @@ final class Card: Model, @unchecked Sendable {
     @Field(key: "name")
     var name: String?
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     var isActive: Bool { cardPermissions == Card.permissionsActive }
