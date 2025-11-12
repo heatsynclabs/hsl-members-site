@@ -99,6 +99,12 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Children(for: \.$user)
     var card: [UserCard]
 
+    // Computed Vars
+
+    var fullName: String {
+        return "\(self.firstName) \(self.lastName)"
+    }
+
     init() {}
 
     init(
