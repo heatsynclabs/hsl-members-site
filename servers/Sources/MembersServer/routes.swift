@@ -2,12 +2,8 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-    let jwtProtected = app.grouped(UserAuthenticator())
-    jwtProtected.get { req async throws in
-        let user = try req.auth.require(User.self)
-        return
-            "It works! User: \(user.firstName) \(user.lastName), Email: \(user.email), ID: \(user.id!.uuidString)"
-    }
+    // Ensures the JWT was validated successfully, and the user was added to the request context
+    let jwtProtected = app.grouped(UserAuthenticator(), User.guardMiddleware())
 
-    //try app.register(collection: TodoController())
+    try jwtProtected.register(collection: UserController())
 }
