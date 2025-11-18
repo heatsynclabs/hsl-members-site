@@ -23,6 +23,9 @@ let package = Package(
 
         // Swift Arugment Parser for CLI commands
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.6.2"),
+
+        // OpenAPI/Swagger generation
+        .package(url: "https://github.com/dankinsoid/VaporToOpenAPI.git", from: "4.9.1"),
     ],
     targets: [
         .executableTarget(
@@ -34,6 +37,7 @@ let package = Package(
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
                 .product(name: "JWT", package: "jwt"),
+                .product(name: "VaporToOpenAPI", package: "VaporToOpenAPI"),
             ],
             swiftSettings: swiftSettings
         ),

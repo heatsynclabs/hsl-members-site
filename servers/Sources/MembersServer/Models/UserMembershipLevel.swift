@@ -1,9 +1,10 @@
 import Fluent
-import struct Foundation.UUID
+
 import struct Foundation.Date
+import struct Foundation.UUID
 
 final class UserMembershipLevel: Model, @unchecked Sendable {
-    static let schema = "user_membership_levels"
+    static let schema = DbConstants.userMembershipLevelsTable
 
     @ID(key: .id)
     var id: UUID?
@@ -14,10 +15,10 @@ final class UserMembershipLevel: Model, @unchecked Sendable {
     @Parent(key: "membership_level_id")
     var membershipLevel: MembershipLevel
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     init() {}

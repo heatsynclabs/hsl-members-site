@@ -4,7 +4,7 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class Orientation: Model, @unchecked Sendable {
-    static let schema = "orientations"
+    static let schema = DbConstants.orientationsTable
 
     @ID(key: .id)
     var id: UUID?
@@ -15,10 +15,10 @@ final class Orientation: Model, @unchecked Sendable {
     @Parent(key: "oriented_user_id")
     var orientedUser: User
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     init() {}

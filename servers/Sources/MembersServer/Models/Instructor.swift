@@ -4,7 +4,7 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class Instructor: Model, @unchecked Sendable {
-    static let schema = "instructors"
+    static let schema = DbConstants.instructorsTable
 
     @ID(key: .id)
     var id: UUID?
@@ -15,10 +15,10 @@ final class Instructor: Model, @unchecked Sendable {
     @Parent(key: "station_id")
     var station: Station
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     init() {}

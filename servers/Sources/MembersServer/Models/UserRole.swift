@@ -10,7 +10,7 @@ final class UserRole: Model, @unchecked Sendable {
         case cardHolder = "card_holder"
     }
 
-    static let schema = "user_roles"
+    static let schema = DbConstants.userRolesTable
 
     @ID(key: .id)
     var id: UUID?
@@ -21,10 +21,10 @@ final class UserRole: Model, @unchecked Sendable {
     @Enum(key: "role")
     var role: Role
 
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: DbConstants.createdAtField, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
     init() {}
