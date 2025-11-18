@@ -1,12 +1,24 @@
 import Fluent
 import Vapor
+import VaporToOpenAPI
 
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         let users = routes.grouped("users")
 
         users.get(use: self.getUsers)
+            .openAPI(
+                summary: "Get all users",
+                description: "Get a paginated list of users, minus any hidden users",
+                response: .type(Page<UserSummaryResponseDTO>.self)
+            )
+
         users.get(":userID", use: self.getUser)
+            .openAPI(
+                summary: "Get a user by id",
+                description: "Retrieves a user with detailed metadata by the provided id",
+                response: .type(UserDetailedResponseDTO.self)
+            )
     }
 
     @Sendable
