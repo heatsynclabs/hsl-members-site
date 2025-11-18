@@ -5,11 +5,12 @@ struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         let users = routes.grouped("users")
 
+        users.get(use: self.getUsers)
         users.get(":userID", use: self.getUser)
     }
 
     @Sendable
-    func getUser(req: Request) async throws -> UserDetailedDTO {
+    func getUser(req: Request) async throws -> UserDetailedResponseDTO {
         let curUser = try req.auth.require(User.self)
 
         let requestedUserId = req.parameters.get("userID", as: UUID.self)
@@ -36,5 +37,16 @@ struct UserController: RouteCollection {
         }
 
         return user.toDetailedDTO()
+    }
+
+    @Sendable
+    func getUsers(req: Request) async throws -> Page<UserSummaryResponseDTO> {
+        let users: Page<User> = try await User.query(on: req.db)
+            .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
+            .with(\.$orientation)
+            .filter(\.$hidden == false)
+            .paginate(for: req)
+
+        return users.map { $0.toSummaryDTO() }
     }
 }

@@ -1,6 +1,6 @@
 import Vapor
 
-struct UserDetailedDTO: Content, Codable {
+struct UserDetailedResponseDTO: Content, Codable {
     var id: UUID
     var firstName: String
     var lastName: String
@@ -32,8 +32,8 @@ struct UserDetailedDTO: Content, Codable {
 }
 
 extension User {
-    func toDetailedDTO() -> UserDetailedDTO {
-        return UserDetailedDTO(
+    func toDetailedDTO() -> UserDetailedResponseDTO {
+        return UserDetailedResponseDTO(
             id: self.id!,
             firstName: self.firstName,
             lastName: self.lastName,
