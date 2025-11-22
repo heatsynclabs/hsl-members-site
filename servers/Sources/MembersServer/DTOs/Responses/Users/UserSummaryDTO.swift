@@ -5,7 +5,6 @@ struct UserSummaryResponseDTO: Content, Codable {
     var firstName: String
     var lastName: String
     var email: String
-    var hidden: Bool
     var membershipLevel: MembershipLevelDTO?
     var hasOrientation: Bool
     var createdAt: Date
@@ -19,7 +18,6 @@ extension User {
             firstName: self.firstName,
             lastName: self.lastName,
             email: self.email,
-            hidden: self.hidden,
             membershipLevel: self.membershipLevel?.toDTO(),
             hasOrientation: self.orientation != nil,
             createdAt: self.createdAt ?? Date(),

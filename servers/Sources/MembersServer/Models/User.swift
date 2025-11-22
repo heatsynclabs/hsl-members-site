@@ -50,16 +50,16 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     var exitReason: String?
 
     @Field(key: "twitter_url")
-    var twitterUrl: String?
+    var twitterURL: String?
 
     @Field(key: "facebook_url")
-    var facebookUrl: String?
+    var facebookURL: String?
 
     @Field(key: "github_url")
-    var githubUrl: String?
+    var githubURL: String?
 
     @Field(key: "website_url")
-    var websiteUrl: String?
+    var websiteURL: String?
 
     @Field(key: "email_visible")
     var emailVisible: Bool?
@@ -149,10 +149,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         self.desiredSkills = desiredSkills
         self.marketingSource = marketingSource
         self.exitReason = exitReason
-        self.twitterUrl = twitterURL
-        self.facebookUrl = facebookURL
-        self.githubUrl = githubURL
-        self.websiteUrl = websiteURL
+        self.twitterURL = twitterURL
+        self.facebookURL = facebookURL
+        self.githubURL = githubURL
+        self.websiteURL = websiteURL
         self.emailVisible = emailVisible
         self.phoneVisible = phoneVisible
         self.postalCode = postalCode

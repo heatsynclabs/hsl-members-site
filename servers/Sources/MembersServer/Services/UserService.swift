@@ -42,16 +42,17 @@ struct UserService {
 
     func updateUser(from dto: UserRequestDTO, for id: UUID) async throws -> UserDetailedResponseDTO
     {
-        let user = dto.toUser()
-        user.id = id
-        return try await saveUser(user).toDetailedDTO()
+        let user = try await getUser(for: id)
+        guard let user else {
+            throw UserError.userNotFound
+        }
+
+        dto.updateUser(user)
+        try await user.save(on: db)
+        return user.toDetailedDTO()
     }
 
     func createUser(from user: User) async throws -> User {
-        return try await saveUser(user)
-    }
-
-    private func saveUser(_ user: User) async throws -> User {
         return try await db.transaction { tDb in
             try await user.save(on: tDb)
             guard let userId = user.id else {
@@ -64,6 +65,13 @@ struct UserService {
 
             return createdUser
         }
+    }
+
+    // TODO: Consider removal from auth provider (currently supabase)
+    func deleteUser(id: UUID) async throws {
+        try await User.query(on: db)
+            .filter(\.$id == id)
+            .delete()
     }
 
     private func getDetailedUser(id: UUID, on db: any Database) async throws -> User? {

@@ -2,6 +2,7 @@ import Vapor
 
 enum UserError: Error {
     case userNotAdmin
+    case userNotFound
 }
 
 extension UserError: AbortError {
@@ -9,6 +10,8 @@ extension UserError: AbortError {
         switch self {
         case .userNotAdmin:
             return .forbidden
+        case .userNotFound:
+            return .notFound
         }
     }
 
@@ -16,6 +19,8 @@ extension UserError: AbortError {
         switch self {
         case .userNotAdmin:
             return "User does not have the required permissions."
+        case .userNotFound:
+            return "The requested user was not found."
         }
     }
 }

@@ -12,15 +12,14 @@ struct UserRequestDTO: Content {
     let phone: String?
     let currentSkills: String?
     let desiredSkills: String?
-    let hidden: Bool?
     let marketingSource: String?
     let exitReason: String?
     let twitterURL: String?
     let facebookURL: String?
     let githubURL: String?
     let websiteURL: String?
-    let emailVisible: Bool?
-    let phoneVisible: Bool?
+    let emailVisible: Bool
+    let phoneVisible: Bool
     let postalCode: String?
 }
 
@@ -85,16 +84,38 @@ extension UserRequestDTO {
             phone: phone,
             currentSkills: currentSkills,
             desiredSkills: desiredSkills,
-            hidden: hidden ?? false,
             marketingSource: marketingSource,
             exitReason: exitReason,
             twitterURL: twitterURL,
             facebookURL: facebookURL,
             githubURL: githubURL,
             websiteURL: websiteURL,
-            emailVisible: emailVisible ?? true,
-            phoneVisible: phoneVisible ?? true,
+            emailVisible: emailVisible,
+            phoneVisible: phoneVisible,
             postalCode: postalCode
         )
+    }
+
+    func updateUser(_ user: User) {
+        user.firstName = firstName
+        user.lastName = lastName
+        user.email = email
+        user.waiverSignedOn = waiverSignedOn
+        user.emergencyName = emergencyName
+        user.emergencyPhone = emergencyPhone
+        user.emergencyEmail = emergencyEmail
+        user.paymentMethod = paymentMethod
+        user.phone = phone
+        user.currentSkills = currentSkills
+        user.desiredSkills = desiredSkills
+        user.marketingSource = marketingSource
+        user.exitReason = exitReason
+        user.twitterURL = twitterURL
+        user.facebookURL = facebookURL
+        user.githubURL = githubURL
+        user.websiteURL = websiteURL
+        user.emailVisible = emailVisible
+        user.phoneVisible = phoneVisible
+        user.postalCode = postalCode
     }
 }
