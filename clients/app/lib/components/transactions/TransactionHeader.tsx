@@ -13,7 +13,7 @@ export default function TransactionHeader() {
           </span>
         </div>
         <p className="text-sm text-gray-500 sm:pl-3 dark:text-gray-400">
-          Due date: 25 August 2025
+          Due date: 25 August 2025
         </p>
       </div>
       <div className="flex gap-3">

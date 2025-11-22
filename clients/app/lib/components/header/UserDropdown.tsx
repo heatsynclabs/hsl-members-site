@@ -20,11 +20,11 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center dropdown-toggle text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
+        <span className="mr-3 overflow-hidden rounded-xs h-11 w-11">
           <Image
             width={44}
             height={44}
-            src="/images/user/owner.png"
+            src="/images/user/pirate.png"
             alt="User"
           />
         </span>

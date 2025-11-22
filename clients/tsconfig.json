@@ -4,7 +4,8 @@
     "**/*.ts",
     "**/.server/**/*",
     "**/.client/**/*",
-    ".react-router/types/**/*"
+    ".react-router/types/**/*",
+    "./vite-env-override.d.ts"
   ],
   "exclude": ["../servers"],
   "compilerOptions": {

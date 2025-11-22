@@ -8,13 +8,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     reactRouter(),
+    svgr({ include: '**/*.svg' }),
     tsconfigPaths(),
-    svgr({
-      svgrOptions: {
-        svgProps: {
-          className: `{props.className ? props.className + ' default-icon-class' : 'default-icon-class'}`,
-        },
-      },
-    }),
   ],
 });
