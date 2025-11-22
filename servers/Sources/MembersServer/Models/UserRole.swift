@@ -27,6 +27,9 @@ final class UserRole: Model, @unchecked Sendable {
     @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
+    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    var deletedAt: Date?
+
     init() {}
 
     init(id: UUID? = nil, userID: UUID, role: Role) {

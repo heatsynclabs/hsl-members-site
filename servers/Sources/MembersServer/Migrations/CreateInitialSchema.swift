@@ -47,6 +47,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("postal_code", .string)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "email")
             .create()
 
@@ -67,6 +68,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("role", role, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "user_id", "role")
             .create()
 
@@ -84,6 +86,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("cost_in_cents", .int, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "name")
             .create()
 
@@ -101,6 +104,7 @@ struct CreateInitialSchema: AsyncMigration {
             )
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "user_id", "membership_level_id")
             .create()
 
@@ -111,6 +115,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("oriented_user_id", .uuid, .required, .references(DbConstants.usersTable, "id"))
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "oriented_by_id", "oriented_user_id")
             .create()
 
@@ -119,6 +124,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("name", .string, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "name")
             .create()
 
@@ -134,6 +140,7 @@ struct CreateInitialSchema: AsyncMigration {
             )
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "user_id", "station_id")
             .create()
 
@@ -148,6 +155,7 @@ struct CreateInitialSchema: AsyncMigration {
             .field("name", .string)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
+            .field(DbConstants.deletedAtField, .datetime)
             .unique(on: "card_number")
             .create()
 

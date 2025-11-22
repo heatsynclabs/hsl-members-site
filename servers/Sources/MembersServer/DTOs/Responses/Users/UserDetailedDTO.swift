@@ -13,7 +13,6 @@ struct UserDetailedResponseDTO: Content, Codable {
     var phone: String?
     var currentSkills: String?
     var desiredSkills: String?
-    var hidden: Bool
     var marketingSource: String?
     var exitReason: String?
     var twitterUrl: String?
@@ -46,13 +45,12 @@ extension User {
             phone: self.phone,
             currentSkills: self.currentSkills,
             desiredSkills: self.desiredSkills,
-            hidden: self.hidden,
             marketingSource: self.marketingSource,
             exitReason: self.exitReason,
-            twitterUrl: self.twitterUrl,
-            facebookUrl: self.facebookUrl,
-            githubUrl: self.githubUrl,
-            websiteUrl: self.websiteUrl,
+            twitterUrl: self.twitterURL,
+            facebookUrl: self.facebookURL,
+            githubUrl: self.githubURL,
+            websiteUrl: self.websiteURL,
             emailVisible: self.emailVisible,
             phoneVisible: self.phoneVisible,
             postalCode: self.postalCode,

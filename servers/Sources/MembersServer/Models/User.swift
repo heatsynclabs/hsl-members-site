@@ -43,9 +43,6 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Field(key: "desired_skills")
     var desiredSkills: String?
 
-    @Field(key: "hidden")
-    var hidden: Bool
-
     @Field(key: "marketing_source")
     var marketingSource: String?
 
@@ -53,16 +50,16 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     var exitReason: String?
 
     @Field(key: "twitter_url")
-    var twitterUrl: String?
+    var twitterURL: String?
 
     @Field(key: "facebook_url")
-    var facebookUrl: String?
+    var facebookURL: String?
 
     @Field(key: "github_url")
-    var githubUrl: String?
+    var githubURL: String?
 
     @Field(key: "website_url")
-    var websiteUrl: String?
+    var websiteURL: String?
 
     @Field(key: "email_visible")
     var emailVisible: Bool?
@@ -78,6 +75,9 @@ final class User: Model, Authenticatable, @unchecked Sendable {
 
     @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
+
+    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    var deletedAt: Date?
 
     // Relations
 
@@ -103,6 +103,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
 
     var fullName: String {
         return "\(self.firstName) \(self.lastName)"
+    }
+
+    var isAdmin: Bool {
+        roles.contains { $0.role == .admin }
     }
 
     init() {}
@@ -143,13 +147,12 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         self.phone = phone
         self.currentSkills = currentSkills
         self.desiredSkills = desiredSkills
-        self.hidden = hidden
         self.marketingSource = marketingSource
         self.exitReason = exitReason
-        self.twitterUrl = twitterURL
-        self.facebookUrl = facebookURL
-        self.githubUrl = githubURL
-        self.websiteUrl = websiteURL
+        self.twitterURL = twitterURL
+        self.facebookURL = facebookURL
+        self.githubURL = githubURL
+        self.websiteURL = websiteURL
         self.emailVisible = emailVisible
         self.phoneVisible = phoneVisible
         self.postalCode = postalCode
