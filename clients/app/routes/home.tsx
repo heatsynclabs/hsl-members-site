@@ -2,12 +2,14 @@ import type { Route } from './+types/home';
 import Button from '@elements/button/Button';
 import { ChevronDownIcon } from '@icons';
 
-export function meta({}: Route.MetaArgs) {
+export const meta = ({ location, params, loaderData }: Route.MetaArgs) => {
+  console.log('home', { location, params, loaderData });
+
   return [
     { title: 'HSL portal' },
     { name: 'description', content: 'HeatSync Labs Member Portal' },
   ];
-}
+};
 
 export default function Home() {
   return (

@@ -1,12 +1,5 @@
 import type React from 'react';
-import {
-  Link,
-  Links,
-  Meta,
-  NavLink,
-  Scripts,
-  ScrollRestoration,
-} from 'react-router';
+import { Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import AppSidebar from './lib/layout/AppSidebar';
 import Backdrop from './lib/layout/Backdrop';
 import { SidebarProvider, useSidebar } from './lib/context/SidebarContext';

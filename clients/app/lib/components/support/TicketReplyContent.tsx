@@ -19,7 +19,7 @@ export default function TicketReplyContent() {
             Ticket #346520 - Sidebar not responsive on mobile
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Mon, 3:20 PM (2 days ago)
+            Mon, 3:20 PM (2 days ago)
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -88,7 +88,7 @@ export default function TicketReplyContent() {
               </div>
               <div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Mon, 3:20 PM (2 hrs ago)
+                  Mon, 3:20 PM (2 hrs ago)
                 </p>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function TicketReplyContent() {
               </div>
               <div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Mon, 3:20 PM (2 hrs ago)
+                  Mon, 3:20 PM (2 hrs ago)
                 </p>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function TicketReplyContent() {
               </div>
               <div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Mon, 3:20 PM (2 hrs ago)
+                  Mon, 3:20 PM (2 hrs ago)
                 </p>
               </div>
             </div>
@@ -192,9 +192,9 @@ export default function TicketReplyContent() {
                 I hope you&apos;re doing well.
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                I’m currently working on customizing the TailAdmin dashboard and
+                I'm currently working on customizing the TailAdmin dashboard and
                 would like to add a new section labeled “Reports.” Before I
-                proceed, I wanted to check if there’s any official guide or best
+                proceed, I wanted to check if there's any official guide or best
                 practice you recommend for adding custom pages within the
                 TailAdmin structure.
               </p>
