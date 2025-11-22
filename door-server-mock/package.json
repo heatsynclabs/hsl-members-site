@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  },
+  "type": "module",
+  "scripts": {
+    "serve": "node fake-door.ts",
+    "typecheck": "tsc --noEmit --project tsconfig.json"
+  }
+}
