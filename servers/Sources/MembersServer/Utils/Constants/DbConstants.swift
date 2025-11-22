@@ -16,4 +16,5 @@ enum DbConstants {
 
     static let createdAtField: FieldKey = "created_at"
     static let updatedAtField: FieldKey = "updated_at"
+    static let deletedAtField: FieldKey = "deleted_at"
 }

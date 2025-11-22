@@ -21,5 +21,8 @@ final class Orientation: Model, @unchecked Sendable {
     @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
+    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    var deletedAt: Date?
+
     init() {}
 }

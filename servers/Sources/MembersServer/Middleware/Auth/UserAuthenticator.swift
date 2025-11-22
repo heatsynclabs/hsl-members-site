@@ -9,11 +9,12 @@ struct UserAuthenticator: JWTAuthenticator {
             throw Abort(.unauthorized, reason: "JWT is missing ID or it is not a valid UUID")
         }
 
-        var user = try await User.find(userId, on: request.db)
+        let service = request.userService
+        var user = try await service.getUser(for: userId)
         if user == nil {
             user = User(
                 id: userId, firstName: jwt.firstName, lastName: jwt.lastName, email: jwt.email)
-            try await user!.save(on: request.db)
+            user = try await service.createUser(from: user!)
         }
 
         guard let user else {

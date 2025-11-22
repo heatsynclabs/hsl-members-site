@@ -43,9 +43,6 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Field(key: "desired_skills")
     var desiredSkills: String?
 
-    @Field(key: "hidden")
-    var hidden: Bool
-
     @Field(key: "marketing_source")
     var marketingSource: String?
 
@@ -79,6 +76,9 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Timestamp(key: DbConstants.updatedAtField, on: .update)
     var updatedAt: Date?
 
+    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    var deletedAt: Date?
+
     // Relations
 
     @Children(for: \.$user)
@@ -103,6 +103,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
 
     var fullName: String {
         return "\(self.firstName) \(self.lastName)"
+    }
+
+    var isAdmin: Bool {
+        roles.contains { $0.role == .admin }
     }
 
     init() {}
@@ -143,7 +147,6 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         self.phone = phone
         self.currentSkills = currentSkills
         self.desiredSkills = desiredSkills
-        self.hidden = hidden
         self.marketingSource = marketingSource
         self.exitReason = exitReason
         self.twitterUrl = twitterURL
