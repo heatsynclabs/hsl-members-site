@@ -15,6 +15,11 @@ func routes(_ app: Application) throws {
     }
     .excludeFromOpenAPI()
 
+    // Health check route
+    app.get("health") { req in
+        return ["status": "ok"]
+    }
+
     // Ensures the JWT was validated successfully, and the user was added to the request context
     let jwtProtected = app.grouped(UserAuthenticator(), User.guardMiddleware())
     let openApiProtected = jwtProtected.groupedOpenAPI(auth: .bearer())

@@ -4,7 +4,7 @@ import VaporToOpenAPI
 
 struct UserController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
-        let users = routes.grouped("users")
+        let users = routes.grouped("v1", "users")
 
         users.get(use: self.getUsers)
             .openAPI(
