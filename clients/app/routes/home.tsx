@@ -213,7 +213,10 @@ export default function Home() {
                 </li>{' '}
                 <li>
                   Our{' '}
-                  <a href="http://groups.google.com/group/heatsynclabs" target="_blank">
+                  <a
+                    href="http://groups.google.com/group/heatsynclabs"
+                    target="_blank"
+                  >
                     Discussion Group
                   </a>{' '}
                   is the main way to interact with the community outside of the
