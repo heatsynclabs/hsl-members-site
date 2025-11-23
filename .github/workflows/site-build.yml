@@ -32,7 +32,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            hammernshield/hammernshield/heatsynclabs-members-site:latest
-            hammernshield/hammernshield/heatsynclabs-members-site:git-${{ github.sha }}
+            hammernshield/heatsynclabs-members-site:latest
+            hammernshield/heatsynclabs-members-site:git-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
