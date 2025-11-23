@@ -3,8 +3,10 @@ import Vapor
 import VaporToOpenAPI
 
 func routes(_ app: Application) throws {
+    let v1Router = app.grouped("v1")
+
     // Open API documentation route
-    app.get("swagger", "swagger.json") { req in
+    v1Router.get("swagger", "swagger.json") { req in
         req.application.routes.openAPI(
             info: InfoObject(
                 title: "Example API",
@@ -16,12 +18,12 @@ func routes(_ app: Application) throws {
     .excludeFromOpenAPI()
 
     // Health check route
-    app.get("health") { req in
+    v1Router.get("health") { req in
         return ["status": "ok"]
     }
 
     // Ensures the JWT was validated successfully, and the user was added to the request context
-    let jwtProtected = app.grouped(UserAuthenticator(), User.guardMiddleware())
+    let jwtProtected = v1Router.grouped(UserAuthenticator(), User.guardMiddleware())
     let openApiProtected = jwtProtected.groupedOpenAPI(auth: .bearer())
 
     try openApiProtected.register(collection: UserController())
