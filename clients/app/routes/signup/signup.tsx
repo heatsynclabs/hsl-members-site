@@ -39,7 +39,6 @@ export default function Signup() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     console.log('signup', { formData, data });
-    debugger;
   };
 
   return (

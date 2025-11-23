@@ -1,4 +1,4 @@
-import * as z from "zod"; 
+import * as z from 'zod';
 
 const AUTH_TOKEN = 'OnAUJH9N2iO4veDtKQLnkUTaCPb1cUJ9BVVNisSR5ZA';
 
@@ -6,8 +6,15 @@ export const User = z.object({
   utf8: z.literal('✓'),
   authenticity_token: z.literal(AUTH_TOKEN),
   user: z.object({
-    member_level: z.enum(['0','1','10','25','50','100']),
-    payment_method: z.enum(['PayPal', 'Dwolla', 'BillPay', 'Check', 'Cash', 'Other']),
+    member_level: z.enum(['0', '1', '10', '25', '50', '100']),
+    payment_method: z.enum([
+      'PayPal',
+      'Dwolla',
+      'BillPay',
+      'Check',
+      'Cash',
+      'Other',
+    ]),
     name: z.string().max(1024),
     email: z.email(),
     email_visible: z.enum(['0', '1']),
@@ -27,5 +34,5 @@ export const User = z.object({
     password: z.string(),
     password_confirmation: z.string(),
     commit: z.string(),
-  })
+  }),
 });

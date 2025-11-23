@@ -14,7 +14,6 @@ export default function Signin() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
     console.log('signin', { formData, data });
-    debugger;
   };
   return (
     <>
