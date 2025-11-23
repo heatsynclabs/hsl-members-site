@@ -24,7 +24,7 @@ struct UserDetailedResponseDTO: Content, Codable {
     var postalCode: String?
     var membershipLevel: MembershipLevelDTO?
     var roles: [RoleDTO]
-    var orientation: OrientationDTO?
+    var orientation: UserOrientationDTO?
     var instructorStations: [StationBasicDTO]
     var createdAt: Date
     var updatedAt: Date
