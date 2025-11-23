@@ -3,6 +3,8 @@ import Vapor
 import VaporToOpenAPI
 
 func routes(_ app: Application) throws {
+    app.middleware.use(cors, at: .beginning)
+
     let v1Router = app.grouped("v1")
 
     // Open API documentation route
