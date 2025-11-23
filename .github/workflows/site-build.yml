@@ -1,11 +1,11 @@
-name: Server Build
+name: Client Build
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'servers/**'
+      - 'clients/**'
   workflow_dispatch:
 
 jobs:
@@ -27,12 +27,12 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./servers
-          file: ./servers/Dockerfile
+          context: ./clients
+          file: ./clients/Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
-            hammernshield/heatsynclabs-members-server:latest
-            hammernshield/heatsynclabs-members-server:git-${{ github.sha }}
+            hammernshield/hammernshield/heatsynclabs-members-site:latest
+            hammernshield/hammernshield/heatsynclabs-members-site:git-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
