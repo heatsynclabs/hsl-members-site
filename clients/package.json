@@ -11,7 +11,8 @@
     "lint:fix": "prettier --write . && eslint --fix .",
     "typecheck:client": "react-router typegen && tsc --noEmit --skipLibCheck --project tsconfig.json",
     "build:docker": "docker build . -t hsl-web",
-    "start:docker": "docker run -p 3000:3000 hsl-web"
+    "start:docker": "docker run -p 3000:3000 hsl-web",
+    "api-codegen": "openapi-typescript https://tiger.atnnn.com/v1/swagger/swagger.json -o ./app/lib/api/generated.d.ts"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.19",
@@ -31,6 +32,7 @@
     "flatpickr": "^4.6.13",
     "isbot": "^5.1.31",
     "motion": "^12.23.11",
+    "openapi-fetch": "^0.15.0",
     "prismjs": "^1.30.0",
     "react": "^19.1.1",
     "react-apexcharts": "^1.8.0",
@@ -56,6 +58,7 @@
     "eslint": "^9.38.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
+    "openapi-typescript": "^7.10.1",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",

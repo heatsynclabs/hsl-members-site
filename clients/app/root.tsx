@@ -1,3 +1,4 @@
+import './lib/api';
 import { Outlet } from 'react-router';
 import type { Route } from './+types/root';
 import './styles.css';
