@@ -20,7 +20,7 @@ func routes(_ app: Application) throws {
     .excludeFromOpenAPI()
 
     // Health check route
-    v1Router.get("health") { req in
+    v1Router.get("health") { _ in
         return ["status": "ok"]
     }
 

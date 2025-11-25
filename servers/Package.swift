@@ -25,7 +25,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.6.2"),
 
         // OpenAPI/Swagger generation
-        .package(url: "https://github.com/dankinsoid/VaporToOpenAPI.git", from: "4.9.1"),
+        .package(url: "https://github.com/dankinsoid/VaporToOpenAPI.git", from: "4.9.1")
     ],
     targets: [
         .executableTarget(
@@ -37,7 +37,7 @@ let package = Package(
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
                 .product(name: "JWT", package: "jwt"),
-                .product(name: "VaporToOpenAPI", package: "VaporToOpenAPI"),
+                .product(name: "VaporToOpenAPI", package: "VaporToOpenAPI")
             ],
             swiftSettings: swiftSettings
         ),
@@ -45,7 +45,7 @@ let package = Package(
             name: "JwtGenerator",
             dependencies: [
                 .product(name: "Supabase", package: "supabase-swift"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser")
             ],
             path: "Sources/Tools/JwtGenerator",
             swiftSettings: swiftSettings
@@ -54,10 +54,10 @@ let package = Package(
             name: "MembersServerTest",
             dependencies: [
                 .target(name: "MembersServer"),
-                .product(name: "VaporTesting", package: "vapor"),
+                .product(name: "VaporTesting", package: "vapor")
             ],
             swiftSettings: swiftSettings
-        ),
+        )
     ]
 )
 

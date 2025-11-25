@@ -24,7 +24,6 @@ public func configure(_ app: Application) async throws {
 
     app.migrations.add(CreateInitialSchema())
     try await app.autoMigrate()
-    //endregion
 
     // region JWT Configuration
     let jwkStr = Environment.get("SUPABASE_JWK")
@@ -33,9 +32,7 @@ public func configure(_ app: Application) async throws {
     }
     let jwk = try JWK(json: jwkStr)
     try await app.jwt.keys.add(jwk: jwk)
-    // endregion
 
     // region Route Registration
     try routes(app)
-    // endregion
 }
