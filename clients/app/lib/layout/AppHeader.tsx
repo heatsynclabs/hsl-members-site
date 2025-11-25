@@ -46,7 +46,7 @@ const AppHeader: React.FC = () => {
         <nav className="flex items-center bg-orange-100 gap-4">
           <Link to="/">
             <img
-              src="logo.png"
+              src="/logo.png"
               alt="HeatSync Labs Member Portal Home"
               className="w-11 m-1"
             />

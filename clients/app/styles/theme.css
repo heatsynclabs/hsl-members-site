@@ -5,3 +5,93 @@
     'Radio Canada Big', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+  html,
+  body {
+    --body-color: light-dark(var(--color-zinc-950), var(--color-amber-50));
+    --body-bg-color: light-dark(var(--color-amber-50), var(--color-zinc-950));
+
+    color: var(--body-color);
+    background-color: var(--body-bg-color);
+
+    @media (prefers-color-scheme: dark) {
+      color-scheme: dark;
+    }
+  }
+
+  form {
+    &:hover {
+      background-color: var(--color-gray-50);
+    }
+  }
+
+  .field {
+    position: relative;
+    padding: calc(var(--spacing) * 3);
+
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
+
+    label {
+      display: block;
+      padding-bottom: calc(var(--spacing) * 1);
+    }
+
+    input,
+    select,
+    textarea {
+      --input-border-color: var(--body-color);
+      --input-border-width: 1px;
+      background-color: white;
+      border-radius: 3px;
+      border: var(--input-border-width) solid var(--input-border-color);
+      color: var(--color-zinc-950);
+      display: block;
+      font-size: var(--text-base);
+      padding: calc(calc(var(--spacing) * 3) - calc(var(--input-border-width)));
+      margin-top: var(--spacing);
+
+      &::placeholder {
+        color: var(--color-gray-500);
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        --input-border-width: 3px;
+        border-radius: 4px;
+      }
+    }
+
+    input[type='checkbox'] {
+      display: inline;
+
+      & + label {
+        display: inline;
+        margin-left: calc(var(--spacing) * 2);
+      }
+    }
+  }
+
+  .button {
+    --btn-border-color: var(--body-color);
+    --btn-border-width: 1px;
+    border: var(--btn-border-width) solid var(--btn-border-color);
+    padding: calc(calc(var(--spacing) * 3) - calc(var(--btn-border-width)));
+    border-radius: 3px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      --btn-border-width: 4px;
+      border-radius: 4px;
+      background-color: light-dark(
+        var(--color-amber-400),
+        var(--color-amber-800)
+      );
+      font-weight: bolder;
+    }
+  }
+}
