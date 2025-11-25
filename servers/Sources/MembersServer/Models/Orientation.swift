@@ -25,4 +25,12 @@ final class Orientation: Model, @unchecked Sendable {
     var deletedAt: Date?
 
     init() {}
+
+    init(
+        orientedById: UUID,
+        orientedUserId: UUID
+    ) {
+        self.$orientedBy.id = orientedById
+        self.$orientedUser.id = orientedUserId
+    }
 }

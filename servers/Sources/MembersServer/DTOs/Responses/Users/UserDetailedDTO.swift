@@ -56,7 +56,7 @@ extension User {
             postalCode: self.postalCode,
             membershipLevel: self.membershipLevel?.toDTO(),
             roles: self.roles.map { $0.toDTO() },
-            orientation: self.orientation?.toDTO(),
+            orientation: self.orientation?.toUserOrientationDTO(),
             instructorStations: self.instructorForStations.map { $0.station.toBasicDTO() },
             createdAt: self.createdAt ?? Date(),
             updatedAt: self.updatedAt ?? Date()

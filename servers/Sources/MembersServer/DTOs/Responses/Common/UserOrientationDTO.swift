@@ -9,7 +9,7 @@ struct UserOrientationDTO: Content, Codable {
 }
 
 extension Orientation {
-    func toDTO() -> UserOrientationDTO {
+    func toUserOrientationDTO() -> UserOrientationDTO {
         return UserOrientationDTO(
             id: self.id ?? UUID(),
             orientedById: self.orientedBy.id!,

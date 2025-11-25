@@ -4,10 +4,11 @@ struct OrientationRequestDTO: Content, Codable {
     var orientedById: UUID
 }
 
-// extension OrientationRequestDTO {
-//     func toOrientation() -> Orientation {
-//         return Orientation(
-//             orientedById: self.orientedById
-//         )
-//     }
-// }
+extension OrientationRequestDTO {
+    func toOrientation(for userId: UUID) -> Orientation {
+        return Orientation(
+            orientedById: self.orientedById,
+            orientedUserId: userId
+        )
+    }
+}
