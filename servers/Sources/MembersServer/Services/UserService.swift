@@ -2,20 +2,20 @@ import Fluent
 import Vapor
 
 struct UserService {
-    private let db: any Database
+    private let database: any Database
     private let logger: Logger
 
-    init(db: any Database, logger: Logger) {
-        self.db = db
+    init(database: any Database, logger: Logger) {
+        self.database = database
         self.logger = logger
     }
 
     func getUser(for id: UUID) async throws -> User? {
-        return try await getDetailedUser(id: id, on: db)
+        return try await getDetailedUser(id: id, on: database)
     }
 
     func getDetailedUser(id: UUID, curUserId: UUID) async throws -> UserDetailedResponseDTO? {
-        let user = try await getDetailedUser(id: id, on: db)
+        let user = try await getDetailedUser(id: id, on: database)
         guard var user else {
             return nil
         }
@@ -28,7 +28,7 @@ struct UserService {
     }
 
     func getUsers(page: PageRequest) async throws -> Page<UserSummaryResponseDTO> {
-        let users: Page<User> = try await User.query(on: db)
+        let users: Page<User> = try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
             .with(\.$orientation)
             .paginate(page)
@@ -40,20 +40,19 @@ struct UserService {
         }
     }
 
-    func updateUser(from dto: UserRequestDTO, for id: UUID) async throws -> UserDetailedResponseDTO
-    {
+    func updateUser(from dto: UserRequestDTO, for id: UUID) async throws -> UserDetailedResponseDTO {
         let user = try await getUser(for: id)
         guard let user else {
             throw UserError.userNotFound
         }
 
         dto.updateUser(user)
-        try await user.save(on: db)
+        try await user.save(on: database)
         return user.toDetailedDTO()
     }
 
     func createUser(from user: User) async throws -> User {
-        return try await db.transaction { tDb in
+        return try await database.transaction { tDb in
             try await user.save(on: tDb)
             guard let userId = user.id else {
                 throw ServerError.unexpectedError(reason: "User ID is nil after save")
@@ -67,15 +66,15 @@ struct UserService {
         }
     }
 
-    // TODO: Consider removal from auth provider (currently supabase)
+    // Consider removal from auth provider (currently supabase)
     func deleteUser(id: UUID) async throws {
-        try await User.query(on: db)
+        try await User.query(on: database)
             .filter(\.$id == id)
             .delete()
     }
 
-    private func getDetailedUser(id: UUID, on db: any Database) async throws -> User? {
-        return try await User.query(on: db)
+    private func getDetailedUser(id: UUID, on database: any Database) async throws -> User? {
+        return try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
             .with(\.$roles)
             .with(\.$orientation) { $0.with(\.$orientedBy) }

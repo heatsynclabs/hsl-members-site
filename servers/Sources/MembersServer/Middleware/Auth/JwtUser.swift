@@ -19,16 +19,6 @@ struct JwtUser: Authenticatable, Content, JWTPayload {
         UUID(uuidString: subject.value)
     }
 
-    struct JwtMetadata: Codable {
-        let firstName: String?
-        let lastName: String?
-
-        enum CodingKeys: String, CodingKey {
-            case firstName = "first_name"
-            case lastName = "last_name"
-        }
-    }
-
     /// Runs AFTER decoding and signature validation
     /// and can be used to validate claims outside of signature
     func verify(using algorithm: some JWTKit.JWTAlgorithm) async throws {
@@ -40,5 +30,15 @@ struct JwtUser: Authenticatable, Content, JWTPayload {
         case subject = "sub"
         case email
         case metadata = "user_metadata"
+    }
+}
+
+struct JwtMetadata: Codable {
+    let firstName: String?
+    let lastName: String?
+
+    enum CodingKeys: String, CodingKey {
+        case firstName = "first_name"
+        case lastName = "last_name"
     }
 }

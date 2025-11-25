@@ -30,7 +30,7 @@ struct CreateUser: AsyncParsableCommand {
                 password: password,
                 data: [
                     "first_name": .string(firstName),
-                    "last_name": .string(lastName),
+                    "last_name": .string(lastName)
                 ]
             )
             print("User created with ID: \(user.user.id)")

@@ -79,7 +79,8 @@ struct CreateInitialSchema: AsyncMigration {
         // 25..49 = "Associate ($25)"
         // 50..99 = "Basic ($50)"
         // 100..999 = "Plus ($100)"
-        // It seems better to me to normalize it like this, and we can seed the levels later/convert existing data as needed
+        // It seems better to me to normalize it like this, and we can seed the levels later/convert
+        // existing data as needed
         try await database.schema(DbConstants.membershipLevelsTable)
             .id()
             .field("name", .string, .required)

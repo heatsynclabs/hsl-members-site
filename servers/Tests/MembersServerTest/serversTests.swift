@@ -70,7 +70,8 @@
 //         try await withApp { app in
 //             try await testTodos.create(on: app.db)
 
-//             try await app.testing().test(.DELETE, "todos/\(testTodos[0].requireID())", afterResponse: { res async throws in
+//             try await app.testing().test(.DELETE, "todos/\(testTodos[0].requireID())", afterResponse: {
+//                res async throws in
 //                 #expect(res.status == .noContent)
 //                 let model = try await Todo.find(testTodos[0].id, on: app.db)
 //                 #expect(model == nil)
