@@ -1,8 +1,0 @@
-included:
-  - Sources
-
-excluded:
-  - .build
-  - Sources/MembersServer/Migrations
-
-strict: true

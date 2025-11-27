@@ -18,5 +18,12 @@ jobs:
         uses: norio-nomura/action-swiftlint@3.2.1
         with:
           args: --strict
-        env:
-          WORKING_DIRECTORY: ./servers
+
+      - name: Set up Swift 6.1
+        uses: swift-actions/setup-swift@v2.4.0
+        with:
+          swift-version: '6.1'
+
+      - name: Run MembersServer tests
+        run: swift test --package-path ./Tests/MembersServerTest
+        working-directory: servers

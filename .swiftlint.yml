@@ -1,0 +1,15 @@
+included:
+  - servers/Sources
+
+excluded:
+  - clients
+  - door-server-mock
+  - servers/.build
+  - servers/Sources/MembersServer/Migrations
+  - servers/Tests
+
+strict: true
+
+disabled_rules:
+  - no_blanket_disable
+  - blanket_disable_command
