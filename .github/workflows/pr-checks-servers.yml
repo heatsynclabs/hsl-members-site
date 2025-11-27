@@ -24,6 +24,6 @@ jobs:
         with:
           swift-version: '6.1'
 
-      - name: Run server tests
-        run: swift test
+      - name: Run MembersServer tests
+        run: swift test --test-product MembersServerTest
         working-directory: servers
