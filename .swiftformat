@@ -1,4 +1,4 @@
 --allman false
---trailingcommas never
+--trailingCommas none
 --maxwidth 160
 --wraparguments beforefirst
