@@ -45,7 +45,7 @@ jobs:
             swiftpm-build-${{ runner.os }}-
 
       - name: Build MembersServerTest Target
-        run: swift build --target MembersServerTest --enable-code-coverage
+        run: swift build --build-tests --enable-code-coverage
         working-directory: servers
 
       - name: Cache .build
@@ -56,5 +56,5 @@ jobs:
           key: swiftpm-build-${{ runner.os }}-${{ github.event.pull_request.base.sha || github.event.after }}
 
       - name: Run MembersServer tests
-        run: swift test --filter MembersServerTest --skip-build --enable-code-coverage
+        run: swift test --skip-build --enable-code-coverage
         working-directory: servers
