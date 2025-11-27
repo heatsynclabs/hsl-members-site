@@ -74,7 +74,7 @@ struct UserController: RouteCollection {
         guard let userId else {
             throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
         }
-        guard curUser.id == userId || !curUser.isAdmin else {
+        guard curUser.id == userId || curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
 
@@ -89,7 +89,7 @@ struct UserController: RouteCollection {
         guard let userId else {
             throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
         }
-        guard curUser.id == userId || !curUser.isAdmin else {
+        guard curUser.id == userId || curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
 

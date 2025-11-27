@@ -6,18 +6,21 @@ import VaporTesting
 
 @Suite("UserService Tests with DB", .serialized)
 struct UserServiceTests {
-    let sampleUser: User = .init(firstName: "Testy", lastName: "Testerson", email: "test@test.com")
+    private static func sampleUser() -> User {
+        .init(
+            firstName: "User", lastName: "Service", email: "userservice@test.com")
+    }
 
     @Test("Test Create User")
     func testCreateUser() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db, logger: app.logger)
-            let createdUser = try await userService.createUser(from: sampleUser)
+            let createdUser = try await userService.createUser(from: Self.sampleUser())
 
             #expect(createdUser.id != nil)
-            #expect(createdUser.firstName == sampleUser.firstName)
-            #expect(createdUser.lastName == sampleUser.lastName)
-            #expect(createdUser.email == sampleUser.email)
+            #expect(createdUser.firstName == createdUser.firstName)
+            #expect(createdUser.lastName == createdUser.lastName)
+            #expect(createdUser.email == createdUser.email)
 
             // Try to access relations, so you can ensure it is fully hydrated
             // Vapor will throw fatal errors if you try to access a relation that is not loaded
@@ -34,14 +37,14 @@ struct UserServiceTests {
     func testGetUser() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db, logger: app.logger)
-            let created = try await userService.createUser(from: sampleUser)
+            let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 
             let fetched = try await userService.getUser(for: created.id!)
             #expect(fetched != nil)
-            #expect(fetched?.firstName == sampleUser.firstName)
-            #expect(fetched?.lastName == sampleUser.lastName)
-            #expect(fetched?.email == sampleUser.email)
+            #expect(fetched?.firstName == created.firstName)
+            #expect(fetched?.lastName == created.lastName)
+            #expect(fetched?.email == created.email)
         }
     }
 
@@ -49,7 +52,7 @@ struct UserServiceTests {
     func testUpdateUser() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db, logger: app.logger)
-            let created = try await userService.createUser(from: sampleUser)
+            let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 
             let updateDTO = UserRequestDTO(
@@ -141,7 +144,7 @@ struct UserServiceTests {
     func testDeleteUser() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db, logger: app.logger)
-            let created = try await userService.createUser(from: sampleUser)
+            let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 
             try await userService.deleteUser(id: created.id!)

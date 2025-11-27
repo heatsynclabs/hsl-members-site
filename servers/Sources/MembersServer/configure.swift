@@ -12,7 +12,7 @@ public func configure(_ app: Application) async throws {
 
     // region Database Configuration and Migrations
     if app.environment == .testing {
-        app.databases.use(.sqlite(.memory), as: .psql)
+        app.databases.use(.sqlite(.memory), as: .sqlite)
     } else {
         app.databases.use(
             DatabaseConfigurationFactory.postgres(
@@ -31,12 +31,14 @@ public func configure(_ app: Application) async throws {
     try await app.autoMigrate()
 
     // region JWT Configuration
-    let jwkStr = Environment.get("SUPABASE_JWK")
-    guard let jwkStr else {
-        fatalError("Missing SUPABASE_JWK environment variable")
+    if !(app.environment == .testing) {
+        let jwkStr = Environment.get("SUPABASE_JWK")
+        guard let jwkStr else {
+            fatalError("Missing SUPABASE_JWK environment variable")
+        }
+        let jwk = try JWK(json: jwkStr)
+        try await app.jwt.keys.add(jwk: jwk)
     }
-    let jwk = try JWK(json: jwkStr)
-    try await app.jwt.keys.add(jwk: jwk)
 
     // region Route Registration
     try routes(app)

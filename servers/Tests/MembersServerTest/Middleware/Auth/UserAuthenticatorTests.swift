@@ -11,8 +11,6 @@ struct UserAuthenticatorTests {
     @Test("Valid JWT creates new user and authenticates request")
     func testValidJwtCreatesUser() async throws {
         try await withApp { app in
-            await app.jwt.keys.add(hmac: "secret", digestAlgorithm: .sha256)
-
             app.routes.grouped(UserAuthenticator())
                 .get("test-auth") { req -> HTTPStatus in
                     // If we get here, middleware succeeded and user is logged in
@@ -28,9 +26,9 @@ struct UserAuthenticatorTests {
                 metadata: .init(firstName: "Alice", lastName: "Dev")
             )
 
-            let token = try await app.jwt.keys.sign(payload)
+            let headers = try await app.getTokenHeader(for: payload)
 
-            try await app.test(.GET, "test-auth", headers: ["Authorization": "Bearer \(token)"]) { res in
+            try await app.test(.GET, "test-auth", headers: headers) { res in
                 #expect(res.status == .ok)
             }
 
@@ -46,8 +44,6 @@ struct UserAuthenticatorTests {
     @Test("Expired JWT fails authentication")
     func testExpiredJwtFails() async throws {
         try await withApp { app in
-            await app.jwt.keys.add(hmac: "secret", digestAlgorithm: .sha256)
-
             app.routes.grouped(UserAuthenticator())
                 .get("test-auth") { _ in HTTPStatus.ok }
 
@@ -58,9 +54,9 @@ struct UserAuthenticatorTests {
                 metadata: nil
             )
 
-            let token = try await app.jwt.keys.sign(payload)
+            let headers = try await app.getTokenHeader(for: payload)
 
-            try await app.test(.GET, "test-auth", headers: ["Authorization": "Bearer \(token)"]) { res in
+            try await app.test(.GET, "test-auth", headers: headers) { res in
                 #expect(res.status == .unauthorized)
             }
         }
