@@ -10,20 +10,51 @@ on:
 
 jobs:
   lint:
+    name: SwiftLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
         with:
           args: --strict
 
-      - name: Set up Swift 6.1
-        uses: swift-actions/setup-swift@v2.4.0
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    container: swift:6.1-noble
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        # Install zstd to speed up cache compression/decompression
+        # Action runners detect and use it automatically
+        run: |
+          apt-get update && apt-get install -y zstd
+
+      - name: Restore .build
+        id: restore-build
+        uses: actions/cache/restore@v4
         with:
-          swift-version: '6.1'
+          path: servers/.build
+          key: swiftpm-build-${{ runner.os }}-${{ github.event.pull_request.base.sha || github.event.after }}
+          restore-keys: |
+            swiftpm-build-${{ runner.os }}-
+
+      - name: Build MembersServerTest Target
+        run: swift build --target MembersServerTest --enable-code-coverage
+        working-directory: servers
+
+      - name: Cache .build
+        if: steps.restore-build.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: servers/.build
+          key: swiftpm-build-${{ runner.os }}-${{ github.event.pull_request.base.sha || github.event.after }}
 
       - name: Run MembersServer tests
-        run: swift test --package-path ./Tests/MembersServerTest
+        run: swift test --filter MembersServerTest --skip-build --enable-code-coverage
         working-directory: servers
