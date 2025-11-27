@@ -1,5 +1,6 @@
 import Fluent
 import FluentPostgresDriver
+import FluentSQLiteDriver
 import JWT
 import NIOSSL
 import Vapor
@@ -10,17 +11,21 @@ public func configure(_ app: Application) async throws {
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // region Database Configuration and Migrations
-    app.databases.use(
-        DatabaseConfigurationFactory.postgres(
-            configuration: .init(
-                hostname: Environment.get("POSTGRES_HOST") ?? "localhost",
-                port: Environment.get("POSTGRES_PORT").flatMap(Int.init(_:))
-                    ?? SQLPostgresConfiguration.ianaPortNumber,
-                username: Environment.get("POSTGRES_USER") ?? "vapor_username",
-                password: Environment.get("POSTGRES_PASSWORD") ?? "vapor_password",
-                database: Environment.get("POSTGRES_DB") ?? "vapor_database",
-                tls: .prefer(try .init(configuration: .clientDefault)))
-        ), as: .psql)
+    if app.environment == .testing {
+        app.databases.use(.sqlite(.memory), as: .psql)
+    } else {
+        app.databases.use(
+            DatabaseConfigurationFactory.postgres(
+                configuration: .init(
+                    hostname: Environment.get("POSTGRES_HOST") ?? "localhost",
+                    port: Environment.get("POSTGRES_PORT").flatMap(Int.init(_:))
+                        ?? SQLPostgresConfiguration.ianaPortNumber,
+                    username: Environment.get("POSTGRES_USER") ?? "vapor_username",
+                    password: Environment.get("POSTGRES_PASSWORD") ?? "vapor_password",
+                    database: Environment.get("POSTGRES_DB") ?? "vapor_database",
+                    tls: .prefer(try .init(configuration: .clientDefault)))
+            ), as: .psql)
+    }
 
     app.migrations.add(CreateInitialSchema())
     try await app.autoMigrate()
