@@ -20,12 +20,6 @@ let package = Package(
         // Vapor JWT
         .package(url: "https://github.com/vapor/jwt.git", from: "5.0.0"),
 
-        // Supabase for generating tokens for testing
-        .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.37.0"),
-
-        // Swift Arugment Parser for CLI commands
-        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.6.2"),
-
         // OpenAPI/Swagger generation
         .package(url: "https://github.com/dankinsoid/VaporToOpenAPI.git", from: "4.9.1")
     ],
@@ -42,15 +36,6 @@ let package = Package(
                 .product(name: "JWT", package: "jwt"),
                 .product(name: "VaporToOpenAPI", package: "VaporToOpenAPI")
             ],
-            swiftSettings: swiftSettings
-        ),
-        .executableTarget(
-            name: "JwtGenerator",
-            dependencies: [
-                .product(name: "Supabase", package: "supabase-swift"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
-            ],
-            path: "Sources/Tools/JwtGenerator",
             swiftSettings: swiftSettings
         ),
         .testTarget(
