@@ -2,9 +2,8 @@
   "version": 1,
   "lineLength": 160,
   "indentation": {
-    "spaces": 4
+    "spaces": 2
   },
-  "rules": {
-    "UseTrailingCommas": false
-  }
+  "multilineTrailingCommaBehavior": "neverUsed",
+  "multiElementCollectionTrailingCommas": false
 }
