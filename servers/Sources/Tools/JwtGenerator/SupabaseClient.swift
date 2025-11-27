@@ -1,4 +1,3 @@
-// swiftlint :disable all
 import struct Foundation.URL
 import class Supabase.SupabaseClient
 

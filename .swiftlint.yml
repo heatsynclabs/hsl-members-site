@@ -12,3 +12,4 @@ strict: true
 
 disabled_rules:
   - no_blanket_disable
+  - line_length
