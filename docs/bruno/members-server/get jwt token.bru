@@ -1,0 +1,42 @@
+meta {
+  name: get jwt token
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://fcctfigwgmjcpkgoorxr.supabase.co/auth/v1/token?grant_type=password
+  body: json
+  auth: inherit
+}
+
+params:query {
+  grant_type: password
+}
+
+headers {
+  apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjY3RmaWd3Z21qY3BrZ29vcnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NzI0OTMsImV4cCI6MjA3ODE0ODQ5M30._tLpbbANTeFRrZzl2qCVrDDeSYW4kC5a1_u57dqTCbE
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "password": "{{password}}"
+  }
+}
+
+vars:pre-request {
+  email: test@test.com
+  password: test123
+}
+
+script:post-response {
+  const json = res.body
+  bru.setEnvVar("jwt", json.access_token.trim())
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
