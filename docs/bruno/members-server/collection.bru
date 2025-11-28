@@ -1,0 +1,11 @@
+auth {
+  mode: bearer
+}
+
+auth:bearer {
+  token: {{jwt}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:8080/v1
+}

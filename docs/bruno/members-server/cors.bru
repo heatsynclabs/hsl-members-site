@@ -1,0 +1,22 @@
+meta {
+  name: cors
+  type: http
+  seq: 5
+}
+
+options {
+  url: {{base_url}}/swagger/swagger.json
+  body: none
+  auth: inherit
+}
+
+headers {
+  Origin: http://localhost:5173
+  Access-Control-Request-Method: GET
+  Access-Control-Request-Headers: authorization, content-type
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
