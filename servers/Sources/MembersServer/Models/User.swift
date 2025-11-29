@@ -93,6 +93,9 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Children(for: \.$user)
     var card: [UserCard]
 
+    @Children(for: \.$user)
+    var badges: [UserBadge]
+
     // Computed Vars
 
     var fullName: String {

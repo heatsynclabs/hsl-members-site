@@ -12,6 +12,7 @@ struct AddBadgesMigration: AsyncMigration {
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
+            .unique(on: DbConstants.stationIdRelation)
             .create()
 
         try await database.schema(DbConstants.userBadgesTable)
@@ -19,6 +20,7 @@ struct AddBadgesMigration: AsyncMigration {
             .field(DbConstants.userIdRelation, .uuid, .required, .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade))
             .field(DbConstants.badgesIdRelation, .uuid, .required, .references(DbConstants.badgesTable, DbConstants.idField, onDelete: .cascade))
             .field(DbConstants.createdAtField, .datetime, .required)
+            .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
             .create()
     }

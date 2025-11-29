@@ -21,6 +21,11 @@ final class Station: Model, @unchecked Sendable {
     @Timestamp(key: DbConstants.deletedAtField, on: .delete)
     var deletedAt: Date?
 
+    // Relations
+
+    @OptionalChild(for: \.$station)
+    var badge: Badge?
+
     init() {}
 
     init(id: UUID? = nil, name: String) {
