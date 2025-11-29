@@ -7,7 +7,7 @@ import SQLKit
 // while introducing some normalization improvements where it made sense
 // Does not include payments or certifications, which will be added in later migrations
 // I wanted to keep this one simpler and focused on core data structures first
-struct CreateInitialSchema: AsyncMigration {
+struct CreateInitialMigration: AsyncMigration {
     func prepare(on database: any Database) async throws {
         // For the users, I extracted a normalized what I could and kept core data fields
         // I didn't keep the password, last login etc fields since we most likely won't be using those
