@@ -24,7 +24,6 @@ struct UserDetailedResponseDTO: Content, Codable {
     var postalCode: String?
     var membershipLevel: MembershipLevelDTO?
     var roles: [RoleDTO]
-    var orientation: UserOrientationDTO?
     var instructorStations: [StationBasicDTO]
     var createdAt: Date
     var updatedAt: Date
@@ -56,7 +55,6 @@ extension User {
             postalCode: self.postalCode,
             membershipLevel: self.membershipLevel?.toDTO(),
             roles: self.roles.map { $0.toDTO() },
-            orientation: self.orientation?.toUserOrientationDTO(),
             instructorStations: self.instructorForStations.map { $0.station.toBasicDTO() },
             createdAt: self.createdAt ?? Date(),
             updatedAt: self.updatedAt ?? Date()

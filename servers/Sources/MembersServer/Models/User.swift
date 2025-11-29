@@ -87,12 +87,6 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @OptionalChild(for: \.$user)
     var membershipLevel: UserMembershipLevel?
 
-    @OptionalChild(for: \.$orientedUser)
-    var orientation: Orientation?
-
-    @OptionalChild(for: \.$orientedBy)
-    var orientedUsers: Orientation?
-
     @Children(for: \.$user)
     var instructorForStations: [Instructor]
 
