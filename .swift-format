@@ -2,7 +2,7 @@
   "version": 1,
   "lineLength": 160,
   "indentation": {
-    "spaces": 2
+    "tabs": 1
   },
   "multilineTrailingCommaBehavior": "neverUsed",
   "multiElementCollectionTrailingCommas": false
