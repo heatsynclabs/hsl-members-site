@@ -26,10 +26,8 @@ struct UserServiceTests {
             // Vapor will throw fatal errors if you try to access a relation that is not loaded
             _ = createdUser.membershipLevel
             _ = createdUser.membershipLevel?.membershipLevel
-            _ = createdUser.orientation
-            _ = createdUser.orientation?.orientedBy
-            _ = createdUser.orientedUsers
             _ = createdUser.instructorForStations
+            _ = createdUser.badges
         }
     }
 
@@ -41,10 +39,18 @@ struct UserServiceTests {
             #expect(created.id != nil)
 
             let fetched = try await userService.getUser(for: created.id!)
-            #expect(fetched != nil)
-            #expect(fetched?.firstName == created.firstName)
-            #expect(fetched?.lastName == created.lastName)
-            #expect(fetched?.email == created.email)
+            guard let fetched else {
+                #expect(Bool(false), "Fetched user was nil")
+                return
+            }
+            #expect(fetched.firstName == created.firstName)
+            #expect(fetched.lastName == created.lastName)
+            #expect(fetched.email == created.email)
+
+            _ = fetched.membershipLevel
+            _ = fetched.membershipLevel?.membershipLevel
+            _ = fetched.instructorForStations
+            _ = fetched.badges
         }
     }
 
@@ -128,7 +134,7 @@ struct UserServiceTests {
             let users = [
                 User(firstName: "A", lastName: "One", email: "a1@test.com"),
                 User(firstName: "B", lastName: "Two", email: "b2@test.com"),
-                User(firstName: "C", lastName: "Three", email: "c3@test.com"),
+                User(firstName: "C", lastName: "Three", email: "c3@test.com")
             ]
             try await users.create(on: app.db)
 
