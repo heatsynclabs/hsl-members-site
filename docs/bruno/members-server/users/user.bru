@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{base_url}}/users/09cd3b9c-1509-4e67-8dd1-3bc709acffda
+  url: {{base_url}}/users/:id
   body: none
   auth: inherit
+}
+
+params:path {
+  id: 09cd3b9c-1509-4e67-8dd1-3bc709acffda
 }
 
 settings {

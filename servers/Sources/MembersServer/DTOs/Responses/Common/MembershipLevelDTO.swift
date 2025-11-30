@@ -9,9 +9,12 @@ struct MembershipLevelDTO: Content, Codable {
 }
 
 extension UserMembershipLevel {
-    func toDTO() -> MembershipLevelDTO {
+    func toDTO() throws -> MembershipLevelDTO {
+        guard let id else {
+            throw ServerError.unexpectedError(reason: "User id is missing")
+        }
         return MembershipLevelDTO(
-            id: self.id!,
+            id: id,
             name: self.membershipLevel.name,
             costInCents: self.membershipLevel.costInCents,
             createdAt: self.createdAt ?? Date(),

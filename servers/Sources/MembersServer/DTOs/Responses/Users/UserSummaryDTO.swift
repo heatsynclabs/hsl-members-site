@@ -11,13 +11,17 @@ struct UserSummaryResponseDTO: Content, Codable {
 }
 
 extension User {
-    func toSummaryDTO() -> UserSummaryResponseDTO {
+    func toSummaryDTO() throws -> UserSummaryResponseDTO {
+        guard let id else {
+            throw ServerError.unexpectedError(reason: "User id is missing")
+        }
+
         return UserSummaryResponseDTO(
-            id: self.id!,
+            id: id,
             firstName: self.firstName,
             lastName: self.lastName,
             email: self.email,
-            membershipLevel: self.membershipLevel?.toDTO(),
+            membershipLevel: try self.membershipLevel?.toDTO(),
             createdAt: self.createdAt ?? Date(),
             updatedAt: self.updatedAt ?? Date()
         )

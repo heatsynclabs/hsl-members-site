@@ -8,9 +8,13 @@ struct RoleDTO: Content, Codable {
 }
 
 extension UserRole {
-    func toDTO() -> RoleDTO {
+    func toDTO() throws -> RoleDTO {
+        guard let id else {
+            throw ServerError.unexpectedError(reason: "Role id is missing")
+        }
+
         return RoleDTO(
-            id: self.id!,
+            id: id,
             name: self.role.rawValue,
             createdAt: self.createdAt ?? Date(),
             updatedAt: self.updatedAt ?? Date()

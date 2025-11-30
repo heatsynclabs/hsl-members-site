@@ -24,19 +24,18 @@ struct UserService {
             checkHiddenFields(user: &user)
         }
 
-        return user.toDetailedDTO()
+        return try user.toDetailedDTO()
     }
 
     func getUsers(page: PageRequest) async throws -> Page<UserSummaryResponseDTO> {
         let users: Page<User> = try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
-            .with(\.$badges) { $0.with(\.$badge) { $0.with(\.$station) } }
             .paginate(page)
 
-        return users.map {
+        return try users.map {
             var user = $0
             checkHiddenFields(user: &user)
-            return user.toSummaryDTO()
+            return try user.toSummaryDTO()
         }
     }
 
@@ -48,7 +47,7 @@ struct UserService {
 
         dto.updateUser(user)
         try await user.save(on: database)
-        return user.toDetailedDTO()
+        return try user.toDetailedDTO()
     }
 
     func createUser(from user: User) async throws -> User {
