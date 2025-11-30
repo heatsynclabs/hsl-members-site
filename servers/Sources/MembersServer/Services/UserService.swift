@@ -30,6 +30,7 @@ struct UserService {
     func getUsers(page: PageRequest) async throws -> Page<UserSummaryResponseDTO> {
         let users: Page<User> = try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
+            .with(\.$badges) { $0.with(\.$badge) { $0.with(\.$station) } }
             .paginate(page)
 
         return users.map {
@@ -75,6 +76,7 @@ struct UserService {
     private func getDetailedUser(id: UUID, on database: any Database) async throws -> User? {
         return try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
+            .with(\.$badges) { $0.with(\.$badge) { $0.with(\.$station) } }
             .with(\.$roles)
             .with(\.$instructorForStations)
             .filter(\.$id == id)

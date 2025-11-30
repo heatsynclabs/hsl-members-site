@@ -13,7 +13,7 @@ struct CreateInitialMigration: AsyncMigration {
         // I didn't keep the password, last login etc fields since we most likely won't be using those
         // if we go with a different authentication system, but we can always add them back later if needed
         try await database.schema(DbConstants.usersTable)
-            .field("id", .uuid, .identifier(auto: false))
+            .field(DbConstants.idField, .uuid, .identifier(auto: false))
             .field("first_name", .string, .required)
             .field("last_name", .string, .required)
             .field("email", .string, .required)
@@ -84,12 +84,12 @@ struct CreateInitialMigration: AsyncMigration {
         // existing data as needed
         try await database.schema(DbConstants.membershipLevelsTable)
             .id()
-            .field("name", .string, .required)
+            .field(DbConstants.nameField, .string, .required)
             .field("cost_in_cents", .int, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "name")
+            .unique(on: DbConstants.nameField)
             .create()
 
         // Just has simple association between users and membership levels for now
@@ -97,24 +97,24 @@ struct CreateInitialMigration: AsyncMigration {
         try await database.schema(DbConstants.userMembershipLevelsTable)
             .id()
             .field(
-                "user_id", .uuid, .required,
-                .references(DbConstants.usersTable, "id", onDelete: .cascade)
+                DbConstants.userIdRelation, .uuid, .required,
+                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
             )
             .field(
-                "membership_level_id", .uuid, .required,
-                .references(DbConstants.membershipLevelsTable, "id", onDelete: .cascade),
+                DbConstants.membershipLevelIdRelation, .uuid, .required,
+                .references(DbConstants.membershipLevelsTable, DbConstants.idField, onDelete: .cascade),
             )
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "user_id", "membership_level_id")
+            .unique(on: DbConstants.userIdRelation, DbConstants.membershipLevelIdRelation)
             .create()
 
         // Replaces the old oriented_by_id and orientation date fields on users
         try await database.schema(DbConstants.orientationsTable)
             .id()
-            .field("oriented_by_id", .uuid, .required, .references(DbConstants.usersTable, "id"))
-            .field("oriented_user_id", .uuid, .required, .references(DbConstants.usersTable, "id"))
+            .field("oriented_by_id", .uuid, .required, .references(DbConstants.usersTable, DbConstants.idField))
+            .field("oriented_user_id", .uuid, .required, .references(DbConstants.usersTable, DbConstants.idField))
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
@@ -123,27 +123,27 @@ struct CreateInitialMigration: AsyncMigration {
 
         try await database.schema(DbConstants.stationsTable)
             .id()
-            .field("name", .string, .required)
+            .field(DbConstants.nameField, .string, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "name")
+            .unique(on: DbConstants.nameField)
             .create()
 
         try await database.schema(DbConstants.instructorsTable)
             .id()
             .field(
-                "user_id", .uuid, .required,
-                .references(DbConstants.usersTable, "id", onDelete: .cascade)
+                DbConstants.userIdRelation, .uuid, .required,
+                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
             )
             .field(
-                "station_id", .uuid, .required,
-                .references(DbConstants.stationsTable, "id", onDelete: .cascade)
+                DbConstants.stationIdRelation, .uuid, .required,
+                .references(DbConstants.stationsTable, DbConstants.idField, onDelete: .cascade)
             )
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "user_id", "station_id")
+            .unique(on: DbConstants.userIdRelation, DbConstants.stationIdRelation)
             .create()
 
         try await database.schema(DbConstants.cardsTable)
@@ -154,7 +154,7 @@ struct CreateInitialMigration: AsyncMigration {
             // 255 == Disabled
             .field("card_permissions", .int, .required)
             // Card name (seems to be used for labeling cards in the system)
-            .field("name", .string)
+            .field(DbConstants.nameField, .string)
             .field(DbConstants.createdAtField, .datetime, .required)
             .field(DbConstants.updatedAtField, .datetime, .required)
             .field(DbConstants.deletedAtField, .datetime)
@@ -168,11 +168,11 @@ struct CreateInitialMigration: AsyncMigration {
             .id()
             .field(
                 "card_id", .uuid, .required,
-                .references(DbConstants.cardsTable, "id", onDelete: .cascade)
+                .references(DbConstants.cardsTable, DbConstants.idField, onDelete: .cascade)
             )
             .field(
-                "user_id", .uuid, .required,
-                .references(DbConstants.usersTable, "id", onDelete: .cascade)
+                DbConstants.userIdRelation, .uuid, .required,
+                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
             )
             .field("active", .bool, .required)
             .field(DbConstants.createdAtField, .datetime, .required)
@@ -183,7 +183,7 @@ struct CreateInitialMigration: AsyncMigration {
             // Can be null if a card number isn't used (needs to be extracted from data)
             // such as for door events (locked/unlocked)
             // the old one didn't have a foreign key reference, but I thought it would be a nice touch
-            .field("card_id", .uuid, .references(DbConstants.cardsTable, "id"))
+            .field("card_id", .uuid, .references(DbConstants.cardsTable, DbConstants.idField))
             // This is the key for what happened, which relates to access attempt or door status
             // The data changes based on the event type
             // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
