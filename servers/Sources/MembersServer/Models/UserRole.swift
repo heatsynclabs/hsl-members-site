@@ -10,24 +10,35 @@ final class UserRole: Model, @unchecked Sendable {
         case cardHolder = "card_holder"
     }
 
-    static let schema = DbConstants.userRolesTable
+    // Schema
+    static let schema = "user_roles"
 
+    static let fieldId = DbConstants.idField
+    static let fieldUserId = DbConstants.userIdRelation
+    static let fieldRole: FieldKey = "role"
+    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldUpdatedAt = DbConstants.updatedAtField
+    static let fieldDeletedAt = DbConstants.deletedAtField
+
+    static let enumUserRole = "user_role"
+
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Parent(key: "user_id")
+    @Parent(key: fieldUserId)
     var user: User
 
-    @Enum(key: "role")
+    @Enum(key: fieldRole)
     var role: Role
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: DbConstants.updatedAtField, on: .update)
+    @Timestamp(key: fieldUpdatedAt, on: .update)
     var updatedAt: Date?
 
-    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
     init() {}

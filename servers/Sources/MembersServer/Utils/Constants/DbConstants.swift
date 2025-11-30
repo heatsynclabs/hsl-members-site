@@ -1,19 +1,6 @@
 import Fluent
 
 enum DbConstants {
-    static let usersTable = "users"
-    static let userRolesTable = "user_roles"
-    static let membershipLevelsTable = "membership_levels"
-    static let userMembershipLevelsTable = "user_membership_levels"
-    static let stationsTable = "stations"
-    static let instructorsTable = "instructors"
-    static let userBadgesTable = "user_badges"
-    static let cardsTable = "cards"
-    static let userCardsTable = "user_cards"
-    static let doorLogsTable = "door_logs"
-
-    static let userRole = "user_role"
-
     // Common Fields
     static let idField: FieldKey = "id"
     static let createdAtField: FieldKey = "created_at"

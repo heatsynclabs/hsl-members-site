@@ -4,32 +4,42 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class Card: Model, @unchecked Sendable {
-    static let schema = DbConstants.cardsTable
+    // Schema
+    static let schema = "cards"
+
+    static let fieldId = DbConstants.idField
+    static let fieldCardNumber: FieldKey = "card_number"
+    static let fieldCardPermissions: FieldKey = "card_permissions"
+    static let fieldName = DbConstants.nameField
+    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldUpdatedAt = DbConstants.updatedAtField
+    static let fieldDeletedAt = DbConstants.deletedAtField
 
     private static let permissionsActive = 1
     private static let permissionsDisabled = 255
 
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "card_number")
+    @Field(key: fieldCardNumber)
     var cardNumber: String
 
     // 1 == Active, 255 == Disabled
-    @Field(key: "card_permissions")
+    @Field(key: fieldCardPermissions)
     var cardPermissions: Int
 
     // Card label/name
-    @Field(key: "name")
+    @Field(key: fieldName)
     var name: String?
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: DbConstants.updatedAtField, on: .update)
+    @Timestamp(key: fieldUpdatedAt, on: .update)
     var updatedAt: Date?
 
-    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
     var isActive: Bool { cardPermissions == Card.permissionsActive }

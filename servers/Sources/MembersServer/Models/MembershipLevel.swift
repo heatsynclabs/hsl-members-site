@@ -4,24 +4,33 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class MembershipLevel: Model, @unchecked Sendable {
-    static let schema = DbConstants.membershipLevelsTable
+    // Schema
+    static let schema = "membership_levels"
 
+    static let fieldId = DbConstants.idField
+    static let fieldName = DbConstants.nameField
+    static let fieldCostInCents: FieldKey = "cost_in_cents"
+    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldUpdatedAt = DbConstants.updatedAtField
+    static let fieldDeletedAt = DbConstants.deletedAtField
+
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "name")
+    @Field(key: fieldName)
     var name: String
 
-    @Field(key: "cost_in_cents")
+    @Field(key: fieldCostInCents)
     var costInCents: Int
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: DbConstants.updatedAtField, on: .update)
+    @Timestamp(key: fieldUpdatedAt, on: .update)
     var updatedAt: Date?
 
-    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
     init() {}

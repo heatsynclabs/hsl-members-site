@@ -4,21 +4,29 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class UserCard: Model, @unchecked Sendable {
-    static let schema = DbConstants.userCardsTable
+    // Schema
+    static let schema = "user_cards"
 
+    static let fieldId = DbConstants.idField
+    static let fieldUserId = DbConstants.userIdRelation
+    static let fieldCardId: FieldKey = "card_id"
+    static let fieldActive: FieldKey = "active"
+    static let fieldCreatedAt = DbConstants.createdAtField
+
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Parent(key: "user_id")
+    @Parent(key: fieldUserId)
     var user: User
 
-    @Parent(key: "card_id")
+    @Parent(key: fieldCardId)
     var card: Card
 
-    @Field(key: "active")
+    @Field(key: fieldActive)
     var active: Bool
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
     init() {}

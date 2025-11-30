@@ -12,11 +12,11 @@ struct CreateInitialMigration: AsyncMigration {
         // For the users, I extracted a normalized what I could and kept core data fields
         // I didn't keep the password, last login etc fields since we most likely won't be using those
         // if we go with a different authentication system, but we can always add them back later if needed
-        try await database.schema(DbConstants.usersTable)
-            .field(DbConstants.idField, .uuid, .identifier(auto: false))
-            .field("first_name", .string, .required)
-            .field("last_name", .string, .required)
-            .field("email", .string, .required)
+        try await database.schema(User.schema)
+            .field(User.fieldId, .uuid, .identifier(auto: false))
+            .field(User.fieldFirstName, .string, .required)
+            .field(User.fieldLastName, .string, .required)
+            .field(User.fieldEmail, .string, .required)
 
             // This is leftover field from the old users schema, I wasn't sure what to do with it
             // There is also a "contracts" table in the old schema that seems related
@@ -24,53 +24,53 @@ struct CreateInitialMigration: AsyncMigration {
             // once we understand the purpose better and if we need to log more signed docs other than waivers
             // (UPDATE) I talked to a few people at the lab and none of them seem to know what the contracts
             // table is for either. Once we get the prod database access we should look.
-            .field("waiver", .datetime)
+            .field(User.fieldWaiver, .datetime)
 
-            .field("emergency_name", .string)
-            .field("emergency_phone", .string)
-            .field("emergency_email", .string)
+            .field(User.fieldEmergencyName, .string)
+            .field(User.fieldEmergencyPhone, .string)
+            .field(User.fieldEmergencyEmail, .string)
 
             // We can probably normalize this better once we dig into payments later, or possibly keep it simple
             // and align with the old schema for now.
-            .field("payment_method", .string)
-            .field("phone", .string)
-            .field("current_skills", .string)
-            .field("desired_skills", .string)
-            .field("hidden", .bool, .required, .sql(.default(false)))
-            .field("marketing_source", .string)
-            .field("exit_reason", .string)
-            .field("twitter_url", .string)
-            .field("facebook_url", .string)
-            .field("github_url", .string)
-            .field("website_url", .string)
-            .field("email_visible", .bool)
-            .field("phone_visible", .bool)
-            .field("postal_code", .string)
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "email")
+            .field(User.fieldPaymentMethod, .string)
+            .field(User.fieldPhone, .string)
+            .field(User.fieldCurrentSkills, .string)
+            .field(User.fieldDesiredSkills, .string)
+            .field(User.fieldHidden, .bool, .required, .sql(.default(false)))
+            .field(User.fieldMarketingSource, .string)
+            .field(User.fieldExitReason, .string)
+            .field(User.fieldTwitterUrl, .string)
+            .field(User.fieldFacebookUrl, .string)
+            .field(User.fieldGithubUrl, .string)
+            .field(User.fieldWebsiteUrl, .string)
+            .field(User.fieldEmailVisible, .bool)
+            .field(User.fieldPhoneVisible, .bool)
+            .field(User.fieldPostalCode, .string)
+            .field(User.fieldCreatedAt, .datetime, .required)
+            .field(User.fieldUpdatedAt, .datetime, .required)
+            .field(User.fieldDeletedAt, .datetime)
+            .unique(on: User.fieldEmail)
             .create()
 
         // Replaces the old isAdmin and isAccountant fields on users
         // With easy extendablility to future roles
-        let role = try await database.enum(DbConstants.userRole)
+        let role = try await database.enum(UserRole.enumUserRole)
             .case(UserRole.Role.admin.rawValue)
             .case(UserRole.Role.accountant.rawValue)
             .case(UserRole.Role.cardHolder.rawValue)
             .create()
 
-        try await database.schema(DbConstants.userRolesTable)
+        try await database.schema(UserRole.schema)
             .id()
             .field(
-                "user_id", .uuid, .references(DbConstants.usersTable, "id", onDelete: .cascade),
+                UserRole.fieldUserId, .uuid, .references(User.schema, User.fieldId, onDelete: .cascade),
                 .required
             )
-            .field("role", role, .required)
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "user_id", "role")
+            .field(UserRole.fieldRole, role, .required)
+            .field(UserRole.fieldCreatedAt, .datetime, .required)
+            .field(UserRole.fieldUpdatedAt, .datetime, .required)
+            .field(UserRole.fieldDeletedAt, .datetime)
+            .unique(on: UserRole.fieldUserId, UserRole.fieldRole)
             .create()
 
         // Original schema had member_level as an odd range
@@ -82,134 +82,134 @@ struct CreateInitialMigration: AsyncMigration {
         // 100..999 = "Plus ($100)"
         // It seems better to me to normalize it like this, and we can seed the levels later/convert
         // existing data as needed
-        try await database.schema(DbConstants.membershipLevelsTable)
+        try await database.schema(MembershipLevel.schema)
             .id()
-            .field(DbConstants.nameField, .string, .required)
-            .field("cost_in_cents", .int, .required)
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: DbConstants.nameField)
+            .field(MembershipLevel.fieldName, .string, .required)
+            .field(MembershipLevel.fieldCostInCents, .int, .required)
+            .field(MembershipLevel.fieldCreatedAt, .datetime, .required)
+            .field(MembershipLevel.fieldUpdatedAt, .datetime, .required)
+            .field(MembershipLevel.fieldDeletedAt, .datetime)
+            .unique(on: MembershipLevel.fieldName)
             .create()
 
         // Just has simple association between users and membership levels for now
         // We may not to add more fields later depending on how we handle payment data
-        try await database.schema(DbConstants.userMembershipLevelsTable)
+        try await database.schema(UserMembershipLevel.schema)
             .id()
             .field(
-                DbConstants.userIdRelation, .uuid, .required,
-                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
+                UserMembershipLevel.fieldUserId, .uuid, .required,
+                .references(User.schema, User.fieldId, onDelete: .cascade)
             )
             .field(
-                DbConstants.membershipLevelIdRelation, .uuid, .required,
-                .references(DbConstants.membershipLevelsTable, DbConstants.idField, onDelete: .cascade),
+                UserMembershipLevel.fieldMembershipLevelId, .uuid, .required,
+                .references(MembershipLevel.schema, MembershipLevel.fieldId, onDelete: .cascade)
             )
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: DbConstants.userIdRelation, DbConstants.membershipLevelIdRelation)
+            .field(UserMembershipLevel.fieldCreatedAt, .datetime, .required)
+            .field(UserMembershipLevel.fieldUpdatedAt, .datetime, .required)
+            .field(UserMembershipLevel.fieldDeletedAt, .datetime)
+            .unique(on: UserMembershipLevel.fieldUserId, UserMembershipLevel.fieldMembershipLevelId)
             .create()
 
         // Replaces the old oriented_by_id and orientation date fields on users
         try await database.schema(DbConstants.orientationsTable)
             .id()
-            .field("oriented_by_id", .uuid, .required, .references(DbConstants.usersTable, DbConstants.idField))
-            .field("oriented_user_id", .uuid, .required, .references(DbConstants.usersTable, DbConstants.idField))
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
+            .field("oriented_by_id", .uuid, .required, .references(User.schema, User.fieldId))
+            .field("oriented_user_id", .uuid, .required, .references(User.schema, User.fieldId))
+            .field(User.fieldCreatedAt, .datetime, .required)
+            .field(User.fieldUpdatedAt, .datetime, .required)
+            .field(User.fieldDeletedAt, .datetime)
             .unique(on: "oriented_by_id", "oriented_user_id")
             .create()
 
-        try await database.schema(DbConstants.stationsTable)
+        try await database.schema(Station.schema)
             .id()
-            .field(DbConstants.nameField, .string, .required)
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: DbConstants.nameField)
+            .field(Station.fieldName, .string, .required)
+            .field(Station.fieldCreatedAt, .datetime, .required)
+            .field(Station.fieldUpdatedAt, .datetime, .required)
+            .field(Station.fieldDeletedAt, .datetime)
+            .unique(on: Station.fieldName)
             .create()
 
-        try await database.schema(DbConstants.instructorsTable)
+        try await database.schema(Instructor.schema)
             .id()
             .field(
-                DbConstants.userIdRelation, .uuid, .required,
-                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
+                Instructor.fieldUserId, .uuid, .required,
+                .references(User.schema, User.fieldId, onDelete: .cascade)
             )
             .field(
-                DbConstants.stationIdRelation, .uuid, .required,
-                .references(DbConstants.stationsTable, DbConstants.idField, onDelete: .cascade)
+                Instructor.fieldStationId, .uuid, .required,
+                .references(Station.schema, Station.fieldId, onDelete: .cascade)
             )
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: DbConstants.userIdRelation, DbConstants.stationIdRelation)
+            .field(Instructor.fieldCreatedAt, .datetime, .required)
+            .field(Instructor.fieldUpdatedAt, .datetime, .required)
+            .field(Instructor.fieldDeletedAt, .datetime)
+            .unique(on: Instructor.fieldUserId, Instructor.fieldStationId)
             .create()
 
-        try await database.schema(DbConstants.cardsTable)
+        try await database.schema(Card.schema)
             .id()
-            .field("card_number", .string, .required)
+            .field(Card.fieldCardNumber, .string, .required)
             // Seems to only have two values and is flashed on the card I think
             // 1 == Active
             // 255 == Disabled
-            .field("card_permissions", .int, .required)
+            .field(Card.fieldCardPermissions, .int, .required)
             // Card name (seems to be used for labeling cards in the system)
-            .field(DbConstants.nameField, .string)
-            .field(DbConstants.createdAtField, .datetime, .required)
-            .field(DbConstants.updatedAtField, .datetime, .required)
-            .field(DbConstants.deletedAtField, .datetime)
-            .unique(on: "card_number")
+            .field(Card.fieldName, .string)
+            .field(Card.fieldCreatedAt, .datetime, .required)
+            .field(Card.fieldUpdatedAt, .datetime, .required)
+            .field(Card.fieldDeletedAt, .datetime)
+            .unique(on: Card.fieldCardNumber)
             .create()
 
         // Keeps track of which cards are assigned to which users at what time
         // Designed to be an appendable log of card assignments, therefor we have an active flag
         // and no unique constraint on user_id/card_id
-        try await database.schema(DbConstants.userCardsTable)
+        try await database.schema(UserCard.schema)
             .id()
             .field(
-                "card_id", .uuid, .required,
-                .references(DbConstants.cardsTable, DbConstants.idField, onDelete: .cascade)
+                UserCard.fieldCardId, .uuid, .required,
+                .references(Card.schema, Card.fieldId, onDelete: .cascade)
             )
             .field(
-                DbConstants.userIdRelation, .uuid, .required,
-                .references(DbConstants.usersTable, DbConstants.idField, onDelete: .cascade)
+                UserCard.fieldUserId, .uuid, .required,
+                .references(User.schema, User.fieldId, onDelete: .cascade)
             )
-            .field("active", .bool, .required)
-            .field(DbConstants.createdAtField, .datetime, .required)
+            .field(UserCard.fieldActive, .bool, .required)
+            .field(UserCard.fieldCreatedAt, .datetime, .required)
             .create()
 
-        try await database.schema(DbConstants.doorLogsTable)
+        try await database.schema(DoorLog.schema)
             .id()
             // Can be null if a card number isn't used (needs to be extracted from data)
             // such as for door events (locked/unlocked)
             // the old one didn't have a foreign key reference, but I thought it would be a nice touch
-            .field("card_id", .uuid, .references(DbConstants.cardsTable, DbConstants.idField))
+            .field(DoorLog.fieldCardId, .uuid, .references(Card.schema, Card.fieldId))
             // This is the key for what happened, which relates to access attempt or door status
             // The data changes based on the event type
             // For access attempt events: "G" = Granted, "R" = Read, "D" = Denied
             // For door events "door_1_locked" or "door_2_locked"
-            .field("key", .string, .required)
+            .field(DoorLog.fieldKey, .string, .required)
             // This logs the status of the door when this event occured if a door event
             // 0 == Unlocked
             // 1 == Locked
             // If it's an access attempt event this is the card number that was used
-            .field("data", .int, .required)
-            .field(DbConstants.createdAtField, .datetime, .required)
+            .field(DoorLog.fieldData, .int, .required)
+            .field(DoorLog.fieldCreatedAt, .datetime, .required)
             .create()
     }
 
     func revert(on database: any Database) async throws {
-        try await database.schema(DbConstants.doorLogsTable).delete()
-        try await database.schema(DbConstants.userCardsTable).delete()
-        try await database.schema(DbConstants.cardsTable).delete()
-        try await database.schema(DbConstants.instructorsTable).delete()
-        try await database.schema(DbConstants.stationsTable).delete()
+        try await database.schema(DoorLog.schema).delete()
+        try await database.schema(UserCard.schema).delete()
+        try await database.schema(Card.schema).delete()
+        try await database.schema(Instructor.schema).delete()
+        try await database.schema(Station.schema).delete()
         try await database.schema(DbConstants.orientationsTable).delete()
-        try await database.schema(DbConstants.userMembershipLevelsTable).delete()
-        try await database.schema(DbConstants.membershipLevelsTable).delete()
-        try await database.schema(DbConstants.userRolesTable).delete()
-        try await database.schema(DbConstants.usersTable).delete()
+        try await database.schema(UserMembershipLevel.schema).delete()
+        try await database.schema(MembershipLevel.schema).delete()
+        try await database.schema(UserRole.schema).delete()
+        try await database.schema(User.schema).delete()
 
-        try await database.enum(DbConstants.userRole).delete()
+        try await database.enum(UserRole.enumUserRole).delete()
     }
 }

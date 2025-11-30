@@ -4,25 +4,32 @@ import struct Foundation.Date
 import struct Foundation.UUID
 
 final class Station: Model, @unchecked Sendable {
-    static let schema = DbConstants.stationsTable
+    // Schema
+    static let schema = "stations"
 
+    static let fieldId = DbConstants.idField
+    static let fieldName = DbConstants.nameField
+    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldUpdatedAt = DbConstants.updatedAtField
+    static let fieldDeletedAt = DbConstants.deletedAtField
+
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "name")
+    @Field(key: fieldName)
     var name: String
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: DbConstants.updatedAtField, on: .update)
+    @Timestamp(key: fieldUpdatedAt, on: .update)
     var updatedAt: Date?
 
-    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
     // Relations
-
     @OptionalChild(for: \.$station)
     var badge: Badge?
 
