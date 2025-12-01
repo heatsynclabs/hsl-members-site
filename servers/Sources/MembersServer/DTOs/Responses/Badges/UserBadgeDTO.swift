@@ -5,6 +5,7 @@ import protocol Vapor.Content
 struct UserBadgeDTO: Content {
     let badgeId: UUID
     let name: String
+    let description: String
     let imageURL: String?
     let earnedAt: Date
     let station: StationBasicDTO
@@ -19,6 +20,7 @@ extension UserBadge {
         return UserBadgeDTO(
             badgeId: badgeId,
             name: badge.name,
+            description: badge.description,
             imageURL: badge.imageURL?.absoluteString,
             earnedAt: createdAt ?? Date(),
             station: stationDTO

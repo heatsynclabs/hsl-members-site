@@ -9,11 +9,13 @@ struct AddBadgesMigration: AsyncMigration {
             .id()
             .field(Badge.fieldName, .string, .required)
             .field(Badge.fieldStationdId, .uuid, .required, .references(Station.schema, Station.fieldId, onDelete: .cascade))
+            .field(Badge.fieldDescription, .string, .required)
             .field(Badge.fieldImageUrl, .string)
             .field(Badge.fieldCreatedAt, .datetime, .required)
             .field(Badge.fieldUpdatedAt, .datetime, .required)
             .field(Badge.fieldDeletedAt, .datetime)
             .unique(on: Badge.fieldStationdId)
+            .unique(on: Badge.fieldName)
             .create()
 
         try await database.schema(UserBadge.schema)
@@ -23,6 +25,7 @@ struct AddBadgesMigration: AsyncMigration {
             .field(UserBadge.fieldCreatedAt, .datetime, .required)
             .field(UserBadge.fieldUpdatedAt, .datetime, .required)
             .field(UserBadge.fieldDeletedAt, .datetime)
+            .unique(on: UserBadge.fieldUserId, UserBadge.fieldBadgeId)
             .create()
     }
 

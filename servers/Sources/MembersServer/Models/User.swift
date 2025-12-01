@@ -134,6 +134,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         roles.contains { $0.role == .admin }
     }
 
+    func hasRole(_ role: UserRole.Role) -> Bool {
+        return roles.contains { $0.role == role }
+    }
+
     init() {}
 
     init(

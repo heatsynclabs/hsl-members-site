@@ -8,6 +8,7 @@ enum DbConstants {
     static let deletedAtField: FieldKey = "deleted_at"
     static let imageUrlField: FieldKey = "image_url"
     static let nameField: FieldKey = "name"
+    static let descriptionField: FieldKey = "description"
 
     static let userIdRelation: FieldKey = "user_id"
     static let stationIdRelation: FieldKey = "station_id"

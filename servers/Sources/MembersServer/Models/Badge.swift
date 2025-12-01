@@ -10,6 +10,7 @@ final class Badge: Model, @unchecked Sendable {
     static let fieldId = DbConstants.idField
     static let fieldName = DbConstants.nameField
     static let fieldStationdId = DbConstants.stationIdRelation
+    static let fieldDescription = DbConstants.descriptionField
     static let fieldImageUrl = DbConstants.imageUrlField
     static let fieldCreatedAt = DbConstants.createdAtField
     static let fieldUpdatedAt = DbConstants.updatedAtField
@@ -21,6 +22,9 @@ final class Badge: Model, @unchecked Sendable {
 
     @Field(key: fieldName)
     var name: String
+
+    @Field(key: fieldDescription)
+    var description: String
 
     @Field(key: fieldImageUrl)
     var imageUrlString: String?
@@ -50,4 +54,18 @@ final class Badge: Model, @unchecked Sendable {
     }
 
     init() {}
+
+    init(
+        id: UUID? = nil,
+        name: String,
+        description: String,
+        imageUrlString: String?,
+        stationId: UUID
+    ) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.imageUrlString = imageUrlString
+        self.$station.id = stationId
+    }
 }

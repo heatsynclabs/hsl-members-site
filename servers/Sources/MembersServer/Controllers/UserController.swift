@@ -3,97 +3,100 @@ import Vapor
 import VaporToOpenAPI
 
 struct UserController: RouteCollection {
-	func boot(routes: any RoutesBuilder) throws {
-		let users = routes.grouped("users")
+    private static let userIdParam = "userID"
+    private static let missingIdError = Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
 
-		users.get(use: self.getUsers)
-			.openAPI(
-				summary: "Get all users",
-				description: "Get a paginated list of users, minus any hidden users",
-				response: .type(Page<UserSummaryResponseDTO>.self)
-			)
+    func boot(routes: any RoutesBuilder) throws {
+        let users = routes.grouped("users")
 
-		users.get(":userID", use: self.getUser)
-			.openAPI(
-				summary: "Get a user by id",
-				description: "Retrieves a user with detailed metadata by the provided id",
-				response: .type(UserDetailedResponseDTO.self)
-			)
+        users.get(use: self.getUsers)
+            .openAPI(
+                summary: "Get all users",
+                description: "Get a paginated list of users, minus any hidden users",
+                response: .type(Page<UserSummaryResponseDTO>.self)
+            )
 
-		users.put(":userID", use: self.updateUser)
-			.openAPI(
-				summary: "Update a current user",
-				description:
-					"Update the user with the provided id, if they have permissions to do so",
-				path: .type(UUID.self),
-				body: .type(UserRequestDTO.self),
-				response: .type(UserDetailedResponseDTO.self),
-			)
+        users.get(":\(Self.userIdParam)", use: self.getUser)
+            .openAPI(
+                summary: "Get a user by id",
+                description: "Retrieves a user with detailed metadata by the provided id",
+                response: .type(UserDetailedResponseDTO.self)
+            )
 
-		users.delete(":userID", use: self.deleteUser)
-			.openAPI(
-				summary: "Delete a user",
-				description:
-					"Delete the user with the provided id, if they have permissions to do so",
-				path: .type(UUID.self),
-				statusCode: .noContent
-			)
-	}
+        users.put(":\(Self.userIdParam)", use: self.updateUser)
+            .openAPI(
+                summary: "Update a current user",
+                description:
+                    "Update the user with the provided id, if they have permissions to do so",
+                path: .type(UUID.self),
+                body: .type(UserRequestDTO.self),
+                response: .type(UserDetailedResponseDTO.self),
+            )
 
-	@Sendable
-	func getUser(req: Request) async throws -> UserDetailedResponseDTO {
-		let curUser = try req.auth.require(User.self)
-		guard let curUserId = curUser.id else {
-			throw Abort(.unauthorized, reason: "Current user ID not found.")
-		}
+        users.delete(":\(Self.userIdParam)", use: self.deleteUser)
+            .openAPI(
+                summary: "Delete a user",
+                description:
+                    "Delete the user with the provided id, if they have permissions to do so",
+                path: .type(UUID.self),
+                statusCode: .noContent
+            )
+    }
 
-		let userId = req.parameters.get("userID", as: UUID.self)
-		guard let userId else {
-			throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
-		}
+    @Sendable
+    func getUser(req: Request) async throws -> UserDetailedResponseDTO {
+        let curUser = try req.auth.require(User.self)
+        guard let curUserId = curUser.id else {
+            throw Abort(.unauthorized, reason: "Current user ID not found.")
+        }
 
-		let user = try await req.userService.getDetailedUser(id: userId, curUserId: curUserId)
-		guard let user else {
-			throw Abort(.notFound, reason: "User with ID \(userId) not found.")
-		}
-		return user
-	}
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
+        guard let userId else {
+            throw Self.missingIdError
+        }
 
-	@Sendable
-	func getUsers(req: Request) async throws -> Page<UserSummaryResponseDTO> {
-		return try await req.userService.getUsers(page: req.pagination)
-	}
+        let user = try await req.userService.getDetailedUser(id: userId, curUserId: curUserId)
+        guard let user else {
+            throw Abort(.notFound, reason: "User with ID \(userId) not found.")
+        }
+        return user
+    }
 
-	@Sendable
-	func updateUser(req: Request) async throws -> UserDetailedResponseDTO {
-		let curUser = try req.auth.require(User.self)
-		try UserRequestDTO.validate(content: req)
+    @Sendable
+    func getUsers(req: Request) async throws -> Page<UserSummaryResponseDTO> {
+        return try await req.userService.getUsers(page: req.pagination)
+    }
 
-		let userDTO = try req.content.decode(UserRequestDTO.self)
-		let userId = req.parameters.get("userID", as: UUID.self)
-		guard let userId else {
-			throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
-		}
-		guard curUser.id == userId || curUser.isAdmin else {
-			throw UserError.userNotAdmin
-		}
+    @Sendable
+    func updateUser(req: Request) async throws -> UserDetailedResponseDTO {
+        let curUser = try req.auth.require(User.self)
+        try UserRequestDTO.validate(content: req)
 
-		return try await req.userService.updateUser(from: userDTO, for: userId)
-	}
+        let userDTO = try req.content.decode(UserRequestDTO.self)
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
+        guard let userId else {
+            throw Self.missingIdError
+        }
+        guard curUser.id == userId || curUser.isAdmin else {
+            throw UserError.userNotAdmin
+        }
 
-	@Sendable
-	func deleteUser(req: Request) async throws -> HTTPStatus {
-		let curUser = try req.auth.require(User.self)
+        return try await req.userService.updateUser(from: userDTO, for: userId)
+    }
 
-		let userId = req.parameters.get("userID", as: UUID.self)
-		guard let userId else {
-			throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
-		}
-		guard curUser.id == userId || curUser.isAdmin else {
-			throw UserError.userNotAdmin
-		}
+    @Sendable
+    func deleteUser(req: Request) async throws -> HTTPStatus {
+        let curUser = try req.auth.require(User.self)
 
-		try await req.userService.deleteUser(id: userId)
-		return .noContent
-	}
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
+        guard let userId else {
+            throw Self.missingIdError
+        }
+        guard curUser.id == userId || curUser.isAdmin else {
+            throw UserError.userNotAdmin
+        }
+
+        try await req.userService.deleteUser(id: userId)
+        return .noContent
+    }
 }
