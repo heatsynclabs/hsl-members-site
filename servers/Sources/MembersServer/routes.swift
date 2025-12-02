@@ -29,4 +29,5 @@ func routes(_ app: Application) throws {
     let openApiProtected = jwtProtected.groupedOpenAPI(auth: .bearer())
 
     try openApiProtected.register(collection: UserController())
+    try openApiProtected.register(collection: BadgesController())
 }

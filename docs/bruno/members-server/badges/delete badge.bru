@@ -1,0 +1,20 @@
+meta {
+  name: delete badge
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/badges/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 09cd3b9c-1509-4e67-8dd1-3bc709acffda
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
