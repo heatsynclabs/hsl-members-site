@@ -49,7 +49,7 @@ struct BadgesController: RouteCollection {
 
     @Sendable
     func getBadge(req: Request) async throws -> BadgeResponseDTO {
-        let badgeId = req.parameters.get("badgeID", as: UUID.self)
+        let badgeId = req.parameters.get(Self.badgeIdParam, as: UUID.self)
         guard let badgeId else {
             throw Abort(.badRequest, reason: "Invalid or missing badge ID parameter.")
         }

@@ -1,6 +1,6 @@
 import Vapor
 
-enum BadgeError: Error {
+enum BadgeError: Error, Equatable {
     enum UniqueField: String {
         case name
         case station
