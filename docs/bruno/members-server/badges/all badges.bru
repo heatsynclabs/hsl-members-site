@@ -1,17 +1,13 @@
 meta {
-  name: user
+  name: all badges
   type: http
   seq: 1
 }
 
 get {
-  url: {{base_url}}/users/:id
+  url: {{base_url}}/badges
   body: none
   auth: inherit
-}
-
-params:path {
-  id: 09cd3b9c-1509-4e67-8dd1-3bc709acffda
 }
 
 settings {

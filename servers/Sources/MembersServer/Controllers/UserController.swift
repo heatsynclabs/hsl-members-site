@@ -3,6 +3,9 @@ import Vapor
 import VaporToOpenAPI
 
 struct UserController: RouteCollection {
+    private static let userIdParam = "userID"
+    private static let missingIdError = Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
+
     func boot(routes: any RoutesBuilder) throws {
         let users = routes.grouped("users")
 
@@ -13,14 +16,14 @@ struct UserController: RouteCollection {
                 response: .type(Page<UserSummaryResponseDTO>.self)
             )
 
-        users.get(":userID", use: self.getUser)
+        users.get(":\(Self.userIdParam)", use: self.getUser)
             .openAPI(
                 summary: "Get a user by id",
                 description: "Retrieves a user with detailed metadata by the provided id",
                 response: .type(UserDetailedResponseDTO.self)
             )
 
-        users.put(":userID", use: self.updateUser)
+        users.put(":\(Self.userIdParam)", use: self.updateUser)
             .openAPI(
                 summary: "Update a current user",
                 description:
@@ -30,7 +33,7 @@ struct UserController: RouteCollection {
                 response: .type(UserDetailedResponseDTO.self),
             )
 
-        users.delete(":userID", use: self.deleteUser)
+        users.delete(":\(Self.userIdParam)", use: self.deleteUser)
             .openAPI(
                 summary: "Delete a user",
                 description:
@@ -47,9 +50,9 @@ struct UserController: RouteCollection {
             throw Abort(.unauthorized, reason: "Current user ID not found.")
         }
 
-        let userId = req.parameters.get("userID", as: UUID.self)
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
         guard let userId else {
-            throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
+            throw Self.missingIdError
         }
 
         let user = try await req.userService.getDetailedUser(id: userId, curUserId: curUserId)
@@ -70,9 +73,9 @@ struct UserController: RouteCollection {
         try UserRequestDTO.validate(content: req)
 
         let userDTO = try req.content.decode(UserRequestDTO.self)
-        let userId = req.parameters.get("userID", as: UUID.self)
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
         guard let userId else {
-            throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
+            throw Self.missingIdError
         }
         guard curUser.id == userId || curUser.isAdmin else {
             throw UserError.userNotAdmin
@@ -85,9 +88,9 @@ struct UserController: RouteCollection {
     func deleteUser(req: Request) async throws -> HTTPStatus {
         let curUser = try req.auth.require(User.self)
 
-        let userId = req.parameters.get("userID", as: UUID.self)
+        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
         guard let userId else {
-            throw Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
+            throw Self.missingIdError
         }
         guard curUser.id == userId || curUser.isAdmin else {
             throw UserError.userNotAdmin

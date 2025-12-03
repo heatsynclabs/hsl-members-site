@@ -3,13 +3,13 @@ import Fluent
 import struct Foundation.Date
 import struct Foundation.UUID
 
-final class UserMembershipLevel: Model, @unchecked Sendable {
+final class UserBadge: Model, @unchecked Sendable {
     // Schema
-    static let schema = "user_membership_levels"
+    static let schema = "user_badges"
 
     static let fieldId = DbConstants.idField
     static let fieldUserId = DbConstants.userIdRelation
-    static let fieldMembershipLevelId = DbConstants.membershipLevelIdRelation
+    static let fieldBadgeId = DbConstants.badgesIdRelation
     static let fieldCreatedAt = DbConstants.createdAtField
     static let fieldUpdatedAt = DbConstants.updatedAtField
     static let fieldDeletedAt = DbConstants.deletedAtField
@@ -17,12 +17,6 @@ final class UserMembershipLevel: Model, @unchecked Sendable {
     // Model Fields
     @ID(key: .id)
     var id: UUID?
-
-    @Parent(key: fieldUserId)
-    var user: User
-
-    @Parent(key: fieldMembershipLevelId)
-    var membershipLevel: MembershipLevel
 
     @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
@@ -33,11 +27,12 @@ final class UserMembershipLevel: Model, @unchecked Sendable {
     @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
-    init() {}
+    // Relations
+    @Parent(key: fieldUserId)
+    var user: User
 
-    init(id: UUID? = nil, userID: UUID, membershipLevelID: UUID) {
-        self.id = id
-        self.$user.id = userID
-        self.$membershipLevel.id = membershipLevelID
-    }
+    @Parent(key: fieldBadgeId)
+    var badge: Badge
+
+    init() {}
 }

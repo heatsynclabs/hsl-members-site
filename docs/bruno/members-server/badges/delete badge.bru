@@ -1,11 +1,11 @@
 meta {
-  name: user
+  name: delete badge
   type: http
-  seq: 1
+  seq: 5
 }
 
-get {
-  url: {{base_url}}/users/:id
+delete {
+  url: {{base_url}}/badges/:id
   body: none
   auth: inherit
 }

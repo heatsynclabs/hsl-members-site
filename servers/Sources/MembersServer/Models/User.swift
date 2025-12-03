@@ -5,78 +5,106 @@ import struct Foundation.UUID
 import protocol Vapor.Authenticatable
 
 final class User: Model, Authenticatable, @unchecked Sendable {
-    static let schema = DbConstants.usersTable
+    // Schema
+    static let schema = "users"
 
+    static let fieldId = DbConstants.idField
+    static let fieldFirstName: FieldKey = "first_name"
+    static let fieldLastName: FieldKey = "last_name"
+    static let fieldEmail: FieldKey = "email"
+    static let fieldWaiver: FieldKey = "waiver"
+    static let fieldEmergencyName: FieldKey = "emergency_name"
+    static let fieldEmergencyPhone: FieldKey = "emergency_phone"
+    static let fieldEmergencyEmail: FieldKey = "emergency_email"
+    static let fieldPaymentMethod: FieldKey = "payment_method"
+    static let fieldPhone: FieldKey = "phone"
+    static let fieldCurrentSkills: FieldKey = "current_skills"
+    static let fieldDesiredSkills: FieldKey = "desired_skills"
+    static let fieldHidden: FieldKey = "hidden"
+    static let fieldMarketingSource: FieldKey = "marketing_source"
+    static let fieldExitReason: FieldKey = "exit_reason"
+    static let fieldTwitterUrl: FieldKey = "twitter_url"
+    static let fieldFacebookUrl: FieldKey = "facebook_url"
+    static let fieldGithubUrl: FieldKey = "github_url"
+    static let fieldWebsiteUrl: FieldKey = "website_url"
+    static let fieldEmailVisible: FieldKey = "email_visible"
+    static let fieldPhoneVisible: FieldKey = "phone_visible"
+    static let fieldPostalCode: FieldKey = "postal_code"
+    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldUpdatedAt = DbConstants.updatedAtField
+    static let fieldDeletedAt = DbConstants.deletedAtField
+
+    // Model Fields
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "first_name")
+    @Field(key: fieldFirstName)
     var firstName: String
 
-    @Field(key: "last_name")
+    @Field(key: fieldLastName)
     var lastName: String
 
-    @Field(key: "email")
+    @Field(key: fieldEmail)
     var email: String
 
-    @Field(key: "waiver")
+    @Field(key: fieldWaiver)
     var waiverSignedOn: Date?
 
-    @Field(key: "emergency_name")
+    @Field(key: fieldEmergencyName)
     var emergencyName: String?
 
-    @Field(key: "emergency_phone")
+    @Field(key: fieldEmergencyPhone)
     var emergencyPhone: String?
 
-    @Field(key: "emergency_email")
+    @Field(key: fieldEmergencyEmail)
     var emergencyEmail: String?
 
-    @Field(key: "payment_method")
+    @Field(key: fieldPaymentMethod)
     var paymentMethod: String?
 
-    @Field(key: "phone")
+    @Field(key: fieldPhone)
     var phone: String?
 
-    @Field(key: "current_skills")
+    @Field(key: fieldCurrentSkills)
     var currentSkills: String?
 
-    @Field(key: "desired_skills")
+    @Field(key: fieldDesiredSkills)
     var desiredSkills: String?
 
-    @Field(key: "marketing_source")
+    @Field(key: fieldMarketingSource)
     var marketingSource: String?
 
-    @Field(key: "exit_reason")
+    @Field(key: fieldExitReason)
     var exitReason: String?
 
-    @Field(key: "twitter_url")
+    @Field(key: fieldTwitterUrl)
     var twitterURL: String?
 
-    @Field(key: "facebook_url")
+    @Field(key: fieldFacebookUrl)
     var facebookURL: String?
 
-    @Field(key: "github_url")
+    @Field(key: fieldGithubUrl)
     var githubURL: String?
 
-    @Field(key: "website_url")
+    @Field(key: fieldWebsiteUrl)
     var websiteURL: String?
 
-    @Field(key: "email_visible")
+    @Field(key: fieldEmailVisible)
     var emailVisible: Bool?
 
-    @Field(key: "phone_visible")
+    @Field(key: fieldPhoneVisible)
     var phoneVisible: Bool?
 
-    @Field(key: "postal_code")
+    @Field(key: fieldPostalCode)
     var postalCode: String?
 
-    @Timestamp(key: DbConstants.createdAtField, on: .create)
+    @Timestamp(key: fieldCreatedAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: DbConstants.updatedAtField, on: .update)
+    @Timestamp(key: fieldUpdatedAt, on: .update)
     var updatedAt: Date?
 
-    @Timestamp(key: DbConstants.deletedAtField, on: .delete)
+    @Timestamp(key: fieldDeletedAt, on: .delete)
     var deletedAt: Date?
 
     // Relations
@@ -87,17 +115,14 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @OptionalChild(for: \.$user)
     var membershipLevel: UserMembershipLevel?
 
-    @OptionalChild(for: \.$orientedUser)
-    var orientation: Orientation?
-
-    @OptionalChild(for: \.$orientedBy)
-    var orientedUsers: Orientation?
-
     @Children(for: \.$user)
     var instructorForStations: [Instructor]
 
     @Children(for: \.$user)
     var card: [UserCard]
+
+    @Children(for: \.$user)
+    var badges: [UserBadge]
 
     // Computed Vars
 
@@ -107,6 +132,10 @@ final class User: Model, Authenticatable, @unchecked Sendable {
 
     var isAdmin: Bool {
         roles.contains { $0.role == .admin }
+    }
+
+    func hasRole(_ role: UserRole.Role) -> Bool {
+        return roles.contains { $0.role == role }
     }
 
     init() {}

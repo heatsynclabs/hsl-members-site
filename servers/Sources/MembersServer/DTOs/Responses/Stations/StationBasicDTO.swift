@@ -6,9 +6,12 @@ struct StationBasicDTO: Content, Codable {
 }
 
 extension Station {
-    func toBasicDTO() -> StationBasicDTO {
+    func toBasicDTO() throws -> StationBasicDTO {
+        guard let id else {
+            throw ServerError.unexpectedError(reason: "Station id is missing")
+        }
         return StationBasicDTO(
-            id: self.id!,
+            id: id,
             name: self.name
         )
     }

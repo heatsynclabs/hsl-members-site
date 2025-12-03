@@ -1,0 +1,25 @@
+meta {
+  name: add badge
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/badges
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Oriented",
+    "description": "Congratulations, you've been oriented to the lab!",
+    "imageURL": "http://myaddress.com/images",
+    "stationId": "09cd3b9c-1509-4e67-8dd1-3bc709acffda"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -24,16 +24,20 @@ struct UserDetailedResponseDTO: Content, Codable {
     var postalCode: String?
     var membershipLevel: MembershipLevelDTO?
     var roles: [RoleDTO]
-    var orientation: OrientationDTO?
     var instructorStations: [StationBasicDTO]
+    var badges: [UserBadgeDTO]
     var createdAt: Date
     var updatedAt: Date
 }
 
 extension User {
-    func toDetailedDTO() -> UserDetailedResponseDTO {
+    func toDetailedDTO() throws -> UserDetailedResponseDTO {
+        guard let id else {
+            throw ServerError.unexpectedError(reason: "User id is missing")
+        }
+
         return UserDetailedResponseDTO(
-            id: self.id!,
+            id: id,
             firstName: self.firstName,
             lastName: self.lastName,
             email: self.email,
@@ -54,10 +58,10 @@ extension User {
             emailVisible: self.emailVisible,
             phoneVisible: self.phoneVisible,
             postalCode: self.postalCode,
-            membershipLevel: self.membershipLevel?.toDTO(),
-            roles: self.roles.map { $0.toDTO() },
-            orientation: self.orientation?.toDTO(),
-            instructorStations: self.instructorForStations.map { $0.station.toBasicDTO() },
+            membershipLevel: try self.membershipLevel?.toDTO(),
+            roles: try self.roles.map { try $0.toDTO() },
+            instructorStations: try self.instructorForStations.map { try $0.station.toBasicDTO() },
+            badges: try self.badges.map { try $0.toDTO() },
             createdAt: self.createdAt ?? Date(),
             updatedAt: self.updatedAt ?? Date()
         )

@@ -30,8 +30,7 @@ extension UserRequestDTO: Validatable {
         validations.add("email", as: String.self, is: .email && .count(3...254))
         validations.add("emergencyName", as: String.self, is: .count(1...100), required: false)
         validations.add("emergencyPhone", as: String.self, is: .count(10...20), required: false)
-        validations.add(
-            "emergencyEmail", as: String.self, is: .email && .count(3...254), required: false)
+        validations.add("emergencyEmail", as: String.self, is: .email && .count(3...254), required: false)
         validations.add("paymentMethod", as: String.self, is: .count(1...50), required: false)
         validations.add("phone", as: String.self, is: .count(10...20), required: false)
         validations.add("currentSkills", as: String.self, is: .count(1...1000), required: false)
@@ -44,7 +43,7 @@ extension UserRequestDTO: Validatable {
                 && .custom(
                     "valid twitter url",
                     validationClosure: { url in
-                        return url.contains("twitter.com")
+                        return url.contains("twitter.com") || url.contains("x.com")
                     }),
             required: false)
         validations.add(
