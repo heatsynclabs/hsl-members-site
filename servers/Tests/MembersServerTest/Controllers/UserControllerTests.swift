@@ -94,7 +94,7 @@ struct UserControllerTests {
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
 
             try await app.testing().test(
-                .GET, "/v1/users/\(user.id?.uuidString ?? "")",
+                .GET, "/v1/users/\(user.id?.uuidString ?? "")"
             ) { res in
                 #expect(res.status == .unauthorized)
             }
@@ -125,6 +125,32 @@ struct UserControllerTests {
                 #expect(body.items.contains { $0.id == user1.id })
                 #expect(body.items.contains { $0.id == user2.id })
                 #expect(!body.items.contains { $0.id == user3.id })
+            }
+        }
+    }
+
+    @Test("Get Users - Search")
+    func testGetUsersSearch() async throws {
+        try await withApp { app in
+            let userService = UserService(database: app.db, logger: app.logger)
+            _ = try await userService.createUser(
+                from: User(firstName: "A", lastName: "One", email: "a1@test.com"))
+            let user2 = try await userService.createUser(
+                from: User(firstName: "B", lastName: "Two", email: "b2@test.com"))
+            _ = try await userService.createUser(
+                from: User(firstName: "C", lastName: "Three", email: "c3@test.com"))
+            let headers = try await app.getTokenHeader(for: user2)
+
+            let query = "two"
+
+            try await app.testing().test(.GET, "/v1/users?page=1&per=2&search=\(query)", headers: headers) { res in
+                #expect(res.status == .ok)
+                let body = try res.content.decode(Page<UserSummaryResponseDTO>.self)
+                #expect(body.items.count == 1)
+                #expect(body.metadata.total == 1)
+                #expect(body.metadata.page == 1)
+                #expect(body.metadata.per == 2)
+                #expect(body.items.contains { $0.id == user2.id })
             }
         }
     }

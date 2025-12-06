@@ -3,7 +3,7 @@ import Vapor
 import VaporToOpenAPI
 
 extension UserController {
-    struct SearchParams: Content, Validatable {
+    struct SearchParams: Content, Codable, Validatable {
         let search: String?
 
         static func validations(_ validations: inout Vapor.Validations) {
@@ -23,6 +23,7 @@ struct UserController: RouteCollection {
             .openAPI(
                 summary: "Get all users",
                 description: "Get a paginated list of users, minus any hidden users",
+                query: .type(SearchParams.self),
                 response: .type(Page<UserSummaryResponseDTO>.self)
             )
 
