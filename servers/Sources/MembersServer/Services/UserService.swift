@@ -27,10 +27,24 @@ struct UserService {
         return try user.toDetailedDTO()
     }
 
-    func getUsers(page: PageRequest) async throws -> Page<UserSummaryResponseDTO> {
-        let users: Page<User> = try await User.query(on: database)
+    func getUsers(page: PageRequest, searchQuery: String?) async throws -> Page<UserSummaryResponseDTO> {
+        var query = User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
-            .paginate(page)
+
+        if let searchQuery, !searchQuery.isEmpty {
+            let trimmedQuery = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+            let searchTerms = trimmedQuery.split(separator: " ").map { String($0) }
+
+            query = query.group(.or) { group in
+                for term in searchTerms {
+                    group.filter(\.$firstName ~~ term)
+                    group.filter(\.$lastName ~~ term)
+                }
+                group.filter(\.$email ~~ trimmedQuery)
+            }
+        }
+
+        let users = try await query.paginate(page)
 
         return try users.map {
             var user = $0
@@ -77,7 +91,7 @@ struct UserService {
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }
             .with(\.$badges) { $0.with(\.$badge) { $0.with(\.$station) } }
             .with(\.$roles)
-            .with(\.$instructorForStations)
+            .with(\.$instructorForStations) { $0.with(\.$station) }
             .filter(\.$id == id)
             .first()
     }
