@@ -2,6 +2,16 @@ import Fluent
 import Vapor
 import VaporToOpenAPI
 
+extension UserController {
+    struct SearchParams: Content, Codable, Validatable {
+        let search: String?
+
+        static func validations(_ validations: inout Vapor.Validations) {
+            validations.add("search", as: String.self, is: .count(1...200), required: false)
+        }
+    }
+}
+
 struct UserController: RouteCollection {
     private static let userIdParam = "userID"
     private static let missingIdError = Abort(.badRequest, reason: "Invalid or missing user ID parameter.")
@@ -13,6 +23,7 @@ struct UserController: RouteCollection {
             .openAPI(
                 summary: "Get all users",
                 description: "Get a paginated list of users, minus any hidden users",
+                query: .type(SearchParams.self),
                 response: .type(Page<UserSummaryResponseDTO>.self)
             )
 
@@ -30,7 +41,7 @@ struct UserController: RouteCollection {
                     "Update the user with the provided id, if they have permissions to do so",
                 path: .type(UUID.self),
                 body: .type(UserRequestDTO.self),
-                response: .type(UserDetailedResponseDTO.self),
+                response: .type(UserDetailedResponseDTO.self)
             )
 
         users.delete(":\(Self.userIdParam)", use: self.deleteUser)
@@ -64,7 +75,10 @@ struct UserController: RouteCollection {
 
     @Sendable
     func getUsers(req: Request) async throws -> Page<UserSummaryResponseDTO> {
-        return try await req.userService.getUsers(page: req.pagination)
+        try SearchParams.validate(query: req)
+        let searchParams = try req.query.decode(SearchParams.self)
+
+        return try await req.userService.getUsers(page: req.pagination, searchQuery: searchParams.search)
     }
 
     @Sendable

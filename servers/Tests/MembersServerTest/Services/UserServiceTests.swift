@@ -139,10 +139,53 @@ struct UserServiceTests {
             try await users.create(on: app.db)
 
             let pageRequest = PageRequest(page: 1, per: 2)
-            let page = try await userService.getUsers(page: pageRequest)
+            let page = try await userService.getUsers(page: pageRequest, searchQuery: nil)
 
             #expect(page.items.count == 2)
             #expect(page.metadata.total >= 3)
+        }
+    }
+
+    @Test("Test Get Users Search")
+    func testGetUsersSearch() async throws {
+        try await withApp { app in
+            let userService = UserService(database: app.db, logger: app.logger)
+
+            // create several users
+            let users = [
+                User(firstName: "A", lastName: "One", email: "a1@test.com"),
+                User(firstName: "B", lastName: "Two", email: "b2@test.com"),
+                User(firstName: "C", lastName: "Three", email: "c3@test.com")
+            ]
+            try await users.create(on: app.db)
+
+            let userA = users[0]
+            let userB = users[1]
+
+            var searchQuery = "A"
+
+            let pageRequest = PageRequest(page: 1, per: 2)
+            let page = try await userService.getUsers(page: pageRequest, searchQuery: searchQuery)
+
+            #expect(page.items.count == 1)
+            #expect(page.metadata.total == 1)
+            #expect(page.items.contains { $0.id == userA.id })
+
+            searchQuery = "two"
+            let page2 = try await userService.getUsers(page: pageRequest, searchQuery: searchQuery)
+            #expect(page2.items.count == 1)
+            #expect(page2.metadata.total == 1)
+            #expect(page2.items.contains { $0.id == userB.id })
+
+            searchQuery = "test.com"
+            let allRequest = PageRequest(page: 1, per: 10)
+            let page3 = try await userService.getUsers(page: allRequest, searchQuery: searchQuery)
+            #expect(page3.items.count == 3)
+            #expect(page3.metadata.total == 3)
+            #expect(
+                users.allSatisfy { user in
+                    page3.items.contains { $0.id == user.id }
+                })
         }
     }
 
