@@ -75,17 +75,21 @@ const AppHeader: React.FC = () => {
           </a>
 
           <NavLink to="/resources">Resources</NavLink>
-          
+
           <NavLink to="/computers">Computers</NavLink>
-          
-          {!store.isLoggedIn && 
-          (<>
-            <NavLink to="/users/sign_in">Login</NavLink>
-            <NavLink to="/users/sign_up">Membership Application</NavLink>
-          </>) || 
-          (<>
-            <button className="button" onClick={() => store.logoutSession()}>Log Out</button>
-          </>)}
+
+          {(!store.isLoggedIn && (
+            <>
+              <NavLink to="/users/sign_in">Login</NavLink>
+              <NavLink to="/users/sign_up">Membership Application</NavLink>
+            </>
+          )) || (
+            <>
+              <button className="button" onClick={() => store.logoutSession()}>
+                Log Out
+              </button>
+            </>
+          )}
         </nav>
       </header>
 

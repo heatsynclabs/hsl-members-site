@@ -18,7 +18,7 @@ export default function UserDropdown() {
     }
   }, [store.isLoggedIn]);
 
-  const user: User | {} = store?.isLoggedIn && store?.session?.user || {};
+  const user: User | object = (store?.isLoggedIn && store?.session?.user) || {};
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -47,7 +47,9 @@ export default function UserDropdown() {
           />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">{user.email}</span>
+        <span className="block mr-1 font-medium text-theme-sm">
+          {user.email}
+        </span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -76,7 +78,7 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-           {user.email}
+            {user.email}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
             {user.email}

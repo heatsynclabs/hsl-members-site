@@ -11,7 +11,7 @@ export default function Signin() {
 
   React.useEffect(() => {
     if (store.isLoggedIn) {
-      navigate('/')
+      navigate('/');
     }
   }, [store.isLoggedIn]);
 
