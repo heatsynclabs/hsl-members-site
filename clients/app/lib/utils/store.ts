@@ -1,8 +1,7 @@
 import React from 'react';
 import {create} from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { AuthError, createClient, type AuthChangeEvent, type Provider, type Session, type SignInWithOAuthCredentials, type SignInWithPasswordCredentials, type SignUpWithPasswordCredentials, type User, type UserMetadata } from '@supabase/supabase-js';
-import { SITE_URL } from './constants';
+import { AuthError, createClient, type AuthChangeEvent, type Provider, type Session, type SignInWithPasswordCredentials, type SignUpWithPasswordCredentials, type User, type UserMetadata } from '@supabase/supabase-js';
 
 /** undefined for initial value of loading state */
 const UNDEFINED = undefined;
@@ -15,6 +14,8 @@ export const supabase = createClient(
 
 type SessionStoreState = {
   isLoading?: boolean,
+  isLoggedIn: boolean,
+  session: Session | null,
   setLoading: (isLoading: boolean) => void,
   signupSession: (credentials: SignUpWithPasswordCredentials) => void,
   loginSession: (credentials: SignInWithPasswordCredentials) => void,
@@ -30,13 +31,14 @@ export const useSessionStore = create<SessionStoreState>()(
    devtools( // https://github.com/reduxjs/redux-devtools/tree/main/extension#installation
     (set, get) => ({
       isLoading: UNDEFINED,
+      isLoggedIn: false,
       event: null,
       session: null,
       sessionResponseError: null,
       signupSession: async (credentials: SignUpWithPasswordCredentials) => {
         get().setLoading(true);
         const { data: { session }, error } = await supabase.auth.signUp(credentials);
-        set(() => ({ event: null, session, sessionResponseError: error, isLoading: false }), undefined, 'supabase/signupSession');
+        set(() => ({ event: null, session, sessionResponseError: error, isLoading: false, isLoggedIn: Boolean(session?.user?.id) }), undefined, 'supabase/signupSession');
 
       },
       loginSession: (credentials: SignInWithPasswordCredentials) => {
@@ -52,13 +54,13 @@ export const useSessionStore = create<SessionStoreState>()(
         set(() => ({ isLoading }));
       },
       setAuthStateChange: (event: AuthChangeEvent, session: Session | null) => {
-        set(() => ({ event, session, sessionResponseError: null, isLoading: false }), undefined, 'supabase/onAuthStateChange');
+        set(() => ({ event, session, sessionResponseError: null, isLoading: false, isLoggedIn: Boolean(session?.user?.id) }), undefined, 'supabase/onAuthStateChange');
       },
-      clearSession: () => {
-        get().setLoading(false);
+      clearSession: () => {        
+        set(() => ({ isLoading: false, isLoggedIn: false, event: null, session: null, sessionResponseError: null }));
       },
       setSessionResponse: ({ data: { session }, error } : SessionResponse) => {
-        set(() => ({ event: null, session, sessionResponseError: error, isLoading: false }), undefined, 'supabase/getSession');
+        set(() => ({ event: null, session, sessionResponseError: error, isLoading: false, isLoggedIn: Boolean(session?.user?.id) }), undefined, 'supabase/getSession');
       },
     })
   )

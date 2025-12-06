@@ -1,9 +1,19 @@
+import { useSessionStore } from '@/lib/utils/store';
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const signinUrl = '/users/sign_in';
 
 export default function Signin() {
+  const navigate = useNavigate();
+  const store = useSessionStore();
   const formElement = React.useRef(null);
+
+  React.useEffect(() => {
+    if (store.isLoggedIn) {
+      navigate('/')
+    }
+  }, [store.isLoggedIn]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -12,9 +22,12 @@ export default function Signin() {
       return;
     }
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    console.log('signin', { formData, data });
+    store.loginSession({
+      email: formData.get('user[email]'),
+      password: formData.get('user[password]'),
+    });
   };
+
   return (
     <>
       <h2>Sign in</h2>
@@ -43,7 +56,7 @@ export default function Signin() {
             name="user[email]"
             size={30}
             type="email"
-            value=""
+            defaultValue=""
           />
         </div>
 
@@ -54,6 +67,7 @@ export default function Signin() {
             name="user[password]"
             size={30}
             type="password"
+            defaultValue=""
           />
         </div>
 

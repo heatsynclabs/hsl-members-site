@@ -5,8 +5,10 @@ import { useSidebar } from '@context/SidebarContext';
 import Image from '@elements/images/Image';
 import { Link, NavLink } from 'react-router';
 import React from 'react';
+import { useSessionStore } from '../utils/store';
 
 const AppHeader: React.FC = () => {
+  const store = useSessionStore();
   const [isApplicationMenuOpen, setApplicationMenuOpen] = React.useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
@@ -51,10 +53,7 @@ const AppHeader: React.FC = () => {
               className="w-11 m-1"
             />
           </Link>
-          <NavLink to="/resources">Resources</NavLink>
-          <NavLink to="/computers">Computers</NavLink>
-          <NavLink to="/users/sign_in">Login</NavLink>
-          <NavLink to="/users/sign_up">Membership Application</NavLink>
+
           <a
             href="http://wiki.heatsynclabs.org"
             target="_blank"
@@ -74,6 +73,19 @@ const AppHeader: React.FC = () => {
               </svg>
             </span>
           </a>
+
+          <NavLink to="/resources">Resources</NavLink>
+          
+          <NavLink to="/computers">Computers</NavLink>
+          
+          {!store.isLoggedIn && 
+          (<>
+            <NavLink to="/users/sign_in">Login</NavLink>
+            <NavLink to="/users/sign_up">Membership Application</NavLink>
+          </>) || 
+          (<>
+            <button className="button" onClick={() => store.logoutSession()}>Log Out</button>
+          </>)}
         </nav>
       </header>
 

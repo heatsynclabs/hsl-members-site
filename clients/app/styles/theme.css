@@ -81,6 +81,7 @@
     border: var(--btn-border-width) solid var(--btn-border-color);
     padding: calc(calc(var(--spacing) * 3) - calc(var(--btn-border-width)));
     border-radius: 3px;
+    cursor: pointer;
 
     &:hover,
     &:focus,
@@ -91,7 +92,6 @@
         var(--color-amber-400),
         var(--color-amber-800)
       );
-      font-weight: bolder;
     }
   }
 }
