@@ -23,7 +23,7 @@ extension BadgeError: AbortError {
     var reason: String {
         switch self {
         case .uniqueViolation(let field):
-            "The badge field for \(field) you provided already exists, and must be unique."
+            "The value for \(field) you provided already exists, and must be unique."
         case .badgeNotFound:
             "The badge you requested could not be found."
         }

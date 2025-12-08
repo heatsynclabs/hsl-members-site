@@ -9,7 +9,7 @@ final class Badge: Model, @unchecked Sendable {
 
     static let fieldId = DbConstants.idField
     static let fieldName = DbConstants.nameField
-    static let fieldStationdId = DbConstants.stationIdRelation
+    static let fieldStationdId: FieldKey = DbConstants.stationIdRelation
     static let fieldDescription = DbConstants.descriptionField
     static let fieldImageUrl = DbConstants.imageUrlField
     static let fieldCreatedAt = DbConstants.createdAtField

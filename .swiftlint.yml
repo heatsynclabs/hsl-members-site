@@ -13,3 +13,5 @@ strict: true
 disabled_rules:
   - no_blanket_disable
   - blanket_disable_command
+
+line_length: 140
