@@ -23,10 +23,14 @@ struct BadgeService {
     }
 
     func addBadge(from dto: BadgeRequestDTO) async throws -> BadgeResponseDTO {
-        try await badgeUniqueChecks(name: dto.name, stationId: dto.stationId)
         let badge = dto.toModel()
 
         return try await database.transaction { tDb in
+            do {
+                try await badge.save(on: tDb)
+            } catch {
+                try badgeUniqueChecks(error)
+            }
             try await badge.save(on: tDb)
             guard let badgeId = badge.id else {
                 throw ServerError.unexpectedError(reason: "Badge ID is nil after save")
@@ -47,14 +51,14 @@ struct BadgeService {
             throw BadgeError.badgeNotFound
         }
 
-        if badge.name != dto.name || badge.station.id != dto.stationId {
-            try await badgeUniqueChecks(name: dto.name, stationId: dto.stationId)
-        }
-
         dto.updateBadge(badge)
 
         return try await database.transaction { tDb in
-            try await badge.save(on: tDb)
+            do {
+                try await badge.save(on: tDb)
+            } catch {
+                try badgeUniqueChecks(error)
+            }
 
             let updatedBadge = try await getBadgeWithStation(id: id, on: tDb)
             guard let updatedBadge else {
@@ -71,18 +75,21 @@ struct BadgeService {
             .delete()
     }
 
-    private func badgeUniqueChecks(name: String, stationId: UUID) async throws {
-        let nameCount = try await Badge.query(on: database)
-            .filter(\.$name == name)
-            .count()
-        if nameCount > 0 {
-            throw BadgeError.uniqueViolation(field: .name)
+    private func badgeUniqueChecks(_ error: any Error) throws {
+        guard let dbError = error as? any DatabaseError else {
+            throw error
         }
-        let stationCount = try await Badge.query(on: database)
-            .filter(\.$station.$id == stationId)
-            .count()
-        if stationCount > 0 {
+        let field = dbError.constraintName
+        guard let field else {
+            throw error
+        }
+
+        if field.contains(Badge.fieldName.description) {
+            throw BadgeError.uniqueViolation(field: .name)
+        } else if field.contains(Badge.fieldStationdId.description) {
             throw BadgeError.uniqueViolation(field: .station)
+        } else {
+            throw error
         }
     }
 
