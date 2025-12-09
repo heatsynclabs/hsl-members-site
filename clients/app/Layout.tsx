@@ -5,6 +5,7 @@ import Backdrop from './lib/layout/Backdrop';
 import { SidebarProvider, useSidebar } from './lib/context/SidebarContext';
 import AppHeader from './lib/layout/AppHeader';
 import { ThemeProvider } from './lib/context/ThemeContext';
+import { useAuth } from './lib/utils/store';
 
 // Layout will bear all your Providers :>
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -18,6 +19,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function TheRealLayout({ children }: { children: React.ReactNode }) {
+  useAuth();
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Dynamic class for main content margin based on sidebar state
