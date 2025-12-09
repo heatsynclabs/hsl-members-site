@@ -2,11 +2,9 @@ import Fluent
 
 struct BadgeService {
     private let database: any Database
-    private let logger: Logger
 
-    init(database: any Database, logger: Logger) {
+    init(database: any Database) {
         self.database = database
-        self.logger = logger
     }
 
     func getBadge(for id: UUID) async throws -> BadgeResponseDTO? {

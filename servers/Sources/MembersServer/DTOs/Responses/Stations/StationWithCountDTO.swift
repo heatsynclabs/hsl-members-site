@@ -1,6 +1,6 @@
 import Vapor
 
-struct StationDTO: Content, Codable {
+struct StationWithCountDTO: Content, Codable {
     var id: UUID
     var name: String
     var instructorCount: Int
