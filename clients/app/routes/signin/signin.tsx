@@ -1,6 +1,7 @@
-import { useSessionStore } from '@/lib/utils/store';
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { isString } from '@/lib/utils';
+import { useSessionStore } from '@/lib/utils/store';
 
 const signinUrl = '/users/sign_in';
 
@@ -22,10 +23,14 @@ export default function Signin() {
       return;
     }
     const formData = new FormData(form);
-    store.loginSession({
-      email: formData.get('user[email]'),
-      password: formData.get('user[password]'),
-    });
+    const email = formData.get('user[email]');
+    const password = formData.get('user[password]');
+
+    // TODO - Concede to ZOD
+    if (!isString(email) || !isString(password)) {
+      return;
+    }
+    store.loginSession({ email, password });
   };
 
   return (

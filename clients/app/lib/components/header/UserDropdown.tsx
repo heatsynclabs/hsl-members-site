@@ -18,7 +18,8 @@ export default function UserDropdown() {
     }
   }, [store.isLoggedIn]);
 
-  const user: User | object = (store?.isLoggedIn && store?.session?.user) || {};
+  const user: User | { email?: string } =
+    (store?.isLoggedIn && store?.session?.user) || {};
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
