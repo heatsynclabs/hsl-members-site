@@ -2,38 +2,44 @@ import Fluent
 import SQLKit
 
 struct AddUserIndicies: AsyncMigration {
+    private static let idxUserFirstName = "idx_user_first_name"
+    private static let idxUserLastName = "idx_user_last_name"
+    private static let idxUserNameFull = "idx_user_name_full"
+    private static let idxUserCardsUserId = "idx_user_cards_user_id"
+    private static let idxUserCardsUserActive = "idx_user_cards_user_active"
+
     func prepare(on database: any FluentKit.Database) async throws {
         guard let sqlDatabase = database as? any SQLDatabase else {
             fatalError("Attempting to use sql migration on non sql database")
         }
 
         try await sqlDatabase
-            .create(index: "idx_user_first_name")
+            .create(index: Self.idxUserFirstName)
             .on(User.schema)
             .column(User.fieldFirstName.description)
             .run()
 
         try await sqlDatabase
-            .create(index: "idx_user_last_name")
+            .create(index: Self.idxUserLastName)
             .on(User.schema)
             .column(User.fieldLastName.description)
             .run()
 
         try await sqlDatabase
-            .create(index: "idx_user_name_full")
+            .create(index: Self.idxUserNameFull)
             .on(User.schema)
             .column(User.fieldFirstName.description)
             .column(User.fieldLastName.description)
             .run()
 
         try await sqlDatabase
-            .create(index: "idx_user_cards_user_id")
+            .create(index: Self.idxUserCardsUserId)
             .on(UserCard.schema)
             .column(UserCard.fieldUserId.description)
             .run()
 
         try await sqlDatabase
-            .create(index: "idx_user_cards_user_active")
+            .create(index: Self.idxUserCardsUserActive)
             .on(UserCard.schema)
             .column(UserCard.fieldUserId.description)
             .column(UserCard.fieldActive.description)
@@ -47,28 +53,23 @@ struct AddUserIndicies: AsyncMigration {
         }
 
         try await sqlDatabase
-            .drop(index: "idx_user_cards_user_active")
-            .on(UserCard.schema)
+            .drop(index: Self.idxUserCardsUserActive)
             .run()
 
         try await sqlDatabase
-            .drop(index: "idx_user_cards_user_id")
-            .on(UserCard.schema)
+            .drop(index: Self.idxUserCardsUserId)
             .run()
 
         try await sqlDatabase
-            .drop(index: "idx_user_name_full")
-            .on(User.schema)
+            .drop(index: Self.idxUserNameFull)
             .run()
 
         try await sqlDatabase
-            .drop(index: "idx_user_last_name")
-            .on(User.schema)
+            .drop(index: Self.idxUserLastName)
             .run()
 
         try await sqlDatabase
-            .drop(index: "idx_user_first_name")
-            .on(User.schema)
+            .drop(index: Self.idxUserFirstName)
             .run()
     }
 }
