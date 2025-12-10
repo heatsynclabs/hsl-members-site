@@ -26,4 +26,8 @@ struct StationsController: RouteCollection {
         let station = try await req.stationService.getStation(stationId)
         return station
     }
+
+    func getStations(req: Request) async throws -> [StationListResponseDTO] {
+        return try await req.stationService.getStations()
+    }
 }

@@ -19,4 +19,13 @@ struct StationService {
         }
         return try station.toResponseDTO()
     }
+
+    func getStations() async throws -> [StationListResponseDTO] {
+        let stations = try await Station.query(on: database)
+            .with(\.$instructors)
+            .sort(\.$createdAt, .descending)
+            .all()
+
+        return try stations.map { try $0.toListResponseDTO() }
+    }
 }
