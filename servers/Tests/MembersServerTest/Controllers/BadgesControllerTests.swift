@@ -34,8 +34,8 @@ struct BadgesControllerTests {
     @Test("Get Badge by ID - Success")
     func testGetBadgeByIDSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -64,7 +64,7 @@ struct BadgesControllerTests {
     @Test("Get Not Found Badge Returns Not Found")
     func testGetNotFoundBadge() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -79,7 +79,7 @@ struct BadgesControllerTests {
     @Test("Get Badge - Invalid UUID Returns Bad Request")
     func testGetBadgeInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -92,7 +92,7 @@ struct BadgesControllerTests {
     @Test("Get Badge - Unauthorized Without Token")
     func testGetBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let badgeService = BadgeService(database: app.db)
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
@@ -113,8 +113,8 @@ struct BadgesControllerTests {
     @Test("Get Badges - Returns List")
     func testGetBadgesSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -142,7 +142,7 @@ struct BadgesControllerTests {
     @Test("Get Badges - Unauthorized Without Token")
     func testGetBadgesUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let badgeService = BadgeService(database: app.db)
 
             let station1 = BadgesControllerTestHelper.sampleStation(name: "Station 1")
             try await station1.save(on: app.db)
@@ -160,7 +160,7 @@ struct BadgesControllerTests {
     @Test("Add Badge - Success (Admin)")
     func testAddBadgeSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
 
@@ -195,7 +195,7 @@ struct BadgesControllerTests {
     @Test("Add Badge - Non-Admin Returns Forbidden")
     func testAddBadgeNonAdminForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -242,8 +242,8 @@ struct BadgesControllerTests {
     @Test("Add Badge - Duplicate Name Returns Conflict")
     func testAddBadgeDuplicateName() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -280,8 +280,8 @@ struct BadgesControllerTests {
     @Test("Update Badge - Success (Admin)")
     func testUpdateBadgeSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -323,8 +323,8 @@ struct BadgesControllerTests {
     @Test("Update Badge - Non-Admin Returns Forbidden")
     func testUpdateBadgeNonAdminForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -359,7 +359,7 @@ struct BadgesControllerTests {
     @Test("Update Badge - Invalid UUID Returns Bad Request")
     func testUpdateBadgeInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
             let adminRole = UserRole(userID: adminUser.id!, role: .admin)
@@ -388,7 +388,7 @@ struct BadgesControllerTests {
     @Test("Update Badge - Unauthorized Without Token")
     func testUpdateBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let badgeService = BadgeService(database: app.db)
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
@@ -419,7 +419,7 @@ struct BadgesControllerTests {
     @Test("Update Badge - Not Found Returns Not Found")
     func testUpdateBadgeNotFound() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
             let adminRole = UserRole(userID: adminUser.id!, role: .admin)
@@ -450,8 +450,8 @@ struct BadgesControllerTests {
     @Test("Delete Badge - Success (Admin)")
     func testDeleteBadgeSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -481,8 +481,8 @@ struct BadgesControllerTests {
     @Test("Delete Badge - Non-Admin Returns Forbidden")
     func testDeleteBadgeNonAdminForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
+            let badgeService = BadgeService(database: app.db)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -509,7 +509,7 @@ struct BadgesControllerTests {
     @Test("Delete Badge - Invalid UUID Returns Bad Request")
     func testDeleteBadgeInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
             let adminRole = UserRole(userID: adminUser.id!, role: .admin)
@@ -527,7 +527,7 @@ struct BadgesControllerTests {
     @Test("Delete Badge - Unauthorized Without Token")
     func testDeleteBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db, logger: app.logger)
+            let badgeService = BadgeService(database: app.db)
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)

@@ -9,10 +9,7 @@ struct StationService {
     }
 
     func getStation(_ id: UUID) async throws -> StationResponseDTO {
-        let station = try await Station.query(on: database)
-            .with(\.$instructors) { $0.with(\.$user) }
-            .filter(\.$id == id)
-            .first()
+        let station = try await getStationWithInstructors(id: id, on: database)
         guard let station else {
             throw StationError.stationNotFound
         }
@@ -22,13 +19,13 @@ struct StationService {
     func getStations() async throws -> [StationListResponseDTO] {
         let stations = try await Station.query(on: database)
             .with(\.$instructors)
-            .sort(\.$createdAt, .descending)
+            .sort(\.$name, .ascending)
             .all()
 
         return try stations.map { try $0.toListResponseDTO() }
     }
 
-    func addBadge(from dto: StationRequestDTO) async throws -> StationResponseDTO {
+    func addStation(from dto: StationRequestDTO) async throws -> StationResponseDTO {
         let model = dto.toModel()
 
         return try await database.transaction { tDb in
@@ -37,9 +34,43 @@ struct StationService {
             } catch {
                 try stationUniqueChecks(error)
             }
-            _ = try await model.$instructors.query(on: tDb).with(\.$user).all()
-            return try model.toResponseDTO()
+
+            guard let id = model.id else {
+                throw ServerError.unexpectedError(reason: "Station id is missing after creation")
+            }
+
+            let station = try await getStationWithInstructors(id: id, on: tDb)
+            guard let station else {
+                throw ServerError.unexpectedError(reason: "Station not found after creation")
+            }
+            return try station.toResponseDTO()
         }
+    }
+
+    func updateStation(from dto: StationRequestDTO, for id: UUID) async throws -> StationResponseDTO {
+        let station = try await Station.query(on: database)
+            .with(\.$instructors) { $0.with(\.$user) }
+            .filter(\.$id == id)
+            .first()
+        guard let station else {
+            throw StationError.stationNotFound
+        }
+
+        dto.updateModel(station)
+
+        do {
+            try await station.save(on: database)
+        } catch {
+            try stationUniqueChecks(error)
+        }
+
+        return try station.toResponseDTO()
+    }
+
+    func deleteStation(id: UUID) async throws {
+        try await Station.query(on: database)
+            .filter(\.$id == id)
+            .delete()
     }
 
     private func stationUniqueChecks(_ error: any Error) throws {
@@ -56,5 +87,12 @@ struct StationService {
         } else {
             throw error
         }
+    }
+
+    private func getStationWithInstructors(id: UUID, on db: any Database) async throws -> Station? {
+        return try await Station.query(on: db)
+            .with(\.$instructors) { $0.with(\.$user) }
+            .filter(\.$id == id)
+            .first()
     }
 }

@@ -14,7 +14,7 @@ struct UserServiceTests {
     @Test("Test Create User")
     func testCreateUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let createdUser = try await userService.createUser(from: Self.sampleUser())
 
             #expect(createdUser.id != nil)
@@ -34,7 +34,7 @@ struct UserServiceTests {
     @Test("Test Get User")
     func testGetUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 
@@ -57,7 +57,7 @@ struct UserServiceTests {
     @Test("Test Update User")
     func testUpdateUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 
@@ -94,7 +94,7 @@ struct UserServiceTests {
     @Test("Update Non-Existent User Throws Error")
     func testUpdateNonExistentUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
 
             await #expect(throws: UserError.userNotFound) {
                 let updateDTO = UserRequestDTO(
@@ -128,7 +128,7 @@ struct UserServiceTests {
     @Test("Test Get Users Pagination")
     func testGetUsers() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
 
             // create several users
             let users = [
@@ -149,7 +149,7 @@ struct UserServiceTests {
     @Test("Test Get Users Search")
     func testGetUsersSearch() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
 
             // create several users
             let users = [
@@ -192,7 +192,7 @@ struct UserServiceTests {
     @Test("Test Delete User")
     func testDeleteUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let created = try await userService.createUser(from: Self.sampleUser())
             #expect(created.id != nil)
 

@@ -15,3 +15,8 @@ disabled_rules:
   - blanket_disable_command
 
 line_length: 140
+
+identifier_name:
+  excluded:
+    - id
+    - db

@@ -1,0 +1,26 @@
+meta {
+  name: update station
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/stations/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: B0FF4802-D8CD-4772-9F6E-5BACBFB39243
+}
+
+body:json {
+  {
+    "name": "Bit Press"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -15,6 +15,7 @@ struct BadgeService {
     func getAllBadges() async throws -> [BadgeResponseDTO] {
         let badges = try await Badge.query(on: database)
             .with(\.$station)
+            .sort(\.$name, .ascending)
             .all()
 
         return try badges.map { try $0.toResponseDTO() }
@@ -29,7 +30,6 @@ struct BadgeService {
             } catch {
                 try badgeUniqueChecks(error)
             }
-            try await badge.save(on: tDb)
             guard let badgeId = badge.id else {
                 throw ServerError.unexpectedError(reason: "Badge ID is nil after save")
             }
@@ -51,20 +51,13 @@ struct BadgeService {
 
         dto.updateBadge(badge)
 
-        return try await database.transaction { tDb in
-            do {
-                try await badge.save(on: tDb)
-            } catch {
-                try badgeUniqueChecks(error)
-            }
-
-            let updatedBadge = try await getBadgeWithStation(id: id, on: tDb)
-            guard let updatedBadge else {
-                throw ServerError.unexpectedError(reason: "Updated badge returned nil")
-            }
-
-            return try updatedBadge.toResponseDTO()
+        do {
+            try await badge.save(on: database)
+        } catch {
+            try badgeUniqueChecks(error)
         }
+
+        return try badge.toResponseDTO()
     }
 
     func deleteBadge(id: UUID) async throws {

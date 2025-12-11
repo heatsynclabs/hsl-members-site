@@ -1,0 +1,16 @@
+meta {
+  name: add station
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/stations
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,20 @@
+meta {
+  name: delete station
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/stations/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: B0FF4802-D8CD-4772-9F6E-5BACBFB39243
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
