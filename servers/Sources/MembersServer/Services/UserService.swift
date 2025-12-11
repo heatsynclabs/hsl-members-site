@@ -3,11 +3,9 @@ import Vapor
 
 struct UserService {
     private let database: any Database
-    private let logger: Logger
 
-    init(database: any Database, logger: Logger) {
+    init(database: any Database) {
         self.database = database
-        self.logger = logger
     }
 
     func getUser(for id: UUID) async throws -> User? {

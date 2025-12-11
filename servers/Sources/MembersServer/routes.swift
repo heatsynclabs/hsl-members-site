@@ -13,7 +13,7 @@ func routes(_ app: Application) throws {
             info: InfoObject(
                 title: "Example API",
                 description: "Example API description",
-                version: "0.1.0",
+                version: "0.1.0"
             )
         )
     }
@@ -30,4 +30,5 @@ func routes(_ app: Application) throws {
 
     try openApiProtected.register(collection: UserController())
     try openApiProtected.register(collection: BadgesController())
+    try openApiProtected.register(collection: StationsController())
 }

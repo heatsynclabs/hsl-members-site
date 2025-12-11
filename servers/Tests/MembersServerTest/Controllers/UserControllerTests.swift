@@ -40,7 +40,7 @@ struct UserControllerTests {
     @Test("Get User by ID - Success")
     func testGetUserByIDSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -62,7 +62,7 @@ struct UserControllerTests {
     @Test("Get Not Found User Returns Not Found")
     func testGetNotFoundUser() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -77,7 +77,7 @@ struct UserControllerTests {
     @Test("Get User - Invalid UUID Returns Bad Request")
     func testGetUserInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -90,7 +90,7 @@ struct UserControllerTests {
     @Test("Get User - Unauthorized Without Token")
     func testGetUserUnauthorized() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
 
             try await app.testing().test(
@@ -106,7 +106,7 @@ struct UserControllerTests {
     @Test("Get Users - Returns Paginated List")
     func testGetUsersSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user1 = try await userService.createUser(
                 from: User(firstName: "A", lastName: "One", email: "a1@test.com"))
             let user2 = try await userService.createUser(
@@ -132,7 +132,7 @@ struct UserControllerTests {
     @Test("Get Users - Search")
     func testGetUsersSearch() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             _ = try await userService.createUser(
                 from: User(firstName: "A", lastName: "One", email: "a1@test.com"))
             let user2 = try await userService.createUser(
@@ -158,7 +158,7 @@ struct UserControllerTests {
     @Test("Get Users - Unauthorized Without Token")
     func testGetUsersUnauthorized() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             _ = try await userService.createUser(
                 from: User(firstName: "A", lastName: "One", email: "a1@test.com"))
             _ = try await userService.createUser(
@@ -177,7 +177,7 @@ struct UserControllerTests {
     @Test("Update User - Success (Own User)")
     func testUpdateUserSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -203,7 +203,7 @@ struct UserControllerTests {
     @Test("Update User - Admin Can Update Other User")
     func testUpdateUserAsAdmin() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user1 = try await userService.createUser(
                 from: User(firstName: "User", lastName: "One", email: "user1@test.com"))
 
@@ -234,7 +234,7 @@ struct UserControllerTests {
     @Test("Update User - Non-Admin Cannot Update Other User")
     func testUpdateUserNonAdminForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user1 = try await userService.createUser(
                 from: User(firstName: "User", lastName: "One", email: "user1@test.com"))
             let user2 = try await userService.createUser(
@@ -258,7 +258,7 @@ struct UserControllerTests {
     @Test("Update User - Invalid UUID Returns Bad Request")
     func testUpdateUserInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -279,7 +279,7 @@ struct UserControllerTests {
     @Test("Update User - Unauthorized Without Token")
     func testUpdateUserUnauthorized() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
 
             try await app.testing().test(
@@ -298,7 +298,7 @@ struct UserControllerTests {
     @Test("Update User - Not Found Returns Not Found")
     func testUpdateUserNotFound() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let adminUser = try await userService.createUser(
                 from: User(firstName: "Admin", lastName: "User", email: "admin@test.com"))
             let adminRole = UserRole(userID: adminUser.id!, role: .admin)
@@ -324,7 +324,7 @@ struct UserControllerTests {
     @Test("Delete User - Success (Own User)")
     func testDeleteUserSuccess() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -345,7 +345,7 @@ struct UserControllerTests {
     @Test("Delete User - Non-Admin Cannot Delete Other User")
     func testDeleteUserNonAdminForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user1 = try await userService.createUser(
                 from: User(firstName: "User", lastName: "One", email: "user1@test.com"))
             let user2 = try await userService.createUser(
@@ -369,7 +369,7 @@ struct UserControllerTests {
     @Test("Delete User - Admin Can Delete Other User")
     func testDeleteUserAdminNotForbidden() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user1 = try await userService.createUser(
                 from: User(firstName: "User", lastName: "One", email: "user1@test.com"))
 
@@ -397,7 +397,7 @@ struct UserControllerTests {
     @Test("Delete User - Invalid UUID Returns Bad Request")
     func testDeleteUserInvalidUUID() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             let user = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
 
@@ -412,7 +412,7 @@ struct UserControllerTests {
     @Test("Delete User - Unauthorized Without Token")
     func testDeleteUserUnauthorized() async throws {
         try await withApp { app in
-            let userService = UserService(database: app.db, logger: app.logger)
+            let userService = UserService(database: app.db)
             _ = try await userService.createUser(from: UserControllerTestHelper.sampleUser())
 
             try await app.testing().test(.DELETE, "/v1/users/\(UUID().uuidString)") { res in

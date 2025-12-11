@@ -33,6 +33,9 @@ final class Station: Model, @unchecked Sendable {
     @OptionalChild(for: \.$station)
     var badge: Badge?
 
+    @Children(for: \.$station)
+    var instructors: [Instructor]
+
     init() {}
 
     init(id: UUID? = nil, name: String) {

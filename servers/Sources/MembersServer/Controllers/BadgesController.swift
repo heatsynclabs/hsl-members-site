@@ -75,8 +75,8 @@ struct BadgesController: RouteCollection {
         }
 
         try BadgeRequestDTO.validate(content: req)
-
         let badgeDTO = try req.content.decode(BadgeRequestDTO.self)
+
         return try await req.badgeService.addBadge(from: badgeDTO)
     }
 
