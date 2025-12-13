@@ -12,4 +12,8 @@ extension Request {
     var stationService: StationService {
         return StationService(database: self.db)
     }
+
+    var instructorService: InstructorService {
+        return InstructorService(database: self.db)
+    }
 }
