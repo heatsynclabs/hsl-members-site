@@ -36,9 +36,10 @@ struct InstructorService {
         }
     }
 
-    func deleteInstructor(instructorId: UUID) async throws {
+    func deleteInstructor(userId: UUID, stationId: UUID) async throws {
         try await Instructor.query(on: database)
-            .filter(\.$id == instructorId)
+            .filter(\.$user.$id == userId)
+            .filter(\.$station.$id == stationId)
             .delete()
     }
 }

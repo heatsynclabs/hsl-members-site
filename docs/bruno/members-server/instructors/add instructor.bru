@@ -1,0 +1,26 @@
+meta {
+  name: add instructor
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/stations/:stationId/instructors
+  body: json
+  auth: inherit
+}
+
+params:path {
+  stationId: B81DA36A-D018-4696-9ABB-22B3E6CA8908
+}
+
+body:json {
+  {
+    "userId": "09CD3B9C-1509-4E67-8DD1-3BC709ACFFDA"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

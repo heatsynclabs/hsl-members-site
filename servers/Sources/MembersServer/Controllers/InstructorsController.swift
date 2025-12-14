@@ -9,9 +9,9 @@ struct InstructorsController: RouteCollection {
     private static let missingInstructorIdError = Abort(.badRequest, reason: "Invalid or missing instructor ID parameter.")
 
     func boot(routes: any RoutesBuilder) throws {
-        let router = routes.grouped("stations")
+        let router = routes.grouped("stations", ":\(Self.stationIdParam)", "instructors")
 
-        router.post([":\(Self.stationIdParam)"], use: self.addInstructorToStation)
+        router.post(use: self.addInstructorToStation)
             .openAPI(
                 summary: "Add a new instructor",
                 description: "A a new instructor for a station (admin only)",
@@ -19,7 +19,7 @@ struct InstructorsController: RouteCollection {
                 response: .type(InstructorDTO.self)
             )
 
-        router.delete([":\(Self.stationIdParam)", "instructors", ":\(Self.instructorIdParam)"], use: self.deleteInstructor)
+        router.delete([":\(Self.instructorIdParam)"], use: self.deleteInstructor)
             .openAPI(
                 summary: "Delete an instructor",
                 description: "Delete an instructor by id (admin only)"
@@ -51,10 +51,13 @@ struct InstructorsController: RouteCollection {
         }
 
         guard let instructorId = req.parameters.get(Self.instructorIdParam, as: UUID.self) else {
+            throw Self.missingInstructorIdError
+        }
+        guard let stationId = req.parameters.get(Self.stationIdParam, as: UUID.self) else {
             throw Self.missingStationIdError
         }
 
-        try await req.instructorService.deleteInstructor(instructorId: instructorId)
+        try await req.instructorService.deleteInstructor(userId: instructorId, stationId: stationId)
         return .noContent
     }
 }

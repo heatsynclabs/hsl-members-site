@@ -53,7 +53,7 @@ struct InstructorsControllerTests {
             let dto = InstructorsControllerTestHelper.sampleInstructorRequestDTO(userId: userId)
 
             try await app.testing().test(
-                .POST, "/v1/stations/\(stationId)",
+                .POST, "/v1/stations/\(stationId)/instructors",
                 headers: headers,
                 beforeRequest: { req in
                     try req.content.encode(dto)
@@ -88,7 +88,7 @@ struct InstructorsControllerTests {
             let dto = InstructorsControllerTestHelper.sampleInstructorRequestDTO(userId: user.id!)
 
             try await app.testing().test(
-                .POST, "/v1/stations/\(stationId)",
+                .POST, "/v1/stations/\(stationId)/instructors",
                 headers: headers,
                 beforeRequest: { req in
                     try req.content.encode(dto)
@@ -109,7 +109,7 @@ struct InstructorsControllerTests {
             let dto = InstructorsControllerTestHelper.sampleInstructorRequestDTO(userId: UUID())
 
             try await app.testing().test(
-                .POST, "/v1/stations/\(stationId)",
+                .POST, "/v1/stations/\(stationId)/instructors",
                 beforeRequest: { req in
                     try req.content.encode(dto)
                 }
@@ -132,7 +132,7 @@ struct InstructorsControllerTests {
             let dto = InstructorsControllerTestHelper.sampleInstructorRequestDTO(userId: UUID())
 
             try await app.testing().test(
-                .POST, "/v1/stations/invalid-uuid",
+                .POST, "/v1/stations/invalid-uuid/instructors",
                 headers: headers,
                 beforeRequest: { req in
                     try req.content.encode(dto)
@@ -169,7 +169,10 @@ struct InstructorsControllerTests {
             ) { res in
                 #expect(res.status == .noContent)
 
-                let found = try await Instructor.find(instructorDTO.userId, on: app.db)
+                let found = try await Instructor.query(on: app.db)
+                    .filter(\.$user.$id == instructorDTO.userId)
+                    .filter(\.$station.$id == stationId)
+                    .first()
                 #expect(found == nil)
             }
         }
@@ -189,10 +192,10 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let instructorUser = try await userService.createUser(from: User(firstName: "Inst", lastName: "User", email: "inst@test.com"))
-            let instructorDTO = try await instructorService.addInstructor(to: stationId, userId: instructorUser.id!)
+            _ = try await instructorService.addInstructor(to: stationId, userId: instructorUser.id!)
 
             try await app.testing().test(
-                .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorDTO.userId)",
+                .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorUser.id!)",
                 headers: headers
             ) { res in
                 #expect(res.status == .forbidden)
@@ -211,10 +214,10 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
-            let instructorDTO = try await instructorService.addInstructor(to: stationId, userId: user.id!)
+            _ = try await instructorService.addInstructor(to: stationId, userId: user.id!)
 
             try await app.testing().test(
-                .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorDTO.userId)"
+                .DELETE, "/v1/stations/\(stationId)/instructors/\(user.id!)"
             ) { res in
                 #expect(res.status == .unauthorized)
             }
