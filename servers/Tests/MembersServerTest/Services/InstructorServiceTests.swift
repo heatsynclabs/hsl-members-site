@@ -137,11 +137,12 @@ struct InstructorServiceTests {
                 return
             }
 
-            let instructorDTO = try await instructorService.addInstructor(to: stationId, userId: userId)
+            let instructor = Instructor(userID: userId, stationID: stationId)
+            try await instructor.save(on: app.db)
 
-            try await instructorService.deleteInstructor(instructorId: instructorDTO.userId)
+            try await instructorService.deleteInstructor(userId: userId, stationId: stationId)
 
-            let found = try await Instructor.find(instructorDTO.userId, on: app.db)
+            let found = try await Instructor.find(instructor.id, on: app.db)
             #expect(found == nil)
         }
     }
@@ -153,19 +154,19 @@ struct InstructorServiceTests {
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
-            guard station != nil else {
+            guard station.id != nil else {
                 #expect(Bool(false), "Station ID was nil")
                 return
             }
 
             let user = Self.sampleUser()
             try await user.save(on: app.db)
-            guard user != nil else {
+            guard user.id != nil else {
                 #expect(Bool(false), "User ID was nil")
                 return
             }
 
-            try await instructorService.deleteInstructor(instructorId: UUID())
+            try await instructorService.deleteInstructor(userId: UUID(), stationId: UUID())
         }
     }
 }
