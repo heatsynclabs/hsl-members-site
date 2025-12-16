@@ -23,7 +23,7 @@ struct UserController: RouteCollection {
             .openAPI(
                 summary: "Get all users",
                 description: "Get a paginated list of users, minus any hidden users",
-                query: .type(SearchParams.self),
+                query: .all(of: .type(PageRequest.self), .type(SearchParams.self)),
                 response: .type(Page<UserSummaryResponseDTO>.self)
             )
 
