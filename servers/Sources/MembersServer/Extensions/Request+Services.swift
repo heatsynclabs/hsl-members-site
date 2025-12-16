@@ -16,4 +16,8 @@ extension Request {
     var instructorService: InstructorService {
         return InstructorService(database: self.db)
     }
+
+    var adminLogService: AdminLogService {
+        return AdminLogService(database: self.db)
+    }
 }
