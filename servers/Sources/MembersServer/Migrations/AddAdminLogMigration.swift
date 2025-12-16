@@ -6,7 +6,7 @@ struct AddAdminLogMigration: AsyncMigration {
         try await database.schema(AdminLog.schema)
             .id()
             .field(AdminLog.fieldUser, .uuid, .required, .references(User.schema, User.fieldId))
-            .field(AdminLog.fieldLog, .uuid, .required)
+            .field(AdminLog.fieldLog, .string, .required)
             .field(AdminLog.fieldCreatedAt, .datetime, .required)
             .create()
     }

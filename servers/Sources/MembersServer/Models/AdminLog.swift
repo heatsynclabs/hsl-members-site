@@ -2,7 +2,7 @@ import Fluent
 import Foundation
 
 final class AdminLog: Model, @unchecked Sendable {
-    static let schema = "adming_logs"
+    static let schema = "admin_logs"
 
     static let fieldId: FieldKey = DbConstants.idField
     static let fieldUser: FieldKey = DbConstants.userIdRelation

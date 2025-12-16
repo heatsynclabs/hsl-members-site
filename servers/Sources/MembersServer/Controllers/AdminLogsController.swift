@@ -6,7 +6,7 @@ struct AdminLogsController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         let router = routes.grouped("admin-logs")
 
-        router.get(use: self.getBadges)
+        router.get(use: self.getLogs)
             .openAPI(
                 summary: "Get admin access logs",
                 description: "Get a paginated list of admin access logs",
@@ -16,7 +16,7 @@ struct AdminLogsController: RouteCollection {
     }
 
     @Sendable
-    func getBadges(req: Request) async throws -> Page<AdminLogDTO> {
+    func getLogs(req: Request) async throws -> Page<AdminLogDTO> {
         let curUser = try req.auth.require(User.self)
 
         if !curUser.isAdmin {

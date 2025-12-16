@@ -27,7 +27,7 @@ public func configure(_ app: Application) async throws {
             ), as: .psql)
     }
 
-    app.migrations.add(CreateInitialSchema(), AddBadgesMigration(), AddUserIndicies())
+    app.migrations.add(CreateInitialSchema(), AddBadgesMigration(), AddUserIndicies(), AddAdminLogMigration())
     try await app.autoMigrate()
 
     // region JWT Configuration
