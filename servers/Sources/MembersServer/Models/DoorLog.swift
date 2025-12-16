@@ -7,11 +7,11 @@ final class DoorLog: Model, @unchecked Sendable {
     // Schema
     static let schema = "door_logs"
 
-    static let fieldId = DbConstants.idField
+    static let fieldId: FieldKey = DbConstants.idField
     static let fieldCardId: FieldKey = "card_id"
     static let fieldKey: FieldKey = "key"
     static let fieldData: FieldKey = "data"
-    static let fieldCreatedAt = DbConstants.createdAtField
+    static let fieldCreatedAt: FieldKey = DbConstants.createdAtField
 
     // Model Fields
     @ID(key: .id)
