@@ -149,7 +149,8 @@ struct InstructorsControllerTests {
     func testDeleteInstructorSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let instructorService = InstructorService(database: app.db)
+            let adminLogger = AdminLogService(database: app.db)
+            let instructorService = InstructorService(database: app.db, adminLogger: adminLogger)
 
             let adminUser = try await userService.createUser(from: InstructorsControllerTestHelper.sampleAdminUser())
             let adminRole = UserRole(userID: adminUser.id!, role: .admin)
@@ -161,7 +162,7 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
-            let instructorDTO = try await instructorService.addInstructor(to: stationId, userId: user.id!)
+            let instructorDTO = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: user.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorDTO.userId)",
@@ -182,7 +183,8 @@ struct InstructorsControllerTests {
     func testDeleteInstructorNonAdminForbidden() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let instructorService = InstructorService(database: app.db)
+            let adminLogger = AdminLogService(database: app.db)
+            let instructorService = InstructorService(database: app.db, adminLogger: adminLogger)
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -192,7 +194,7 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let instructorUser = try await userService.createUser(from: User(firstName: "Inst", lastName: "User", email: "inst@test.com"))
-            _ = try await instructorService.addInstructor(to: stationId, userId: instructorUser.id!)
+            _ = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: instructorUser.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorUser.id!)",
@@ -207,14 +209,15 @@ struct InstructorsControllerTests {
     func testDeleteInstructorUnauthorized() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let instructorService = InstructorService(database: app.db)
+            let adminLogger = AdminLogService(database: app.db)
+            let instructorService = InstructorService(database: app.db, adminLogger: adminLogger)
 
             let station = InstructorsControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
             guard let stationId = station.id else { return }
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
-            _ = try await instructorService.addInstructor(to: stationId, userId: user.id!)
+            _ = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: user.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(user.id!)"

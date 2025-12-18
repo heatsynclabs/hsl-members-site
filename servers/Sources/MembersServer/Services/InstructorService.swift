@@ -3,12 +3,14 @@ import Foundation
 
 struct InstructorService {
     private let database: any Database
+    private let adminLogger: AdminLogService
 
-    init(database: any Database) {
+    init(database: any Database, adminLogger: AdminLogService) {
         self.database = database
+        self.adminLogger = adminLogger
     }
 
-    func addInstructor(to stationId: UUID, userId: UUID) async throws -> InstructorDTO {
+    func addInstructor(asUser: UUID, to stationId: UUID, userId: UUID) async throws -> InstructorDTO {
         let user = try await User.find(userId, on: database)
         guard user != nil else {
             throw UserError.userNotFound
@@ -19,11 +21,15 @@ struct InstructorService {
         }
 
         do {
-            let instructor = Instructor(userID: userId, stationID: stationId)
-            try await instructor.save(on: database)
-            try await instructor.$user.load(on: database)
+            return try await database.transaction { tDb in
+                let instructor = Instructor(userID: userId, stationID: stationId)
+                try await instructor.save(on: tDb)
+                try await instructor.$user.load(on: tDb)
 
-            return try instructor.toInstructorDTO()
+                try await adminLogger.addLog(for: asUser, on: tDb, "Added user \(userId) as an instructor to station \(stationId)")
+
+                return try instructor.toInstructorDTO()
+            }
         } catch {
             if let dbError = error as? any DatabaseError, dbError.isConstraintFailure {
                 let constraint = dbError.constraintName?.lowercased()
@@ -36,10 +42,14 @@ struct InstructorService {
         }
     }
 
-    func deleteInstructor(userId: UUID, stationId: UUID) async throws {
-        try await Instructor.query(on: database)
-            .filter(\.$user.$id == userId)
-            .filter(\.$station.$id == stationId)
-            .delete()
+    func deleteInstructor(asUser: UUID, userId: UUID, stationId: UUID) async throws {
+        try await database.transaction { tDb in
+            try await Instructor.query(on: tDb)
+                .filter(\.$user.$id == userId)
+                .filter(\.$station.$id == stationId)
+                .delete()
+
+            try await adminLogger.addLog(for: asUser, on: tDb, "Delete user \(userId) as an instructor for station \(stationId)")
+        }
     }
 }

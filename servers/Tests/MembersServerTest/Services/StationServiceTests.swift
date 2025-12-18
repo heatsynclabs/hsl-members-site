@@ -109,7 +109,7 @@ struct StationServiceTests {
             let logs = try await AdminLog.query(on: app.db).with(\.$user).all()
             #expect(logs.count == 2)
             #expect(logs[1].user.id == adminUser.id)
-            #expect(logs[1].log.contains("Updated station") ?? false)
+            #expect(logs[1].log.contains("Updated station"))
         }
     }
 
@@ -148,7 +148,7 @@ struct StationServiceTests {
             let logs = try await AdminLog.query(on: app.db).with(\.$user).sort(\.$createdAt, .ascending).all()
             #expect(logs.count == 2)
             #expect(logs[1].user.id == adminUser.id)
-            #expect(logs[1].log.contains("Deleted station") ?? false)
+            #expect(logs[1].log.contains("Deleted station"))
         }
     }
 
