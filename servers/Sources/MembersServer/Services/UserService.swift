@@ -77,13 +77,6 @@ struct UserService {
         }
     }
 
-    // Consider removal from auth provider (currently supabase)
-    func deleteUser(id: UUID) async throws {
-        try await User.query(on: database)
-            .filter(\.$id == id)
-            .delete()
-    }
-
     private func getDetailedUser(id: UUID, on database: any Database) async throws -> User? {
         return try await User.query(on: database)
             .with(\.$membershipLevel) { $0.with(\.$membershipLevel) }

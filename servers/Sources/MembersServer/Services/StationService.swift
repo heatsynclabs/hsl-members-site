@@ -3,9 +3,11 @@ import Foundation
 
 struct StationService {
     private let database: any Database
+    private let adminLogger: AdminLogService
 
-    init(database: any Database) {
+    init(database: any Database, adminLogger: AdminLogService) {
         self.database = database
+        self.adminLogger = adminLogger
     }
 
     func getStation(_ id: UUID) async throws -> StationResponseDTO {
@@ -25,7 +27,7 @@ struct StationService {
         return try stations.map { try $0.toListResponseDTO() }
     }
 
-    func addStation(from dto: StationRequestDTO) async throws -> StationResponseDTO {
+    func addStation(asUser userId: UUID, from dto: StationRequestDTO) async throws -> StationResponseDTO {
         let model = dto.toModel()
 
         return try await database.transaction { tDb in
@@ -43,11 +45,15 @@ struct StationService {
             guard let station else {
                 throw ServerError.unexpectedError(reason: "Station not found after creation")
             }
+
+            try await adminLogger.addLog(
+                for: userId, on: tDb, "Added station '\(station.name)' with id (\(station.id?.uuidString ?? "unknown"))")
+
             return try station.toResponseDTO()
         }
     }
 
-    func updateStation(from dto: StationRequestDTO, for id: UUID) async throws -> StationResponseDTO {
+    func updateStation(asUser userId: UUID, from dto: StationRequestDTO, for id: UUID) async throws -> StationResponseDTO {
         let station = try await Station.query(on: database)
             .with(\.$instructors) { $0.with(\.$user) }
             .filter(\.$id == id)
@@ -58,19 +64,27 @@ struct StationService {
 
         dto.updateModel(station)
 
-        do {
-            try await station.save(on: database)
-        } catch {
-            try stationUniqueChecks(error)
+        try await database.transaction { tDb in
+            do {
+                try await station.save(on: tDb)
+            } catch {
+                try stationUniqueChecks(error)
+            }
+
+            try await adminLogger.addLog(for: userId, on: tDb, "Updated station with id \(id.uuidString) to new name \(dto.name)")
         }
 
         return try station.toResponseDTO()
     }
 
-    func deleteStation(id: UUID) async throws {
-        try await Station.query(on: database)
-            .filter(\.$id == id)
-            .delete()
+    func deleteStation(asUser userId: UUID, id: UUID) async throws {
+        try await database.transaction { tDb in
+            try await Station.query(on: tDb)
+                .filter(\.$id == id)
+                .delete()
+
+            try await adminLogger.addLog(for: userId, on: tDb, "Deleted station with id \(id.uuidString)")
+        }
     }
 
     private func stationUniqueChecks(_ error: any Error) throws {

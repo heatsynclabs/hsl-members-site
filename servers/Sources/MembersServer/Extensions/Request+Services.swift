@@ -6,14 +6,18 @@ extension Request {
     }
 
     var badgeService: BadgeService {
-        return BadgeService(database: self.db)
+        return BadgeService(database: self.db, adminLogger: self.adminLogService)
     }
 
     var stationService: StationService {
-        return StationService(database: self.db)
+        return StationService(database: self.db, adminLogger: self.adminLogService)
     }
 
     var instructorService: InstructorService {
-        return InstructorService(database: self.db)
+        return InstructorService(database: self.db, adminLogger: self.adminLogService)
+    }
+
+    var adminLogService: AdminLogService {
+        return AdminLogService(database: self.db)
     }
 }

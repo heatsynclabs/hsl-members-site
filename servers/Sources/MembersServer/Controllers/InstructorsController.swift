@@ -32,6 +32,7 @@ struct InstructorsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
+        let id = try curUser.requireId()
 
         try InstructorRequestDTO.validate(content: req)
 
@@ -40,7 +41,7 @@ struct InstructorsController: RouteCollection {
             throw Self.missingStationIdError
         }
 
-        return try await req.instructorService.addInstructor(to: stationId, userId: dto.userId)
+        return try await req.instructorService.addInstructor(asUser: id, to: stationId, userId: dto.userId)
     }
 
     @Sendable
@@ -49,6 +50,7 @@ struct InstructorsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
+        let id = try curUser.requireId()
 
         guard let instructorId = req.parameters.get(Self.instructorIdParam, as: UUID.self) else {
             throw Self.missingInstructorIdError
@@ -57,7 +59,7 @@ struct InstructorsController: RouteCollection {
             throw Self.missingStationIdError
         }
 
-        try await req.instructorService.deleteInstructor(userId: instructorId, stationId: stationId)
+        try await req.instructorService.deleteInstructor(asUser: id, userId: instructorId, stationId: stationId)
         return .noContent
     }
 }

@@ -26,13 +26,17 @@ struct StationsControllerTests {
     func testGetStationByIDSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: StationsControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
+            
+            // Create admin user for station creation
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             try await app.testing().test(
                 .GET,
@@ -78,10 +82,14 @@ struct StationsControllerTests {
     @Test("Get Station - Unauthorized Without Token")
     func testGetStationUnauthorized() async throws {
         try await withApp { app in
-            let stationService = StationService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             try await app.testing().test(
                 .GET, "/v1/stations/\(station.stationId.uuidString)"
@@ -97,16 +105,22 @@ struct StationsControllerTests {
     func testGetStationsSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: StationsControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             _ = try await stationService.addStation(
+                asUser: adminUser.requireID(),
                 from: StationsControllerTestHelper.sampleStationDTO(name: "Station 1"))
             _ = try await stationService.addStation(
+                asUser: adminUser.requireID(),
                 from: StationsControllerTestHelper.sampleStationDTO(name: "Station 2"))
             _ = try await stationService.addStation(
+                asUser: adminUser.requireID(),
                 from: StationsControllerTestHelper.sampleStationDTO(name: "Station 3"))
 
             try await app.testing().test(.GET, "/v1/stations", headers: headers) { res in
@@ -120,9 +134,14 @@ struct StationsControllerTests {
     @Test("Get Stations - Unauthorized Without Token")
     func testGetStationsUnauthorized() async throws {
         try await withApp { app in
-            let stationService = StationService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             _ = try await stationService.addStation(
+                asUser: adminUser.requireID(),
                 from: StationsControllerTestHelper.sampleStationDTO(name: "Station 1"))
 
             try await app.testing().test(.GET, "/v1/stations") { res in
@@ -208,7 +227,8 @@ struct StationsControllerTests {
     func testAddStationDuplicateName() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: StationsControllerTestHelper.sampleAdminUser())
@@ -217,6 +237,7 @@ struct StationsControllerTests {
             let headers = try await app.getTokenHeader(for: adminUser)
 
             _ = try await stationService.addStation(
+                asUser: adminUser.requireID(),
                 from: StationsControllerTestHelper.sampleStationDTO(name: "Duplicate Name"))
 
             let duplicateDTO = StationsControllerTestHelper.sampleStationDTO(
@@ -242,7 +263,8 @@ struct StationsControllerTests {
     func testUpdateStationSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: StationsControllerTestHelper.sampleAdminUser())
@@ -251,7 +273,7 @@ struct StationsControllerTests {
             let headers = try await app.getTokenHeader(for: adminUser)
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             let updateDTO = StationRequestDTO(name: "Updated Station Name")
 
@@ -276,13 +298,16 @@ struct StationsControllerTests {
     func testUpdateStationNonAdminForbidden() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: StationsControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             let updateDTO = StationRequestDTO(name: "Updated Station Name")
 
@@ -329,10 +354,14 @@ struct StationsControllerTests {
     @Test("Update Station - Unauthorized Without Token")
     func testUpdateStationUnauthorized() async throws {
         try await withApp { app in
-            let stationService = StationService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             let updateDTO = StationRequestDTO(name: "Updated Station Name")
 
@@ -381,7 +410,8 @@ struct StationsControllerTests {
     func testDeleteStationSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: StationsControllerTestHelper.sampleAdminUser())
@@ -390,7 +420,7 @@ struct StationsControllerTests {
             let headers = try await app.getTokenHeader(for: adminUser)
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             try await app.testing().test(
                 .DELETE,
@@ -409,13 +439,16 @@ struct StationsControllerTests {
     func testDeleteStationNonAdminForbidden() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let stationService = StationService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: StationsControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             try await app.testing().test(
                 .DELETE,
@@ -451,10 +484,14 @@ struct StationsControllerTests {
     @Test("Delete Station - Unauthorized Without Token")
     func testDeleteStationUnauthorized() async throws {
         try await withApp { app in
-            let stationService = StationService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let stationService = StationService(database: app.db, adminLogger: adminLogService)
+            
+            let adminUser = try await userService.createUser(from: StationsControllerTestHelper.sampleAdminUser())
 
             let stationDTO = StationsControllerTestHelper.sampleStationDTO()
-            let station = try await stationService.addStation(from: stationDTO)
+            let station = try await stationService.addStation(asUser: adminUser.requireID(), from: stationDTO)
 
             try await app.testing().test(.DELETE, "/v1/stations/\(station.stationId.uuidString)") { res in
                 #expect(res.status == .unauthorized)

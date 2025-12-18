@@ -35,7 +35,8 @@ struct BadgesControllerTests {
     func testGetBadgeByIDSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -44,7 +45,7 @@ struct BadgesControllerTests {
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             try await app.testing().test(
                 .GET,
@@ -92,13 +93,16 @@ struct BadgesControllerTests {
     @Test("Get Badge - Unauthorized Without Token")
     func testGetBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
-
+            
+            let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             try await app.testing().test(
                 .GET, "/v1/badges/\(badge.id.uuidString)"
@@ -114,7 +118,8 @@ struct BadgesControllerTests {
     func testGetBadgesSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -125,10 +130,13 @@ struct BadgesControllerTests {
             try await [station1, station2, station3].create(on: app.db)
 
             _ = try await badgeService.addBadge(
+                asUser: user.requireID(),
                 from: BadgesControllerTestHelper.sampleBadgeDTO(name: "Badge 1", stationId: station1.id!))
             _ = try await badgeService.addBadge(
+                asUser: user.requireID(),
                 from: BadgesControllerTestHelper.sampleBadgeDTO(name: "Badge 2", stationId: station2.id!))
             _ = try await badgeService.addBadge(
+                asUser: user.requireID(),
                 from: BadgesControllerTestHelper.sampleBadgeDTO(name: "Badge 3", stationId: station3.id!))
 
             try await app.testing().test(.GET, "/v1/badges", headers: headers) { res in
@@ -142,11 +150,16 @@ struct BadgesControllerTests {
     @Test("Get Badges - Unauthorized Without Token")
     func testGetBadgesUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
+            let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let station1 = BadgesControllerTestHelper.sampleStation(name: "Station 1")
             try await station1.save(on: app.db)
+            
             _ = try await badgeService.addBadge(
+                asUser: user.requireID(),
                 from: BadgesControllerTestHelper.sampleBadgeDTO(name: "Badge 1", stationId: station1.id!))
 
             try await app.testing().test(.GET, "/v1/badges") { res in
@@ -243,7 +256,8 @@ struct BadgesControllerTests {
     func testAddBadgeDuplicateName() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -256,6 +270,7 @@ struct BadgesControllerTests {
             try await [station1, station2].create(on: app.db)
 
             _ = try await badgeService.addBadge(
+                asUser: adminUser.requireID(),
                 from: BadgesControllerTestHelper.sampleBadgeDTO(name: "Duplicate Name", stationId: station1.id!))
 
             let duplicateDTO = BadgesControllerTestHelper.sampleBadgeDTO(
@@ -281,7 +296,8 @@ struct BadgesControllerTests {
     func testUpdateBadgeSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -293,7 +309,7 @@ struct BadgesControllerTests {
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
             let updateDTO = BadgeRequestDTO(
                 name: badgeDTO.name,
@@ -324,7 +340,8 @@ struct BadgesControllerTests {
     func testUpdateBadgeNonAdminForbidden() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -333,7 +350,7 @@ struct BadgesControllerTests {
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             let updateDTO = BadgeRequestDTO(
                 name: badgeDTO.name,
@@ -388,13 +405,16 @@ struct BadgesControllerTests {
     @Test("Update Badge - Unauthorized Without Token")
     func testUpdateBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             let updateDTO = BadgeRequestDTO(
                 name: badgeDTO.name,
@@ -451,7 +471,8 @@ struct BadgesControllerTests {
     func testDeleteBadgeSuccess() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let adminUser = try await userService.createUser(
                 from: BadgesControllerTestHelper.sampleAdminUser())
@@ -463,7 +484,7 @@ struct BadgesControllerTests {
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
             try await app.testing().test(
                 .DELETE,
@@ -482,7 +503,8 @@ struct BadgesControllerTests {
     func testDeleteBadgeNonAdminForbidden() async throws {
         try await withApp { app in
             let userService = UserService(database: app.db)
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
             let headers = try await app.getTokenHeader(for: user)
@@ -491,7 +513,7 @@ struct BadgesControllerTests {
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             try await app.testing().test(
                 .DELETE,
@@ -527,13 +549,16 @@ struct BadgesControllerTests {
     @Test("Delete Badge - Unauthorized Without Token")
     func testDeleteBadgeUnauthorized() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let userService = UserService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let user = try await userService.createUser(from: BadgesControllerTestHelper.sampleUser())
 
             let station = BadgesControllerTestHelper.sampleStation()
             try await station.save(on: app.db)
 
             let badgeDTO = BadgesControllerTestHelper.sampleBadgeDTO(stationId: station.id!)
-            let badge = try await badgeService.addBadge(from: badgeDTO)
+            let badge = try await badgeService.addBadge(asUser: user.requireID(), from: badgeDTO)
 
             try await app.testing().test(.DELETE, "/v1/badges/\(badge.id.uuidString)") { res in
                 #expect(res.status == .unauthorized)

@@ -32,4 +32,5 @@ func routes(_ app: Application) throws {
     try openApiProtected.register(collection: BadgesController())
     try openApiProtected.register(collection: StationsController())
     try openApiProtected.register(collection: InstructorsController())
+    try openApiProtected.register(collection: AdminLogsController())
 }

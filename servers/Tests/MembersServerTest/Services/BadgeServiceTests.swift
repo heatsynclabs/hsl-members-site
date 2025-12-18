@@ -19,10 +19,18 @@ struct BadgeServiceTests {
         )
     }
 
+    private func createAdminUser(on db: any Database) async throws -> User {
+        let user = User(firstName: "Admin", lastName: "User", email: "admin@test.com")
+        try await user.save(on: db)
+        return user
+    }
+
     @Test("Test Add Badge")
     func testAddBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -32,7 +40,7 @@ struct BadgeServiceTests {
             }
 
             let badgeDTO = Self.sampleBadgeDTO(stationId: stationId)
-            let createdBadge = try await badgeService.addBadge(from: badgeDTO)
+            let createdBadge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
             #expect(createdBadge.name == badgeDTO.name)
             #expect(createdBadge.description == badgeDTO.description)
@@ -44,7 +52,9 @@ struct BadgeServiceTests {
     @Test("Test Get Badge")
     func testGetBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -54,7 +64,7 @@ struct BadgeServiceTests {
             }
 
             let badgeDTO = Self.sampleBadgeDTO(stationId: stationId)
-            let createdBadge = try await badgeService.addBadge(from: badgeDTO)
+            let createdBadge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
             let fetchedBadge = try await badgeService.getBadge(for: createdBadge.id)
             guard let fetchedBadge else {
@@ -72,7 +82,8 @@ struct BadgeServiceTests {
     @Test("Test Get Non-Existent Badge Returns Nil")
     func testGetNonExistentBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
 
             let fetchedBadge = try await badgeService.getBadge(for: UUID())
             #expect(fetchedBadge == nil)
@@ -82,7 +93,9 @@ struct BadgeServiceTests {
     @Test("Test Get All Badges")
     func testGetAllBadges() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station1 = Self.sampleStation(name: "Station 1")
             let station2 = Self.sampleStation(name: "Station 2")
@@ -93,9 +106,9 @@ struct BadgeServiceTests {
             let badgeDTO2 = Self.sampleBadgeDTO(name: "Badge 2", stationId: station2.id!)
             let badgeDTO3 = Self.sampleBadgeDTO(name: "Badge 3", stationId: station3.id!)
 
-            _ = try await badgeService.addBadge(from: badgeDTO1)
-            _ = try await badgeService.addBadge(from: badgeDTO2)
-            _ = try await badgeService.addBadge(from: badgeDTO3)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO1)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO2)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO3)
 
             let allBadges = try await badgeService.getAllBadges()
             #expect(allBadges.count == 3)
@@ -106,7 +119,9 @@ struct BadgeServiceTests {
     @Test("Test Update Badge")
     func testUpdateBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -116,7 +131,7 @@ struct BadgeServiceTests {
             }
 
             let badgeDTO = Self.sampleBadgeDTO(stationId: stationId)
-            let createdBadge = try await badgeService.addBadge(from: badgeDTO)
+            let createdBadge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
             let updateDTO = BadgeRequestDTO(
                 name: badgeDTO.name,
@@ -125,7 +140,7 @@ struct BadgeServiceTests {
                 stationId: stationId
             )
 
-            let updatedBadge = try await badgeService.updateBadge(from: updateDTO, for: createdBadge.id)
+            let updatedBadge = try await badgeService.updateBadge(asUser: adminUser.requireID(), from: updateDTO, for: createdBadge.id)
 
             #expect(updatedBadge.name == badgeDTO.name)
             #expect(updatedBadge.description == "Updated description")
@@ -136,7 +151,9 @@ struct BadgeServiceTests {
     @Test("Update Non-Existent Badge Throws Error")
     func testUpdateNonExistentBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -147,7 +164,7 @@ struct BadgeServiceTests {
 
             await #expect(throws: BadgeError.badgeNotFound) {
                 let updateDTO = Self.sampleBadgeDTO(stationId: stationId)
-                _ = try await badgeService.updateBadge(from: updateDTO, for: UUID())
+                _ = try await badgeService.updateBadge(asUser: adminUser.requireID(), from: updateDTO, for: UUID())
             }
         }
     }
@@ -155,7 +172,9 @@ struct BadgeServiceTests {
     @Test("Test Delete Badge")
     func testDeleteBadge() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -165,9 +184,9 @@ struct BadgeServiceTests {
             }
 
             let badgeDTO = Self.sampleBadgeDTO(stationId: stationId)
-            let createdBadge = try await badgeService.addBadge(from: badgeDTO)
+            let createdBadge = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO)
 
-            try await badgeService.deleteBadge(id: createdBadge.id)
+            try await badgeService.deleteBadge(asUser: adminUser.requireID(), id: createdBadge.id)
 
             let found = try await Badge.find(createdBadge.id, on: app.db)
             #expect(found == nil)
@@ -177,18 +196,20 @@ struct BadgeServiceTests {
     @Test("Add Badge With Duplicate Name Throws Error")
     func testAddBadgeWithDuplicateName() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station1 = Self.sampleStation(name: "Station 1")
             let station2 = Self.sampleStation(name: "Station 2")
             try await [station1, station2].create(on: app.db)
 
             let badgeDTO1 = Self.sampleBadgeDTO(name: "Duplicate Name", stationId: station1.id!)
-            _ = try await badgeService.addBadge(from: badgeDTO1)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO1)
 
             await #expect(throws: BadgeError.uniqueViolation(field: .name)) {
                 let badgeDTO2 = Self.sampleBadgeDTO(name: "Duplicate Name", stationId: station2.id!)
-                _ = try await badgeService.addBadge(from: badgeDTO2)
+                _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO2)
             }
         }
     }
@@ -196,7 +217,9 @@ struct BadgeServiceTests {
     @Test("Add Badge With Duplicate Station Throws Error")
     func testAddBadgeWithDuplicateStation() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station = Self.sampleStation()
             try await station.save(on: app.db)
@@ -206,11 +229,11 @@ struct BadgeServiceTests {
             }
 
             let badgeDTO1 = Self.sampleBadgeDTO(name: "Badge 1", stationId: stationId)
-            _ = try await badgeService.addBadge(from: badgeDTO1)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO1)
 
             await #expect(throws: BadgeError.uniqueViolation(field: .station)) {
                 let badgeDTO2 = Self.sampleBadgeDTO(name: "Badge 2", stationId: stationId)
-                _ = try await badgeService.addBadge(from: badgeDTO2)
+                _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO2)
             }
         }
     }
@@ -218,7 +241,9 @@ struct BadgeServiceTests {
     @Test("Update Badge With Duplicate Name Throws Error")
     func testUpdateBadgeWithDuplicateName() async throws {
         try await withApp { app in
-            let badgeService = BadgeService(database: app.db)
+            let adminLogService = AdminLogService(database: app.db)
+            let badgeService = BadgeService(database: app.db, adminLogger: adminLogService)
+            let adminUser = try await createAdminUser(on: app.db)
 
             let station1 = Self.sampleStation(name: "Station 1")
             let station2 = Self.sampleStation(name: "Station 2")
@@ -227,8 +252,8 @@ struct BadgeServiceTests {
             let badgeDTO1 = Self.sampleBadgeDTO(name: "Badge 1", stationId: station1.id!)
             let badgeDTO2 = Self.sampleBadgeDTO(name: "Badge 2", stationId: station2.id!)
 
-            _ = try await badgeService.addBadge(from: badgeDTO1)
-            let badge2 = try await badgeService.addBadge(from: badgeDTO2)
+            _ = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO1)
+            let badge2 = try await badgeService.addBadge(asUser: adminUser.requireID(), from: badgeDTO2)
 
             await #expect(throws: BadgeError.uniqueViolation(field: .name)) {
                 let updateDTO = BadgeRequestDTO(
@@ -237,7 +262,7 @@ struct BadgeServiceTests {
                     imageURL: nil,
                     stationId: station2.id!
                 )
-                _ = try await badgeService.updateBadge(from: updateDTO, for: badge2.id)
+                _ = try await badgeService.updateBadge(asUser: adminUser.requireID(), from: updateDTO, for: badge2.id)
             }
         }
     }

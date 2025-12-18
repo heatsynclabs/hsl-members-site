@@ -23,7 +23,7 @@ struct UserController: RouteCollection {
             .openAPI(
                 summary: "Get all users",
                 description: "Get a paginated list of users, minus any hidden users",
-                query: .type(SearchParams.self),
+                query: .all(of: .type(PageRequest.self), .type(SearchParams.self)),
                 response: .type(Page<UserSummaryResponseDTO>.self)
             )
 
@@ -42,15 +42,6 @@ struct UserController: RouteCollection {
                 path: .type(UUID.self),
                 body: .type(UserRequestDTO.self),
                 response: .type(UserDetailedResponseDTO.self)
-            )
-
-        users.delete(":\(Self.userIdParam)", use: self.deleteUser)
-            .openAPI(
-                summary: "Delete a user",
-                description:
-                    "Delete the user with the provided id, if they have permissions to do so",
-                path: .type(UUID.self),
-                statusCode: .noContent
             )
     }
 
@@ -96,21 +87,5 @@ struct UserController: RouteCollection {
         }
 
         return try await req.userService.updateUser(from: userDTO, for: userId)
-    }
-
-    @Sendable
-    func deleteUser(req: Request) async throws -> HTTPStatus {
-        let curUser = try req.auth.require(User.self)
-
-        let userId = req.parameters.get(Self.userIdParam, as: UUID.self)
-        guard let userId else {
-            throw Self.missingIdError
-        }
-        guard curUser.id == userId || curUser.isAdmin else {
-            throw UserError.userNotAdmin
-        }
-
-        try await req.userService.deleteUser(id: userId)
-        return .noContent
     }
 }
