@@ -2,9 +2,11 @@ import Fluent
 
 struct BadgeService {
     private let database: any Database
+    private let adminLogger: AdminLogService
 
-    init(database: any Database) {
+    init(database: any Database, adminLogger: AdminLogService) {
         self.database = database
+        self.adminLogger = adminLogger
     }
 
     func getBadge(for id: UUID) async throws -> BadgeResponseDTO? {
@@ -21,7 +23,7 @@ struct BadgeService {
         return try badges.map { try $0.toResponseDTO() }
     }
 
-    func addBadge(from dto: BadgeRequestDTO) async throws -> BadgeResponseDTO {
+    func addBadge(asUser: UUID, from dto: BadgeRequestDTO) async throws -> BadgeResponseDTO {
         let badge = dto.toModel()
 
         return try await database.transaction { tDb in
@@ -34,6 +36,8 @@ struct BadgeService {
                 throw ServerError.unexpectedError(reason: "Badge ID is nil after save")
             }
 
+            try await adminLogger.addLog(for: asUser, on: tDb, "Added badge \(badgeId) with name \(badge.name)")
+
             let createdBadge = try await getBadgeWithStation(id: badgeId, on: tDb)
             guard let createdBadge else {
                 throw ServerError.unexpectedError(reason: "Created badge returned nil")
@@ -43,7 +47,7 @@ struct BadgeService {
         }
     }
 
-    func updateBadge(from dto: BadgeRequestDTO, for id: UUID) async throws -> BadgeResponseDTO {
+    func updateBadge(asUser: UUID, from dto: BadgeRequestDTO, for id: UUID) async throws -> BadgeResponseDTO {
         let badge = try await getBadgeWithStation(id: id, on: database)
         guard let badge else {
             throw BadgeError.badgeNotFound
@@ -52,7 +56,10 @@ struct BadgeService {
         dto.updateBadge(badge)
 
         do {
-            try await badge.save(on: database)
+            try await database.transaction { tDb in
+                try await badge.save(on: tDb)
+                try await adminLogger.addLog(for: asUser, on: tDb, "Updated badge \(id) to name \(badge.name)")
+            }
         } catch {
             try badgeUniqueChecks(error)
         }
@@ -60,10 +67,14 @@ struct BadgeService {
         return try badge.toResponseDTO()
     }
 
-    func deleteBadge(id: UUID) async throws {
-        try await Badge.query(on: database)
-            .filter(\.$id == id)
-            .delete()
+    func deleteBadge(asUser: UUID, id: UUID) async throws {
+        try await database.transaction { tDb in
+            try await Badge.query(on: tDb)
+                .filter(\.$id == id)
+                .delete()
+
+            try await adminLogger.addLog(for: asUser, on: tDb, "Deleted badge \(id)")
+        }
     }
 
     private func badgeUniqueChecks(_ error: any Error) throws {

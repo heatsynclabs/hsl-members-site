@@ -6,7 +6,7 @@ extension Request {
     }
 
     var badgeService: BadgeService {
-        return BadgeService(database: self.db)
+        return BadgeService(database: self.db, adminLogger: self.adminLogService)
     }
 
     var stationService: StationService {

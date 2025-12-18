@@ -72,11 +72,12 @@ struct BadgesController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
+        let id = try curUser.requireID()
 
         try BadgeRequestDTO.validate(content: req)
         let badgeDTO = try req.content.decode(BadgeRequestDTO.self)
 
-        return try await req.badgeService.addBadge(from: badgeDTO)
+        return try await req.badgeService.addBadge(asUser: id, from: badgeDTO)
     }
 
     @Sendable
@@ -85,6 +86,7 @@ struct BadgesController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
+        let id = try curUser.requireID()
 
         try BadgeRequestDTO.validate(content: req)
 
@@ -93,7 +95,7 @@ struct BadgesController: RouteCollection {
             throw Self.missingIdError
         }
 
-        return try await req.badgeService.updateBadge(from: badgeDTO, for: badgeId)
+        return try await req.badgeService.updateBadge(asUser: id, from: badgeDTO, for: badgeId)
     }
 
     @Sendable
@@ -102,12 +104,13 @@ struct BadgesController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
+        let id = try curUser.requireID()
 
         guard let badgeId = req.parameters.get(Self.badgeIdParam, as: UUID.self) else {
             throw Self.missingIdError
         }
 
-        try await req.badgeService.deleteBadge(id: badgeId)
+        try await req.badgeService.deleteBadge(asUser: id, id: badgeId)
         return .noContent
     }
 }
