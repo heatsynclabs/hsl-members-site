@@ -10,7 +10,7 @@ extension Request {
     }
 
     var stationService: StationService {
-        return StationService(database: self.db)
+        return StationService(database: self.db, adminLogger: self.adminLogService)
     }
 
     var instructorService: InstructorService {

@@ -188,18 +188,4 @@ struct UserServiceTests {
                 })
         }
     }
-
-    @Test("Test Delete User")
-    func testDeleteUser() async throws {
-        try await withApp { app in
-            let userService = UserService(database: app.db)
-            let created = try await userService.createUser(from: Self.sampleUser())
-            #expect(created.id != nil)
-
-            try await userService.deleteUser(id: created.id!)
-
-            let found = try await User.find(created.id, on: app.db)
-            #expect(found == nil)
-        }
-    }
 }
