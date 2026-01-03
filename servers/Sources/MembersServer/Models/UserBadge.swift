@@ -40,7 +40,7 @@ final class UserBadge: Model, @unchecked Sendable {
         badgeId: UUID,
         userId: UUID
     ) {
-        self.user.$id = userId
-        self.badge.$id = badgeId
+        self.$user.id = userId
+        self.$badge.id = badgeId
     }
 }

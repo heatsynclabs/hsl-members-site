@@ -21,7 +21,7 @@ struct UserBadgeService {
             throw Abort(.notFound, reason: "Badge with ID \(badgeId) not found.")
         }
 
-        guard asUser.instructorForStations.contains(where: { $0.id == stationId }) else {
+        guard asUser.instructorForStations.contains(where: { $0.$station.id == stationId }) else {
             throw UserBadgeError.notInstructorForStation
         }
 
@@ -55,7 +55,13 @@ struct UserBadgeService {
     }
 
     func deleteBadge(_ badgeId: UUID, asUser: User, for userID: UUID) async throws {
-        if !asUser.instructorForStations.contains(where: { $0.id == badgeId }) {
+        guard let badge = try await Badge.find(badgeId, on: database) else {
+            throw Abort(.notFound, reason: "Badge with ID \(badgeId) not found.")
+        }
+
+        let stationId = badge.$station.id
+
+        guard asUser.instructorForStations.contains(where: { $0.$station.id == stationId }) else {
             throw UserBadgeError.notInstructorForStation
         }
 

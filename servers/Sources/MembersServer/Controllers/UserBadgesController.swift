@@ -17,6 +17,13 @@ struct UserBadgesController: RouteCollection {
                 body: .type(UserBadgeRequestDTO.self),
                 response: .type(UserBadgeDTO.self)
             )
+
+        userBadges.delete(":\(Self.badgeIdParam)", use: self.deleteBadge)
+            .openAPI(
+                summary: "Delete a user badge",
+                description: "Delete a badge for a user. The performing user must be an instructor for the given station",
+                statusCode: .noContent
+            )
     }
 
     func addBadge(req: Request) async throws -> UserBadgeDTO {
