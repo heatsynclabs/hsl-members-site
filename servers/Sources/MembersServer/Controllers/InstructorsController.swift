@@ -32,7 +32,7 @@ struct InstructorsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
-        let id = try curUser.requireId()
+        let id = try curUser.requireID()
 
         try InstructorRequestDTO.validate(content: req)
 
@@ -50,7 +50,7 @@ struct InstructorsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
-        let id = try curUser.requireId()
+        let id = try curUser.requireID()
 
         guard let instructorId = req.parameters.get(Self.instructorIdParam, as: UUID.self) else {
             throw Self.missingInstructorIdError

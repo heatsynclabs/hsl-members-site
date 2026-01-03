@@ -69,7 +69,7 @@ struct StationsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
-        let id = try curUser.requireId()
+        let id = try curUser.requireID()
 
         try StationRequestDTO.validate(content: req)
         let stationDTO = try req.content.decode(StationRequestDTO.self)
@@ -83,7 +83,7 @@ struct StationsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
-        let id = try curUser.requireId()
+        let id = try curUser.requireID()
 
         try StationRequestDTO.validate(content: req)
 
@@ -101,7 +101,7 @@ struct StationsController: RouteCollection {
         guard curUser.isAdmin else {
             throw UserError.userNotAdmin
         }
-        let id = try curUser.requireId()
+        let id = try curUser.requireID()
 
         guard let stationId = req.parameters.get(Self.stationIdParam, as: UUID.self) else {
             throw Self.missingIdError

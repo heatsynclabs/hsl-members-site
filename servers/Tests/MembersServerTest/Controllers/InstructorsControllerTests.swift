@@ -162,7 +162,7 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
-            let instructorDTO = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: user.id!)
+            let instructorDTO = try await instructorService.addInstructor(asUser: try user.requireID(), to: stationId, userId: user.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorDTO.userId)",
@@ -194,7 +194,7 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let instructorUser = try await userService.createUser(from: User(firstName: "Inst", lastName: "User", email: "inst@test.com"))
-            _ = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: instructorUser.id!)
+            _ = try await instructorService.addInstructor(asUser: try user.requireID(), to: stationId, userId: instructorUser.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(instructorUser.id!)",
@@ -217,7 +217,7 @@ struct InstructorsControllerTests {
             guard let stationId = station.id else { return }
 
             let user = try await userService.createUser(from: InstructorsControllerTestHelper.sampleUser())
-            _ = try await instructorService.addInstructor(asUser: try user.requireId(), to: stationId, userId: user.id!)
+            _ = try await instructorService.addInstructor(asUser: try user.requireID(), to: stationId, userId: user.id!)
 
             try await app.testing().test(
                 .DELETE, "/v1/stations/\(stationId)/instructors/\(user.id!)"
