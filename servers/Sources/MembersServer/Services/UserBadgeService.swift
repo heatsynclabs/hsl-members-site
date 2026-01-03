@@ -1,4 +1,5 @@
 import Fluent
+import Vapor
 
 struct UserBadgeService {
     private let database: any Database
@@ -10,13 +11,23 @@ struct UserBadgeService {
     }
 
     func addBadge(_ badgeId: UUID, asUser: User, for userId: UUID) async throws -> UserBadgeDTO {
-        if !asUser.instructorForStations.contains(where: { $0.id == badgeId }) {
+        guard
+            let badge = try await Badge.query(on: database)
+                .filter(\.$id == badgeId)
+                .with(\.$station)
+                .first(),
+            let stationId = badge.station.id
+        else {
+            throw Abort(.notFound, reason: "Badge with ID \(badgeId) not found.")
+        }
+
+        guard asUser.instructorForStations.contains(where: { $0.id == stationId }) else {
             throw UserBadgeError.notInstructorForStation
         }
 
         let userBadge = UserBadge(badgeId: badgeId, userId: userId)
 
-        let badge = try await database.transaction { tDb in
+        let userBadgeResponse = try await database.transaction { tDb in
             do {
                 try await userBadge.save(on: tDb)
             } catch {
@@ -30,8 +41,7 @@ struct UserBadgeService {
             try await adminLogger.addLog(for: asUserId, on: tDb, "Added badge \(badgeId) to user \(userId)")
 
             let createdBadge = try await UserBadge.query(on: tDb)
-                .with(\.$user)
-                .with(\.$badge)
+                .with(\.$badge) { $0.with(\.$station) }
                 .filter(\.$id == userBadgeId)
                 .first()
             guard let createdBadge else {
@@ -41,7 +51,7 @@ struct UserBadgeService {
             return createdBadge
         }
 
-        return try badge.toDTO()
+        return try userBadgeResponse.toDTO()
     }
 
     func deleteBadge(_ badgeId: UUID, asUser: User, for userID: UUID) async throws {

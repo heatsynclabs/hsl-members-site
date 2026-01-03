@@ -20,4 +20,8 @@ extension Request {
     var adminLogService: AdminLogService {
         return AdminLogService(database: self.db)
     }
+
+    var userBadgeService: UserBadgeService {
+        return UserBadgeService(database: self.db, adminLogger: self.adminLogService)
+    }
 }
