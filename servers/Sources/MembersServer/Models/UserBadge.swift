@@ -35,4 +35,12 @@ final class UserBadge: Model, @unchecked Sendable {
     var badge: Badge
 
     init() {}
+
+    init(
+        badgeId: UUID,
+        userId: UUID
+    ) {
+        self.user.$id = userId
+        self.badge.$id = badgeId
+    }
 }
