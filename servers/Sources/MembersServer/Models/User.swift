@@ -138,7 +138,7 @@ final class User: Model, Authenticatable, @unchecked Sendable {
         return roles.contains { $0.role == role }
     }
 
-    func requireId() throws -> UUID {
+    func requireID() throws -> UUID {
         guard let id else {
             throw UserError.userIdMissing
         }

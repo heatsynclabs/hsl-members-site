@@ -10,7 +10,7 @@ struct UserBadgeService {
     }
 
     func addBadge(_ badgeId: UUID, asUser: User, for userId: UUID) async throws -> UserBadgeDTO {
-        if !asUser.instructorForStations.contains { $0.id == badgeId } {
+        if !asUser.instructorForStations.contains(where: { $0.id == badgeId }) {
             throw UserBadgeError.notInstructorForStation
         }
 
@@ -26,9 +26,7 @@ struct UserBadgeService {
                 throw ServerError.unexpectedError(reason: "User Badge ID is nil after save")
             }
 
-            guard let asUserId = asUser.id else {
-                throw ServerError.unexpectedError(reason: "As User Id is nil")
-            }
+            let asUserId = try asUser.requireID()
             try await adminLogger.addLog(for: asUserId, on: tDb, "Added badge \(badgeId) to user \(userId)")
 
             let createdBadge = try await UserBadge.query(on: tDb)
@@ -46,8 +44,21 @@ struct UserBadgeService {
         return try badge.toDTO()
     }
 
-    func deleteBadge(_ badgeId: UUID, asUser: User, for: User) async throws {
+    func deleteBadge(_ badgeId: UUID, asUser: User, for userID: UUID) async throws {
+        if !asUser.instructorForStations.contains(where: { $0.id == badgeId }) {
+            throw UserBadgeError.notInstructorForStation
+        }
 
+        try await database.transaction { tDb in
+            try await UserBadge.query(on: tDb)
+                .filter(\.$badge.$id == badgeId)
+                .filter(\.$user.$id == userID)
+                .delete()
+
+            let asUserID = try asUser.requireID()
+
+            try await adminLogger.addLog(for: asUserID, on: tDb, "Deleted badge \(badgeId) from user \(userID)")
+        }
     }
 
     private func userBadgeUniqueChecks(_ error: any Error) throws {
