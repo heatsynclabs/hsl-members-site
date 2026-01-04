@@ -1,0 +1,20 @@
+meta {
+  name: add
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/users/:userId/badges
+  body: none
+  auth: inherit
+}
+
+params:path {
+  userId: 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
