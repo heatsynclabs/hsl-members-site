@@ -130,6 +130,9 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Children(for: \.$user)
     var donations: [Donation]
 
+    @Children(for: \.$user)
+    var apiKeys: [ApiKey]
+
     // Computed Vars
 
     var fullName: String {

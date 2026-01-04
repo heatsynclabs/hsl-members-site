@@ -32,4 +32,8 @@ extension Request {
     var donationService: DonationService {
         return DonationService(database: self.db, adminLogger: self.adminLogService)
     }
+
+    var apiKeyService: ApiKeyService {
+        return ApiKeyService(database: self.db, adminLogger: self.adminLogService)
+    }
 }

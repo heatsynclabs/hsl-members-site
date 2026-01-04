@@ -1,4 +1,8 @@
+import Crypto
 import Fluent
+
+import struct Foundation.Data
+import struct Foundation.Date
 
 struct DonationService {
     private let database: any Database
@@ -108,5 +112,73 @@ struct DonationService {
 
             try await adminLogger.addLog(for: asUser, on: tDb, "Deleted donation \(id)")
         }
+    }
+
+    func addDonationWithApiKey(
+        apiKey: ApiKey,
+        from dto: DonationRequestDTO
+    ) async throws -> DonationResponseDTO {
+        if let userId = dto.userId {
+            let userExists = try await User.query(on: database).filter(\.$id == userId).first()
+            guard userExists != nil else {
+                throw DonationError.userNotFound
+            }
+        }
+
+        let donation = dto.toModel()
+
+        return try await database.transaction { tDb in
+            try await donation.save(on: tDb)
+
+            guard let donationId = donation.id else {
+                throw ServerError.unexpectedError(reason: "Donation ID is nil after save")
+            }
+
+            try await adminLogger.addLog(
+                for: apiKey.createdBy,
+                on: tDb,
+                "Added donation \(donationId) via API key"
+            )
+
+            let createdDonation = try await Donation.query(on: tDb)
+                .filter(\.$id == donationId)
+                .with(\.$user)
+                .first()
+
+            guard let createdDonation else {
+                throw ServerError.unexpectedError(
+                    reason: "Created donation returned nil"
+                )
+            }
+
+            return try createdDonation.toResponseDTO()
+        }
+    }
+
+    func verifyApiKey(_ key: String) async throws -> ApiKey {
+        let hashedKey = hashKey(key)
+
+        guard let apiKey = try await ApiKey.query(on: database)
+            .filter(\.$keyHash == hashedKey)
+            .filter(\.$isActive == true)
+            .first() else {
+            throw ApiKeyError.invalidApiKey
+        }
+
+        if !apiKey.isActive {
+            throw ApiKeyError.apiKeyInactive
+        }
+
+        if let expiresAt = apiKey.expiresAt, expiresAt < Date() {
+            throw ApiKeyError.apiKeyExpired
+        }
+
+        return apiKey
+    }
+
+    private func hashKey(_ key: String) -> String {
+        let data = Data(key.utf8)
+        let hashedData = SHA256.hash(data: data)
+        return hashedData.compactMap { String(format: "%02x", $0) }.joined()
     }
 }
