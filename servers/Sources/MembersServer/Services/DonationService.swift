@@ -53,7 +53,11 @@ struct DonationService {
                 throw ServerError.unexpectedError(reason: "Donation ID is nil after save")
             }
 
-            try await adminLogger.addLog(for: asUser, on: tDb, "Added donation \(donationId) for \(donation.amountInCents) cents")
+            try await adminLogger.addLog(
+                for: asUser,
+                on: tDb,
+                "Added donation \(donationId) for \(donation.amountInCents) cents"
+            )
 
             let createdDonation = try await Donation.query(on: tDb)
                 .filter(\.$id == donationId)
@@ -61,7 +65,9 @@ struct DonationService {
                 .first()
 
             guard let createdDonation else {
-                throw ServerError.unexpectedError(reason: "Created donation returned nil")
+                throw ServerError.unexpectedError(
+                    reason: "Created donation returned nil"
+                )
             }
 
             return try createdDonation.toResponseDTO()

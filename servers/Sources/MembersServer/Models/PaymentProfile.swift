@@ -57,15 +57,15 @@ final class PaymentProfile: Model, @unchecked Sendable {
 }
 
 enum PaymentSource: String, Codable {
-    case zeffy = "Zeffy"
-    case zelle = "Zelle"
-    case paypal = "PayPal"
-    case cash = "Cash"
-    case check = "Check"
+    case zeffy
+    case zelle
+    case paypal
+    case cash
+    case check
 }
 
 enum ConnectionMethod: String, Codable {
-    case email = "email"
-    case api = "api"
-    case user = "user"
+    case email
+    case api
+    case user
 }

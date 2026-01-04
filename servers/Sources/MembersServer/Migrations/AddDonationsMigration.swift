@@ -9,7 +9,12 @@ struct AddDonationsMigration: AsyncMigration {
     func prepare(on database: any FluentKit.Database) async throws {
         try await database.schema(PaymentProfile.schema)
             .id()
-            .field(PaymentProfile.fieldUserId, .uuid, .required, .references(User.schema, User.fieldId, onDelete: .cascade))
+            .field(
+                PaymentProfile.fieldUserId,
+                .uuid,
+                .required,
+                .references(User.schema, User.fieldId, onDelete: .cascade)
+            )
             .field(PaymentProfile.fieldSource, .string, .required)
             .field(PaymentProfile.fieldExternalId, .string, .required)
             .field(PaymentProfile.fieldConnectedBy, .string, .required)

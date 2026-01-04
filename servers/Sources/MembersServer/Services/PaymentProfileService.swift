@@ -27,7 +27,11 @@ struct PaymentProfileService {
         return try profiles.map { try $0.toResponseDTO() }
     }
 
-    func addPaymentProfile(asUser: UUID, from dto: PaymentProfileRequestDTO, to userId: UUID) async throws -> PaymentProfileResponseDTO {
+    func addPaymentProfile(
+        asUser: UUID,
+        from dto: PaymentProfileRequestDTO,
+        to userId: UUID
+    ) async throws -> PaymentProfileResponseDTO {
         let userExists = try await User.query(on: database).filter(\.$id == userId).first()
         guard userExists != nil else {
             throw PaymentProfileError.userNotFound
@@ -50,7 +54,11 @@ struct PaymentProfileService {
                 throw ServerError.unexpectedError(reason: "PaymentProfile ID is nil after save")
             }
 
-            try await adminLogger.addLog(for: asUser, on: tDb, "Added payment profile \(profileId) with source \(profile.source.rawValue) for user \(userId)")
+            try await adminLogger.addLog(
+                for: asUser,
+                on: tDb,
+                "Added payment profile \(profileId) with source \(profile.source.rawValue) for user \(userId)"
+            )
 
             let createdProfile = try await PaymentProfile.query(on: tDb)
                 .filter(\.$id == profileId)
@@ -58,7 +66,9 @@ struct PaymentProfileService {
                 .first()
 
             guard let createdProfile else {
-                throw ServerError.unexpectedError(reason: "Created payment profile returned nil")
+                throw ServerError.unexpectedError(
+                    reason: "Created payment profile returned nil"
+                )
             }
 
             return try createdProfile.toResponseDTO()
