@@ -24,4 +24,12 @@ extension Request {
     var userBadgeService: UserBadgeService {
         return UserBadgeService(database: self.db, adminLogger: self.adminLogService)
     }
+
+    var paymentProfileService: PaymentProfileService {
+        return PaymentProfileService(database: self.db, adminLogger: self.adminLogService)
+    }
+
+    var donationService: DonationService {
+        return DonationService(database: self.db, adminLogger: self.adminLogService)
+    }
 }

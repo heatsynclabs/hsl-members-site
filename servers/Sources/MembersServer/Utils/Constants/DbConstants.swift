@@ -15,6 +15,16 @@ enum DbConstants {
     static let badgesIdRelation: FieldKey = "badge_id"
     static let membershipLevelIdRelation: FieldKey = "membership_level_id"
 
+    // Payment Profile Fields
+    static let sourceField: FieldKey = "source"
+    static let externalIdField: FieldKey = "external_id"
+    static let connectedByField: FieldKey = "connected_by"
+
+    // Donation Fields
+    static let amountInCentsField: FieldKey = "amount_in_cents"
+    static let purposeField: FieldKey = "purpose"
+    static let notesField: FieldKey = "notes"
+
     // Removed Tables
     static let orientationsTable = "orientations"
 }

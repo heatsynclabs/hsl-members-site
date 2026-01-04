@@ -124,6 +124,12 @@ final class User: Model, Authenticatable, @unchecked Sendable {
     @Children(for: \.$user)
     var badges: [UserBadge]
 
+    @Children(for: \.$user)
+    var paymentProfiles: [PaymentProfile]
+
+    @Children(for: \.$user)
+    var donations: [Donation]
+
     // Computed Vars
 
     var fullName: String {
