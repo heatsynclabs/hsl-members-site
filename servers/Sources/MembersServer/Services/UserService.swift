@@ -3,9 +3,11 @@ import Vapor
 
 struct UserService {
     private let database: any Database
+    private let webhookService: WebhookService?
 
-    init(database: any Database) {
+    init(database: any Database, webhookService: WebhookService? = nil) {
         self.database = database
+        self.webhookService = webhookService
     }
 
     func getUser(for id: UUID) async throws -> User? {
@@ -63,7 +65,7 @@ struct UserService {
     }
 
     func createUser(from user: User) async throws -> User {
-        return try await database.transaction { tDb in
+        let createdUser = try await database.transaction { tDb in
             try await user.save(on: tDb)
             guard let userId = user.id else {
                 throw ServerError.unexpectedError(reason: "User ID is nil after save")
@@ -75,6 +77,10 @@ struct UserService {
 
             return createdUser
         }
+
+        await webhookService?.sendMemberRegisteredWebhook(for: createdUser)
+
+        return createdUser
     }
 
     private func getDetailedUser(id: UUID, on database: any Database) async throws -> User? {
