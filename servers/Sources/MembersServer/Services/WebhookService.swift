@@ -21,11 +21,16 @@ struct WebhookService {
             return
         }
 
+        guard let userId = user.id?.uuidString else {
+            logger.warning("Cannot send member registration webhook: user ID is nil")
+            return
+        }
+
         let payload = MemberRegisteredPayload(
             event: "member.registered",
             timestamp: ISO8601DateFormatter().string(from: Date()),
             data: MemberRegisteredPayload.MemberData(
-                id: user.id?.uuidString ?? "",
+                id: userId,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
@@ -49,7 +54,7 @@ struct WebhookService {
             }
 
             if response.status.code >= 200 && response.status.code < 300 {
-                logger.info("Member registration webhook sent successfully for user \(user.id?.uuidString ?? "unknown")")
+                logger.info("Member registration webhook sent successfully for user \(userId)")
             } else {
                 logger.warning("Member registration webhook returned non-success status: \(response.status)")
             }
