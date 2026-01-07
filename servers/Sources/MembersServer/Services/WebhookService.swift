@@ -44,6 +44,7 @@ struct WebhookService {
             }
 
             let response = try await client.post(URI(string: webhookURL), headers: headers) { req in
+                req.timeout = .seconds(10)
                 req.body = ByteBuffer(data: jsonData)
             }
 
