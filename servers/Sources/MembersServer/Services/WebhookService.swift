@@ -63,7 +63,7 @@ struct WebhookService {
         }
     }
 
-    private func generateSignature(for data: Data) -> String? {
+    func generateSignature(for data: Data) -> String? {
         guard let webhookSecret, !webhookSecret.isEmpty else {
             logger.debug("Webhook secret not configured, skipping signature")
             return nil
