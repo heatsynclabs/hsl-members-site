@@ -1,0 +1,21 @@
+meta {
+  name: delete
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{base_url}}/users/:userId/badges/:badgeId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  badgeId: 
+  userId: 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
